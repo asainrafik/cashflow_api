@@ -14,11 +14,17 @@ const yearRoutes = require('./src/routes/year.route');
 //Grade Section
 const gradeSectionRoutes = require('./src/routes/grade.route')
 
-//year Route Call Module
+//Fee Master Section
+const feeMasterRoutes = require('./src/routes/feemaster.route')
+
+//year Route Module
 app.use('/api/v1/year',yearRoutes)
 
-//Grade Route Call Module
+//Grade Route Module
 app.use('/api/v1/gradeSection',gradeSectionRoutes)
+
+//FeeMaster Route Call
+app.use('/api/v1/feeMaster',feeMasterRoutes)
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
