@@ -10,10 +10,13 @@ app.use(bodyParser.json());
 
 //year module
 const yearRoutes = require('./src/routes/year.route');
-
+const LoginRoutes = require('./src/routes/login.route');
+const { checkToken } = require('../../cashflow_api/src/auth/token.validation') 
 
 //year module
-app.use('/api/v1/year',yearRoutes)
+app.use('/api/v1/year',checkToken,yearRoutes)
+
+app.use('/api/v1/login',LoginRoutes)
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
