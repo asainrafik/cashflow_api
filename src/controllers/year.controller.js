@@ -10,7 +10,7 @@ exports.getAllYear = (req,res)=>{
         }
         else{
             let yearsData = years;
-            res.status(200).send(yearsData)
+            res.status(200).send({status:true,message:'data fetched successfully \u{1F389} \u{1F389}',data:yearsData})
         }
     })
 }
@@ -25,8 +25,8 @@ exports.createNewYear = (req,res)=>{
             res.status(500).send(err);
         }
         else{
-            res.status(200).send({status:true,message:'year inserted \u{1F973} \u{1F973}',data:years})
-        }
+            res.status(200).send({status:true,message:years.IsExsist ? `year already present \u{26D4} \u{26D4}` :`year inserted \u{1F973} \u{1F973}`,data:years})
+        } 
     })
 }
 
@@ -39,7 +39,7 @@ exports.deleteAcademicYear = (req,res)=>{
             res.status(500).send(err);
         }
         else{
-            res.status(200).send({status:true,message:'year deleted \u{1F5D1} \u{1F5D1}',data:years})
+            res.status(200).send({status:true,message:years.isDeletable ? 'year deleted \u{1F5D1} \u{1F5D1}' : {dataExsists:years.data[0]},data:{isDeletable:years.isDeletable}})
         }
     })
 }

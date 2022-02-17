@@ -11,9 +11,14 @@ app.use(bodyParser.json());
 //year module
 const yearRoutes = require('./src/routes/year.route');
 
+//Grade Section
+const gradeSectionRoutes = require('./src/routes/grade.route')
 
-//year module
+//year Route Call Module
 app.use('/api/v1/year',yearRoutes)
+
+//Grade Route Call Module
+app.use('/api/v1/gradeSection',gradeSectionRoutes)
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
