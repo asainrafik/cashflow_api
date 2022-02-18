@@ -1,12 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
+var cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000
 
 app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(bodyParser.json());
+
+
+app.options("*", cors());
+app.use(
+    cors({
+        origin: "*",
+    })
+);
 
 //year module
 const yearRoutes = require('./src/routes/year.route');

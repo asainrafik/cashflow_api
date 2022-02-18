@@ -30,7 +30,7 @@ exports.login = (req, res) => {
                         token: jsontoken,
                     });
                 } else {
-                    return res.json({
+                    return res.status(400).json({
                         success: 0,
                         data: "Invaild email or password",
                     });
