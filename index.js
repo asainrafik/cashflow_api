@@ -1,5 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const yearRoutes = require('./src/routes/year.route');
+const gradeSectionRoutes = require('./src/routes/grade.route')
+const feeMasterRoutes = require('./src/routes/feemaster.route')
 
 const app = express();
 const port = process.env.PORT || 5000
@@ -8,14 +11,6 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(bodyParser.json());
 
-//year module
-const yearRoutes = require('./src/routes/year.route');
-
-//Grade Section
-const gradeSectionRoutes = require('./src/routes/grade.route')
-
-//Fee Master Section
-const feeMasterRoutes = require('./src/routes/feemaster.route')
 
 //year Route Module
 app.use('/api/v1/year',yearRoutes)
