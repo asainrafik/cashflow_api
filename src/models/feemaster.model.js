@@ -51,6 +51,7 @@ feemaster.createfeemasterModel = (feemasterReqData, result) => {
     });
 };
 
+
 feemaster.deletefeemasterModel = (feemasterReqData, result) => {
     console.log(`SELECT * FROM year_of_fees WHERE academic_year ="${feemasterReqData.academic_year}" and  fee_master_id=${feemasterReqData.fee_master_id}`);
     dbConn.query(`SELECT * FROM year_of_fees WHERE  fee_master_id=${feemasterReqData.fee_master_id}`, (err, res) => {
