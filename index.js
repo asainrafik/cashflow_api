@@ -4,10 +4,13 @@ const bodyParser = require("body-parser");
 const yearRoutes = require('./src/routes/year.route');
 const gradeSectionRoutes = require('./src/routes/grade.route')
 const feeMasterRoutes = require('./src/routes/feemaster.route')
+const LoginRoutes = require('./src/routes/login.route')
 
 var cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000
+
+const {checkToken} = require('./src/auth/token.validation')
 
 app.use(bodyParser.urlencoded({extended:false}));
 
