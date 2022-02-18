@@ -47,7 +47,7 @@ Year.createYear = (yearReqData, result) => {
 
 Year.deleteAcademicYear = (yearReqData, result) => {
     console.log(`SELECT * FROM grade_section WHERE academic_year ="${yearReqData.academic_year}"`);
-    dbConn.query(`SELECT * FROM grade_section WHERE academic_year ="${yearReqData.academic_year}"`, (err, res) => {
+    dbConn.query(`SELECT * FROM grade_section WHERE academic_year_id =${yearReqData.year_id}`, (err, res) => {
         if (err) {
             console.log("error fetching data year");
             result(null, err);
@@ -55,7 +55,7 @@ Year.deleteAcademicYear = (yearReqData, result) => {
             console.log("year fetched successfully");
             console.log(res);
             if (res.length > 0) {
-                result(null, { isDeletable: false });
+                result(null, { isDeletable: false,data:res });
             } else {
                 let yearToFind = { year_id: yearReqData.year_id };
                 dbConn.query("DELETE FROM years WHERE ?", yearToFind, (err, res) => {

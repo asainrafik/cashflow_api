@@ -1,15 +1,14 @@
 var dbConn = require("../../config/db.config");
 
-var GradeSection = function(gradeSection){
-    this.grade = gradeSection.grade;
-    this.section = gradeSection.section;
-    this.academic_year_id = gradeSection.academic_year_id;
+var feemaster = function(feeMaster){
+    this.fee_type_name = feeMaster.fee_type_name;
+    this.order_id = feeMaster.order_id;
     this.created_at = new Date();
     this.updated_at = new Date();
 }
 
-GradeSection.getAllGradeSectionModel = (result) => {
-    dbConn.query("SELECT * FROM grade_section", (err, res) => {
+feemaster.getAllfeemasterModel = (result) => {
+    dbConn.query("SELECT * FROM fee_masters", (err, res) => {
         if (err) {
             console.log("error fetching data year");
             result(null, err);
@@ -21,9 +20,9 @@ GradeSection.getAllGradeSectionModel = (result) => {
 };
 
 
-GradeSection.createGradeSectionModel = (gradeSectionReqData, result) => {
-    console.log(gradeSectionReqData,"+++++")
-    dbConn.query(`select * from grade_section where grade="${gradeSectionReqData.grade}" and section="${gradeSectionReqData.section}" and academic_year_id=${gradeSectionReqData.academic_year_id};`, (err, res) => {
+feemaster.createfeemasterModel = (feemasterReqData, result) => {
+    console.log(feemasterReqData,"+++++")
+    dbConn.query(`select * from fee_masters where fee_type_name="${feemasterReqData.fee_type_name}";`, (err, res) => {
         if (err) {
             console.log("error fetching data year");
             result(null, err);
@@ -33,7 +32,7 @@ GradeSection.createGradeSectionModel = (gradeSectionReqData, result) => {
             if (res.length > 0) {
                 result(null, { IsExsist: true,duplication:res });
             } else {
-                dbConn.query("INSERT into grade_section SET ?", gradeSectionReqData, (err, res) => {
+                dbConn.query("INSERT into fee_masters SET ?", feemasterReqData, (err, res) => {
                     if (err) {
                         console.log("error inserting data year");
                         result(null, err);
@@ -41,7 +40,7 @@ GradeSection.createGradeSectionModel = (gradeSectionReqData, result) => {
                         console.log("year inserted successfully");
                         let finaldata = {
                             id:res.insertId,
-                            ...gradeSectionReqData
+                            ...feemasterReqData
                         }
                         result(null, { IsExsist: false,data:finaldata });
                     }
@@ -52,9 +51,9 @@ GradeSection.createGradeSectionModel = (gradeSectionReqData, result) => {
     });
 };
 
-GradeSection.deleteGradeSectionModel = (gradeSectionReqData, result) => {
-    console.log(`SELECT * FROM year_of_fees WHERE academic_year ="${gradeSectionReqData.academic_year}" and  fee_master_id=${gradeSectionReqData.fee_master_id}`);
-    dbConn.query(`SELECT * FROM year_of_fees WHERE  grade_id=${gradeSectionReqData.grade_section_id}`, (err, res) => {
+feemaster.deletefeemasterModel = (feemasterReqData, result) => {
+    console.log(`SELECT * FROM year_of_fees WHERE academic_year ="${feemasterReqData.academic_year}" and  fee_master_id=${feemasterReqData.fee_master_id}`);
+    dbConn.query(`SELECT * FROM year_of_fees WHERE  fee_master_id=${feemasterReqData.fee_master_id}`, (err, res) => {
         if (err) {
             console.log("error fetching data year");
             result(null, err);
@@ -64,8 +63,8 @@ GradeSection.deleteGradeSectionModel = (gradeSectionReqData, result) => {
             if (res.length > 0) {
                 result(null, { isDeletable: false,data:{res} });
             } else {
-                let gradeToFind = { grade_section_id: gradeSectionReqData.grade_section_id };
-                dbConn.query("DELETE FROM grade_section WHERE ?", gradeToFind, (err, res) => {
+                let gradeToFind = { fee_master_id: feemasterReqData.fee_master_id };
+                dbConn.query("DELETE FROM fee_masters WHERE ?", gradeToFind, (err, res) => {
                     if (err) {
                         console.log("error inserting data year");
                         result(null, err);
@@ -82,4 +81,4 @@ GradeSection.deleteGradeSectionModel = (gradeSectionReqData, result) => {
 };
 
 
-module.exports = GradeSection;
+module.exports = feemaster;

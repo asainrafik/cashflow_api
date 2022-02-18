@@ -1,16 +1,17 @@
 //get all year
 const YearModel = require("../models/year.model");
+
 const { Validator } = require("node-input-validator");
 
 exports.getAllYear = (req, res) => {
     console.log("get all year");
     YearModel.getAllYearModel((err, years) => {
         console.log("controller year");
-        if (err) {
-            res.status(500).send(err);
-        } else {
+        if (years) {
             let yearsData = years;
-            res.status(200).send(yearsData);
+            res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: yearsData });
+        } else {
+            res.status(400).send(err);
         }
     });
 };
@@ -47,7 +48,8 @@ exports.deleteAcademicYear = (req, res) => {
         if (err) {
             res.status(500).send(err);
         } else {
-            res.status(200).send({ status: true, message: "year deleted \u{1F5D1} \u{1F5D1}", data: years });
+
+            res.status(200).send({ status: true, message: years.isDeletable ? "year deleted \u{1F5D1} \u{1F5D1}" : { dataExsists: years.data[0] }, data: { isDeletable: years.isDeletable } });
         }
     });
 };
