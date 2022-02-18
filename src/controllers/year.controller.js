@@ -26,8 +26,6 @@ exports.createNewYear = (req, res) => {
         }
         else{
             const yearReqData = new YearModel(req.body);
-            console.log("create new year");
-            console.log(req.body);
             YearModel.createYear(yearReqData, (err, years) => {
                 console.log("controller year");
                 if (err) {

@@ -4,6 +4,9 @@ const bodyParser = require("body-parser");
 const yearRoutes = require('./src/routes/year.route');
 const gradeSectionRoutes = require('./src/routes/grade.route')
 const feeMasterRoutes = require('./src/routes/feemaster.route')
+const LoginRoutes = require('./src/routes/login.route')
+const DiscountRoute = require('./src/routes/discountfee.route')
+const NewAdmission = require('./src/routes/newadmission.route')
 
 var cors = require("cors");
 const app = express();
@@ -13,6 +16,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(bodyParser.json());
 
+const { checkToken } = require('./src/auth/token.validation') 
 
 app.options("*", cors());
 app.use(
@@ -28,10 +32,16 @@ app.use('/api/v1/year',checkToken,yearRoutes)
 app.use('/api/v1/login',LoginRoutes)
 
 //Grade Route Module
-app.use('/api/v1/gradeSection',gradeSectionRoutes)
+app.use('/api/v1/gradeSection',checkToken,gradeSectionRoutes)
 
 //FeeMaster Route Call
-app.use('/api/v1/feeMaster',feeMasterRoutes)
+app.use('/api/v1/feeMaster',checkToken,feeMasterRoutes)
+
+ //Discount Route module
+app.use('/api/v1/discountfee',checkToken,DiscountRoute)
+//NewAdmission Route module
+app.use('/api/v1/newAdmission',checkToken,NewAdmission)
+
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
