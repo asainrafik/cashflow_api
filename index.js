@@ -1,9 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+
 const yearRoutes = require('./src/routes/year.route');
 const gradeSectionRoutes = require('./src/routes/grade.route')
 const feeMasterRoutes = require('./src/routes/feemaster.route')
 
+var cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000
 
@@ -12,8 +14,18 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 
-//year Route Module
-app.use('/api/v1/year',yearRoutes)
+app.options("*", cors());
+app.use(
+    cors({
+        origin: "*",
+    })
+);
+
+
+//year module
+app.use('/api/v1/year',checkToken,yearRoutes)
+
+app.use('/api/v1/login',LoginRoutes)
 
 //Grade Route Module
 app.use('/api/v1/gradeSection',gradeSectionRoutes)
