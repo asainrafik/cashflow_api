@@ -69,7 +69,7 @@ feemaster.deletefeemasterModel = (feemasterReqData, result) => {
                         result(null, err);
                     }
                 });
-            }  
+            }
         } else {
             console.log("error fetching data year");
             result(null, err);

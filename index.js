@@ -47,7 +47,7 @@ app.use('/api/v1/discountfee',checkToken,DiscountRoute)
 app.use('/api/v1/newAdmission',checkToken,NewAdmission)
 
 
-app.use('/api/v1/yearOffee',YearOfFeeRoutes);
+app.use('/api/v1/yearOffee',checkToken,YearOfFeeRoutes);
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")

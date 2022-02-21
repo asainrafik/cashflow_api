@@ -12,10 +12,10 @@ exports.getAllYearOFFee = (req, res) => {
             const yearOfFeeReqData = new YearOFFeeModel(req.body);
             console.log("get all year of fee");
             YearOFFeeModel.getAllYearOFFeeModel(yearOfFeeReqData, (err, YearOFFee) => {
-                if (err) {
-                    res.status(500).send({ status: false, message: err });
-                } else {
+                if (YearOFFee) {
                     res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: YearOFFee });
+                } else {
+                    res.status(500).send({ status: false, message: err });
                 }
             });
         }
@@ -35,46 +35,54 @@ exports.createNewYearOFFee = (req, res) => {
             const yearOfFeeReqData = new YearOFFeeModel(req.body);
             console.log(req.body);
             YearOFFeeModel.createYearOFFeeModel(yearOfFeeReqData, (err, YearOFFee) => {
-                if (err) {
-                    res.status(500).send(err);
-                } else {
+                if (YearOFFee) {
                     res.status(200).send({
                         status: true,
-                        message: YearOFFee.IsExsist=="error" ? "Cannot Create Year of fee \u{1F6AB}" : YearOFFee.IsExsist ? `Year of Fee already present \u{26D4} \u{26D4}` : `Year of Fee inserted \u{1F973} \u{1F973}`,
+                        message:
+                            YearOFFee.IsExsist == "error"
+                                ? "Cannot Create Year of fee \u{1F6AB}"
+                                : YearOFFee.IsExsist
+                                ? `Year of Fee already present \u{26D4} \u{26D4}`
+                                : `Year of Fee inserted \u{1F973} \u{1F973}`,
                         data: YearOFFee,
                     });
+                } else {
+                    res.status(500).send(err);
                 }
             });
         }
     });
 };
 
-exports.deleteYearOFFee = (req,res)=>{
+exports.deleteYearOFFee = (req, res) => {
     console.log("delete YearOFFee");
     console.log(req.body);
-    YearOFFeeModel.deleteYearOFFeeModel(req.body,(err,YearOFFee)=>{
-        console.log("controller YearOFFee")
-        if(err){
+    YearOFFeeModel.deleteYearOFFeeModel(req.body, (err, YearOFFee) => {
+        console.log("controller YearOFFee");
+        if (YearOFFee) {
+            res.status(200).send({
+                status: true,
+                message: YearOFFee.isDeletable ? "YearOFFee deleted \u{1F5D1} \u{1F5D1}" : { dataExsists: YearOFFee.data },
+                data: { isDeletable: YearOFFee.isDeletable },
+            });
+        } else {
             res.status(500).send(err);
         }
-        else{
-            res.status(200).send({status:true,message: YearOFFee.isDeletable ? 'YearOFFee deleted \u{1F5D1} \u{1F5D1}':{dataExsists:YearOFFee.data.res[0]},data:{isDeletable:YearOFFee.isDeletable}})
-        }
-    })
-}
+    });
+};
 
 exports.UpdateYearOFFee = (req, res) => {
     console.log("Update feemaster");
     console.log(req.body);
-    console.log(req.params.id )
+    console.log(req.params.id);
     YearOFFeeModel.updateYearOFFeeModel(req.params.id, req.body, (err, yearOfFee) => {
         console.log("controller feemaster");
-        console.log(yearOfFee)
+        console.log(yearOfFee);
         if (yearOfFee) {
             res.status(200).send({
                 status: true,
                 message: "YearOFFee update \u{1F389} \u{1F389}",
-                data: yearOfFee.data 
+                data: yearOfFee.data,
             });
         } else {
             res.status(500).send(err);
