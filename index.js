@@ -7,10 +7,14 @@ const feeMasterRoutes = require('./src/routes/feemaster.route')
 const LoginRoutes = require('./src/routes/login.route')
 const DiscountRoute = require('./src/routes/discountfee.route')
 const NewAdmission = require('./src/routes/newadmission.route')
+const YearOfFeeRoutes = require('./src/routes/yearoffee.route')
+
 
 var cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000
+
+const {checkToken} = require('./src/auth/token.validation')
 
 app.use(bodyParser.urlencoded({extended:false}));
 
@@ -42,6 +46,8 @@ app.use('/api/v1/discountfee',checkToken,DiscountRoute)
 //NewAdmission Route module
 app.use('/api/v1/newAdmission',checkToken,NewAdmission)
 
+
+app.use('/api/v1/yearOffee',YearOfFeeRoutes);
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
