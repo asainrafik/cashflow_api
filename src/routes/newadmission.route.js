@@ -3,7 +3,7 @@ const router = require("express").Router();
 
 const newadmissioncontroller = require('../controllers/newadmission.controller');
 
-router.get("/",newadmissioncontroller.postadmission);
+router.post("/",newadmissioncontroller.postadmission);
 
 
 module.exports = router;

@@ -22,16 +22,12 @@ var NewAdmission = function(newadmission){
 
 
 NewAdmission.getNewAdmissionModel = (newRequestBody,result) => {
-    dbConn.query("SELECT * FROM student_admissions ORDER BY student_admissions_id DESC LIMIT 1", (err, res) => {
-       let datares = res[0];
-       let daaaaaa = datares.stu_code;
-       let stucode = datares.stu_code
-       let cccccc = datares.student_admissions_id;
-       console.log(stucode);
-    //    console.log(datares.student_id);
-    //    let daaaa = Number(datares.student_id+1);
-    //    console.log(Number(datares.student_id)+1);   
+ dbConn.query("SELECT * FROM student_admissions ORDER BY student_admissions_id DESC LIMIT 1", (err, res) => {
+        let lastrecordes = res[0];
+        let admisionid =lastrecordes.stu_code+lastrecordes.student_admissions_id;
+        result(null,admisionid)
     });
+  
 };
 
 module.exports = NewAdmission;

@@ -19,10 +19,7 @@ exports.postadmission = (req,res)=>{
         phone_number:"required",
         alt_phone_number:"required",
         student_id:"required",
-        stu_code:"required",
-        student_id:"required",
         status:"required",
-
     });
     v.check().then((matched) => {
         if (!matched) {
@@ -30,7 +27,8 @@ exports.postadmission = (req,res)=>{
         }
         else{
             const newRequestBody = new NewadmissionModel(req.body);
-            NewadmissionModel.NewadmissionModel(newRequestBody, (err, newadmission) => {
+            NewadmissionModel.getNewAdmissionModel(newRequestBody, (err, newadmission) => {
+                console.log(newadmission);
                 if (err) {
                     res.status(500).send(err);
                 } else {
