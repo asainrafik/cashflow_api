@@ -7,5 +7,6 @@ const yearOFFee = require('../controllers/yearoffee.controller');
 router.post('/',yearOFFee.getAllYearOFFee);
 router.post('/create_new_yearfee',yearOFFee.createNewYearOFFee);
 router.delete('/',yearOFFee.deleteYearOFFee);
+router.put('/:id',yearOFFee.UpdateYearOFFee);
 
 module.exports = router;

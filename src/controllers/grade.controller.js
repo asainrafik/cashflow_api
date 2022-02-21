@@ -4,11 +4,11 @@ const GradeSectionModel = require('../models/grade.model');
 exports.getAllGradeSection = (req,res)=>{
     console.log("get all Grade Section");
     GradeSectionModel.getAllGradeSectionModel((err,gradeSection)=>{
-        if(err){
-            res.status(500).send({status:false,message:err});
+        if(gradeSection){
+            res.status(200).send({status:true,message:'data fetched successfully \u{1F389} \u{1F389}',data:gradeSection})
         }
         else{
-            res.status(200).send({status:true,message:'data fetched successfully \u{1F389} \u{1F389}',data:gradeSection})
+            res.status(500).send({status:false,message:err});
         }
     })
 }

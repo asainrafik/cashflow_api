@@ -85,7 +85,7 @@ YearOFFee.deleteYearOFFeeModel = (YearOFFeeReqData, result) => {
                                         result(null, { isDeletable: true, record: "record Deleted" });
                                     }
                                 });
-                                result(null, { isDeletable: true, data: { res } });
+                               // result(null, { isDeletable: true, data: { res } });
                             }
                         }
                     );
@@ -113,6 +113,21 @@ YearOFFee.deleteYearOFFeeModel = (YearOFFeeReqData, result) => {
         }
     );
     //result(null,"data is up")
+};
+
+YearOFFee.updateYearOFFeeModel = (id,YearOFFeeReqData, result) => {
+    console.log(id,YearOFFeeReqData, "+++++");
+    dbConn.query(`UPDATE year_of_fees set fee_amount = "${YearOFFeeReqData.fee_amount}" WHERE year_of_fees_id=${id};`, (err, res) => {
+        console.log(res)
+        if (res) {
+            console.log("year_of_fees updated successfully");
+            console.log(res);
+            result(null, { message:"Updated Succesfully", data: "Updated Succesfully" });
+        } else {
+            console.log("error updated data year_of_fees");
+            result(null, err);
+        }
+    });
 };
 
 module.exports = YearOFFee;
