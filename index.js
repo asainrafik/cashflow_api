@@ -4,10 +4,14 @@ const bodyParser = require("body-parser");
 const yearRoutes = require('./src/routes/year.route');
 const gradeSectionRoutes = require('./src/routes/grade.route')
 const feeMasterRoutes = require('./src/routes/feemaster.route')
+const LoginRoutes = require('./src/routes/login.route')
+const YearOfFeeRoutes = require('./src/routes/yearoffee.route')
 
 var cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000
+
+const {checkToken} = require('./src/auth/token.validation')
 
 app.use(bodyParser.urlencoded({extended:false}));
 
@@ -32,6 +36,8 @@ app.use('/api/v1/gradeSection',gradeSectionRoutes)
 
 //FeeMaster Route Call
 app.use('/api/v1/feeMaster',feeMasterRoutes)
+
+app.use('/api/v1/yearOffee',YearOfFeeRoutes);
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
