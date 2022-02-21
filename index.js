@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(bodyParser.json());
 
-const { checkToken } = require('./src/auth/token.validation') 
+
 
 app.options("*", cors());
 app.use(

@@ -3,7 +3,6 @@ const DiscountModel = require("../models/discountfee.model");
 const { Validator } = require("node-input-validator");
 
 exports.getAllDiscount = (req, res) => {
-    
     DiscountModel.getAllDiscountModel((err, Discount) => {
         if (Discount) {
             let DiscountData = Discount;
@@ -21,16 +20,18 @@ exports.createDiscounts = (req, res) => {
     v.check().then((matched) => {
         if (!matched) {
             res.status(422).send(v.errors);
-        }
-        else{
+        } else {
             const DiscountReqData = new DiscountModel(req.body);
-         
             DiscountModel.createDiscount(DiscountReqData, (err, Discount) => {
-            
-                if (err) {
-                    res.status(500).send(err);
+                if (Discount) {
+                    res.status(200).send({
+                        status: true,
+                        message: Discount.IsExsist ? `Discount already present \u{26D4} \u{26D4}` : `Discount inserted \u{1F973} \u{1F973}`,
+                        data: Discount,
+                    });
                 } else {
-                    res.status(200).send({ status: true, message: "Discount inserted \u{1F973} \u{1F973}", data: Discount });
+                    res.status(500).send(err);
+
                 }
             });
         }
@@ -39,14 +40,14 @@ exports.createDiscounts = (req, res) => {
 
 exports.deleteDiscount = (req, res) => {
     DiscountModel.deleteDiscountfee(req.body, (err, Discount) => {
-        if (err) {
-            res.status(500).send(err);
+        if (Discount) {
+            res.status(200).send({
+                status: true,
+                message: Discount.isDeletable ? "year deleted \u{1F5D1} \u{1F5D1}" : { dataExsists: Discount.data[0] },
+                data: { isDeletable: Discount.isDeletable },
+            });
         } else {
-            res.status(200).send({ status: true, message: Discount.isDeletable ? "year deleted \u{1F5D1} \u{1F5D1}" : { dataExsists: Discount.data[0] }, data: { isDeletable: Discount.isDeletable } });
+            res.status(500).send(err);
         }
     });
-
-}
-
-
-
+};

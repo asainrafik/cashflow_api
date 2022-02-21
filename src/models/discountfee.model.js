@@ -17,14 +17,19 @@ Discount.getAllDiscountModel = (result) => {
 };
 
 Discount.createDiscount = (DiscountReqData, result) => {
-    dbConn.query(`SELECT * FROM discount_type_masters WHERE dis_feetype_name ="${DiscountReqData.dis_feetype_name}"`, (err, res) => {
+    dbConn.query(`select * from discount_type_masters where dis_feetype_name="${DiscountReqData.dis_feetype_name}";`, (err, res) => {
+
         if (res) {
             if (res.length > 0) {
-                result(null, { IsExsist: true });
+                result(null, { IsExsist: true,duplication: res });
             } else {
                 dbConn.query("INSERT into discount_type_masters SET ?", DiscountReqData, (err, res) => {
                     if (res) {
-                        result(null, res);
+                        let finaldata = {
+                            dis_feetype_id: res.insertId,
+                            ...DiscountReqData,
+                        };
+                        result(null, { IsExsist: false, data: finaldata });
                     } else {
                         result(null, err);
                     }
