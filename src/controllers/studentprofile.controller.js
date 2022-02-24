@@ -21,3 +21,13 @@ exports.getStudentProfile = (req, res) => {
     });
 };
 
+exports.updateprofile = (req,res) => {
+    console.log(req.params);
+    StudentProfileModel.updateprofilemodel(req.params.id,req.body, (err, studentprofile) =>{
+        if(studentprofile) {
+            res.status(200).send({ status: true, message:"Student Profile Updated \u{1F389} \u{1F389}",data:studentprofile.data});
+        }else{
+            res.status(500).send(err);
+        }
+    })
+}
