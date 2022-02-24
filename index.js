@@ -8,6 +8,7 @@ const LoginRoutes = require('./src/routes/login.route')
 const DiscountRoute = require('./src/routes/discountfee.route')
 const NewAdmission = require('./src/routes/newadmission.route')
 const YearOfFeeRoutes = require('./src/routes/yearoffee.route')
+const StudentProfile = require('./src/routes/studentprofile.route')
 
 
 var cors = require("cors");
@@ -40,14 +41,15 @@ app.use('/api/v1/gradeSection',checkToken,gradeSectionRoutes)
 
 //FeeMaster Route Call
 app.use('/api/v1/feeMaster',checkToken,feeMasterRoutes)
-
+//Year of Fee 
+app.use('/api/v1/yearOffee',checkToken,YearOfFeeRoutes);
  //Discount Route module
 app.use('/api/v1/discountfee',checkToken,DiscountRoute)
 //NewAdmission Route module
 app.use('/api/v1/newAdmission',checkToken,NewAdmission)
+//Student Profile 
+app.use('/api/v1/studentProfile',checkToken,StudentProfile)
 
-
-app.use('/api/v1/yearOffee',checkToken,YearOfFeeRoutes);
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
