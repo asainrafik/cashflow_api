@@ -114,7 +114,7 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                             }
                                         });
                                         let finaldata = {
-                                            id: res.insertId,
+                                            id: studentid,
                                             ...newRequestBody,
                                         };
                                         result(null, { IsExsist: false, data: finaldata });
