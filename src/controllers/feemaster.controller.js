@@ -1,5 +1,5 @@
 const FeeMasterModel = require("../models/feemaster.model");
- const { Validator } = require("node-input-validator");
+const { Validator } = require("node-input-validator");
 
 exports.getAllFeeMaster = (req, res) => {
     console.log("get all Grade Section");
@@ -53,4 +53,6 @@ exports.deletefeemaster = (req, res) => {
             res.status(500).send(err);
         }
     });
+
 };
+
