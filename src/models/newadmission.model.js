@@ -6,7 +6,7 @@ var NewAdmission = function (newadmission) {
     this.gender = newadmission.gender;
     this.email = newadmission.email;
     this.admission_date = newadmission.admission_date;
-    this.grade_section_id = newadmission.grade_section_id;
+    this.grade_id = newadmission.grade_id;
     this.previous_school_info = newadmission.previous_school_info;
     this.father_name = newadmission.father_name;
     this.father_occupation = newadmission.father_occupation;
@@ -36,7 +36,9 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
             dbConn.query("SELECT * FROM student_admissions ORDER BY student_admissions_id DESC LIMIT 1", (err, res) => {
                 let lastrecordes = res[0];
                 let stucode = lastrecordes.stu_code;
-                let admisionid = Number(lastrecordes.student_id) + 1;
+                const [word, digits] = lastrecordes.student_id.match(/\D+|\d+/g);
+                let admisionid = Number(digits) + 1;
+                let studentcodeid = stucode+admisionid;
                 let studentstatus = "A";
                 let post = {
                     student_name: newRequestBody.student_name,
@@ -44,14 +46,14 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                     gender: newRequestBody.gender,
                     email: newRequestBody.email,
                     admission_date: newRequestBody.admission_date,
-                    grade_section_id: newRequestBody.grade_section_id,
+                    grade_id: newRequestBody.grade_id,
                     previous_school_info: newRequestBody.previous_school_info,
                     father_name: newRequestBody.father_name,
                     father_occupation: newRequestBody.father_occupation,
                     address: newRequestBody.address,
                     phone_number: newRequestBody.phone_number,
                     alt_phone_number: newRequestBody.alt_phone_number,
-                    student_id: admisionid,
+                    student_id: studentcodeid,
                     admission_no: newRequestBody.admission_no,
                     status: studentstatus,
                     stu_code: stucode,
@@ -61,8 +63,8 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                         dbConn.query("SELECT * FROM student_admissions ORDER BY student_admissions_id DESC LIMIT 1", (err, res) => {
                             let studentaaa = res[0];
                             let studentid = studentaaa.student_admissions_id;
-                            let to_gradesection_id = studentaaa.grade_section_id;
-                            let studentId = stucode + admisionid;
+                            let to_gradesection_id = studentaaa.grade_id;
+                            let studentId = studentcodeid;
                             if (res) {
                                 let allocations = {
                                     student_admissions_id: studentid,
@@ -98,7 +100,6 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                                 refund: Zero,
                                                                 balance: element.fee_amount,
                                                             };
-                                                            console.log(paymentinfo);
                                                             dbConn.query('INSERT into student_payment_infos SET ?', paymentinfo, (err, res) => {
                                                                   if(res){
                                                                       console.log("Insert successfully")
@@ -112,7 +113,6 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                 });
                                             }
                                         });
-                                        console.log("Student inserted successfully");
                                         let finaldata = {
                                             id: res.insertId,
                                             ...newRequestBody,
