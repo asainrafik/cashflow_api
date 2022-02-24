@@ -8,6 +8,7 @@ const LoginRoutes = require('./src/routes/login.route')
 const DiscountRoute = require('./src/routes/discountfee.route')
 const NewAdmission = require('./src/routes/newadmission.route')
 const YearOfFeeRoutes = require('./src/routes/yearoffee.route')
+const autoSearch = require('./src/routes/studentSearch.route')
 const StudentProfile = require('./src/routes/studentprofile.route')
 
 
@@ -32,11 +33,12 @@ app.use(
 
 
 //year module
-app.use('/api/v1/year',checkToken,yearRoutes)
+app.use('/api/v1/year',checkToken,yearRoutes);
 
-app.use('/api/v1/login',LoginRoutes)
+//Login Route Moudle
+app.use('/api/v1/login',LoginRoutes);
+app.use('/api/v1/autoSearch',autoSearch)
 
-//Grade Route Module
 app.use('/api/v1/gradeSection',checkToken,gradeSectionRoutes)
 
 //FeeMaster Route Call
