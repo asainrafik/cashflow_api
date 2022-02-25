@@ -36,7 +36,9 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
             dbConn.query("SELECT * FROM student_admissions ORDER BY student_admissions_id DESC LIMIT 1", (err, res) => {
                 let lastrecordes = res[0];
                 let stucode = lastrecordes.stu_code;
-                let admisionid = Number(lastrecordes.student_id) + 1;
+                const [word, digits] = lastrecordes.student_id.match(/\D+|\d+/g);
+                let admisionid = Number(digits) + 1;
+                let studentcodeid = stucode + admisionid;
                 let studentstatus = "A";
                 let post = {
                     student_name: newRequestBody.student_name,
@@ -55,6 +57,8 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                     admission_no: newRequestBody.admission_no,
                     status: studentstatus,
                     stu_code: stucode,
+                    created_at: new Date(),
+                    updated_at: new Date(),
                 };
                 dbConn.query("INSERT into student_admissions SET ?", post, (err, res) => {
                     if (res) {
@@ -70,8 +74,10 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                     student_type: newRequestBody.student_type,
                                     from_grade_id: newRequestBody.from_grade_id,
                                     grade_id: to_gradesection_id,
+                                    created_at: new Date(),
+                                    updated_at: new Date(),
                                 };
-                               
+
                                 dbConn.query("INSERT into student_allocations SET ?", allocations, (err, res) => {
                                     if (res) {
                                         dbConn.query("SELECT * FROM student_allocations ORDER BY student_allocation_id DESC LIMIT 1", (err, res) => {
@@ -87,28 +93,29 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                             let paymentinfo = {
                                                                 student_admissions_id: student_admissions_id,
                                                                 fee_master_id: element.fee_master_id,
-                                                                payment_date:null,
+                                                                payment_date: null,
                                                                 actual_fees: element.fee_amount,
                                                                 amount_paid: Zero,
-                                                                payment_mode:null,
-                                                                comments:null,
+                                                                payment_mode: null,
+                                                                comments: null,
                                                                 year_of_fees_id: element.year_of_fees_id,
                                                                 student_id: student_id,
                                                                 grade_id: grade_id,
                                                                 refund: Zero,
                                                                 balance: element.fee_amount,
+                                                                created_at: new Date(),
+                                                                updated_at: new Date(),
                                                             };
-                                                            console.log(paymentinfo);
-                                                            dbConn.query('INSERT into student_payment_infos SET ?', paymentinfo, (err, res) => {
-                                                                  if(res){
-                                                                      console.log("Insert successfully")
-                                                                  }else{
-                                                                      console.log(err)
-                                                                  }
+
+                                                            dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
+                                                                if (res) {
+                                                                    console.log("Insert successfully");
+                                                                } else {
+                                                                    console.log(err);
+                                                                }
                                                             });
                                                         });
                                                     }
-                
                                                 });
                                             }
                                         });
