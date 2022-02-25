@@ -10,7 +10,8 @@ const NewAdmission = require('./src/routes/newadmission.route')
 const YearOfFeeRoutes = require('./src/routes/yearoffee.route')
 const autoSearch = require('./src/routes/studentSearch.route')
 const StudentProfile = require('./src/routes/studentprofile.route')
-
+const lastfourpaymentrecord = require('./src/routes/lastfourpaymentrecord.route')
+const studentPayment = require('./src/routes/studentBalance.route')
 
 var cors = require("cors");
 const app = express();
@@ -51,7 +52,10 @@ app.use('/api/v1/discountfee',checkToken,DiscountRoute)
 app.use('/api/v1/newAdmission',checkToken,NewAdmission)
 //Student Profile 
 app.use('/api/v1/studentProfile',checkToken,StudentProfile)
+//last four record
+app.use('/api/v1/fourRecord',checkToken,lastfourpaymentrecord)
 
+app.use('/api/v1/updateStudentBalance',checkToken,studentPayment)
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
