@@ -3,6 +3,7 @@ var dbConn = require("../../config/db.config");
 var YearOFFee = function (year_of_fees) {
     this.fee_amount = year_of_fees.fee_amount;
     this.fee_master_id = year_of_fees.fee_master_id;
+    this.year_id = year_of_fees.year_id
     this.grade_id = year_of_fees.grade_id;
     this.created_at = new Date();
     this.updated_at = new Date();
@@ -10,7 +11,7 @@ var YearOFFee = function (year_of_fees) {
 
 YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
     let grade_id = yearoffeeReqData.grade_id;
-    dbConn.query(`select * from year_of_fees where grade_id=${grade_id}`, (err, res) => {
+    dbConn.query(`select * from year_of_fees where grade_id=${grade_id} and year_id=${yearoffeeReqData.year_id}`, (err, res) => {
         if (res) {
             console.log("Year Of Fee fetched successfully");
             result(null, res);

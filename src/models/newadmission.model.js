@@ -111,7 +111,7 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                                 balance: element.fee_amount,
                                                                 grade_id: grade_id,
                                                                 year_id: year_id,
-                                                                section_id:section_id
+                                                                section_id:newRequestBody.grade_section_id
                                                             };
                                                             dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
                                                                 if (res) {
