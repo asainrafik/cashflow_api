@@ -5,7 +5,7 @@ const dbConn = mysql.createConnection({
     port:process.env.DB_PORT,
     user: "root",
     password: "root",
-    database: "cashflow",
+    database: "cashflow_new_db",
 });
 
 dbConn.connect(function (error) {

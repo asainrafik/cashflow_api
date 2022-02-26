@@ -23,7 +23,7 @@ YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
 
 YearOFFee.createYearOFFeeModel = (YearOFFeeReqData, result) => {
     console.log(YearOFFeeReqData, "+++++");
-    dbConn.query(`select * from year_of_fees where fee_master_id="${YearOFFeeReqData.fee_master_id}" and grade_id="${YearOFFeeReqData.grade_id}";`, (err, res) => {
+    dbConn.query(`select * from year_of_fees where fee_master_id="${YearOFFeeReqData.fee_master_id}" and grade_id="${YearOFFeeReqData.grade_id}" and year_id="${YearOFFeeReqData.year_id}";`, (err, res) => {
         if (res) {
             console.log("year_of_fees fetched successfully");
             console.log(res);

@@ -23,7 +23,7 @@ GradeSection.getAllGradeSectionModel = (result) => {
 GradeSection.createGradeSectionModel = (gradeSectionReqData, result) => {
     console.log(gradeSectionReqData, "+++++");
     dbConn.query(
-        `select * from grade_section where grade="${gradeSectionReqData.grade}" and section="${gradeSectionReqData.section}" and academic_year_id=${gradeSectionReqData.academic_year_id};`,
+        `select * from grade_section where grade="${gradeSectionReqData.grade_id}" and section="${gradeSectionReqData.section}" and academic_year_id=${gradeSectionReqData.academic_year_id};`,
         (err, res) => {
             if (res) {
                 console.log("year fetched successfully");
