@@ -4,8 +4,8 @@ const dbConn = mysql.createConnection({
     host: process.env.DB_HOST,
     port:process.env.DB_PORT,
     user: "root",
-    password: "root",
-    database: "cashflow",
+    password: "nith@1930M",
+    database: "cashflow_feb26",
 });
 
 dbConn.connect(function (error) {

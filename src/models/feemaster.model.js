@@ -21,14 +21,18 @@ feemaster.getAllfeemasterModel = (result) => {
 
 feemaster.createfeemasterModel = (feemasterReqData, result) => {
     console.log(feemasterReqData, "+++++");
-    dbConn.query(`select * from fee_masters where fee_type_name="${feemasterReqData.fee_type_name}";`, (err, res) => {
+    let dataToSend = {
+        fee_type_name: feemasterReqData.fee_type_name.toUpperCase(),
+        order_id: feemasterReqData.order_id,
+    };
+    dbConn.query(`select * from fee_masters where fee_type_name="${dataToSend.fee_type_name}";`, (err, res) => {
         if (res) {
             console.log("year fetched successfully");
             console.log(res);
             if (res.length > 0) {
                 result(null, { IsExsist: true, duplication: res });
             } else {
-                dbConn.query("INSERT into fee_masters SET ?", feemasterReqData, (err, res) => {
+                dbConn.query("INSERT into fee_masters SET ?", dataToSend, (err, res) => {
                     if (res) {
                         console.log("year inserted successfully");
                         let finaldata = {

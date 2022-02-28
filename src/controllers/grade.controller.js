@@ -14,9 +14,9 @@ exports.getAllGradeSection = (req, res) => {
 
 exports.createNewGradeSection = (req, res) => {
     const v = new Validator(req.body, {
-        grade: "required",
+        grade_id: "required",
         section: "required",
-        academic_year_id :"required"
+        academic_year_id :"required",
     });
     v.check().then((matched) => {
         if (!matched) {

@@ -1,7 +1,7 @@
 var dbConn = require("../../config/db.config");
 
 var GradeSection = function (gradeSection) {
-    this.grade = gradeSection.grade;
+    this.grade_id = gradeSection.grade_id;
     this.section = gradeSection.section;
     this.academic_year_id = gradeSection.academic_year_id;
     this.created_at = new Date();
@@ -23,7 +23,7 @@ GradeSection.getAllGradeSectionModel = (result) => {
 GradeSection.createGradeSectionModel = (gradeSectionReqData, result) => {
     console.log(gradeSectionReqData, "+++++");
     dbConn.query(
-        `select * from grade_section where grade="${gradeSectionReqData.grade}" and section="${gradeSectionReqData.section}" and academic_year_id=${gradeSectionReqData.academic_year_id};`,
+        `select * from grade_section where grade_id="${gradeSectionReqData.grade_id}" and section="${gradeSectionReqData.section}" and academic_year_id=${gradeSectionReqData.academic_year_id};`,
         (err, res) => {
             if (res) {
                 console.log("year fetched successfully");
@@ -54,9 +54,7 @@ GradeSection.createGradeSectionModel = (gradeSectionReqData, result) => {
 };
 
 GradeSection.deleteGradeSectionModel = (gradeSectionReqData, result) => {
-    console.log(
-        `SELECT * FROM year_of_fees WHERE academic_year ="${gradeSectionReqData.academic_year}" and  fee_master_id=${gradeSectionReqData.fee_master_id}`
-    );
+
     dbConn.query(`SELECT * FROM year_of_fees WHERE  grade_id=${gradeSectionReqData.grade_section_id}`, (err, res) => {
         if (res) {
             console.log("year fetched successfully");

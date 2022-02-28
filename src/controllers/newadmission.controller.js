@@ -13,8 +13,11 @@ exports.postadmission = (req, res) => {
         father_occupation: "required",
         address: "required",
         phone_number: "required|maxLength:10",
-        from_grade_id: "required",
+        from_grade: "required",
         student_type: "required",
+        grade_id:"required",
+        year_id:"required",
+        from_grade:"required"
     });
     v.check().then((matched) => {
         if (!matched) {
