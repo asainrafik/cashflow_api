@@ -35,7 +35,9 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                 let stucode = lastrecordes.stu_code;
                 const [word, digits] = lastrecordes.student_id.match(/\D+|\d+/g);
                 let admisionid = Number(digits) + 1;
+
                 let studentcodeid = stucode + admisionid;
+
                 let studentstatus = "A";
                 let post = {
                     student_name: newRequestBody.student_name,
@@ -65,8 +67,13 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                     if (res) {
                         dbConn.query(`SELECT * FROM student_admissions where student_id="${studentcodeid}"`, (err, res) => {
                             let studentaaa = res[0];
+
                             //let studentid = studentaaa.student_admissions_id;
                             let to_gradesection_id = studentaaa.grade_section_id;
+
+                            let studentid = studentaaa.student_admissions_id;
+                            let to_gradesection_id = studentaaa.grade_id;
+
                             let studentId = studentcodeid;
                             if (res) {
                                 let allocations = {
@@ -113,21 +120,22 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                                 year_id: year_id,
                                                                 section_id:newRequestBody.grade_section_id
                                                             };
+
                                                             dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
                                                                 if (res) {
                                                                     console.log("Insert successfully");
                                                                 } else {
                                                                     console.log(err);
                                                                 }
+                                                          
                                                             });
                                                         });
                                                     }
                                                 });
                                             }
                                         });
-                                        console.log("Student inserted successfully");
                                         let finaldata = {
-                                            id: res.insertId,
+                                            id: studentid,
                                             ...newRequestBody,
                                         };
                                         result(null, { IsExsist: false, data: finaldata });
