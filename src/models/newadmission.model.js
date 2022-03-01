@@ -38,7 +38,7 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
 
                 let studentcodeid = stucode + admisionid;
 
-                let studentstatus = "A";
+               let studentstatus = "Active";
                 let post = {
                     student_name: newRequestBody.student_name,
                     DOB: newRequestBody.DOB,
