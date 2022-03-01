@@ -103,7 +103,7 @@ YearOFFee.deleteYearOFFeeModel = (YearOFFeeReqData, result) => {
 	// console.log(`SELECT * FROM year_of_fees WHERE academic_year ="${YearOFFeeReqData.academic_year}" and  fee_master_id=${YearOFFeeReqData.fee_master_id}`);
 	dbConn.query(
 		`SELECT *
-    FROM    student_payment_infos  WHERE year_of_fees_id=${YearOFFeeReqData.year_of_fees_id}`,
+    FROM student_payment_infos  WHERE year_of_fees_id=${YearOFFeeReqData.year_of_fees_id}`,
 		(err, res) => {
 			if (res) {
 				console.log("year fetched successfully");
@@ -163,12 +163,31 @@ YearOFFee.deleteYearOFFeeModel = (YearOFFeeReqData, result) => {
 };
 
 YearOFFee.updateYearOFFeeModel = (id, YearOFFeeReqData, result) => {
-	console.log(id, YearOFFeeReqData, "+++++");
+	// console.log(id, YearOFFeeReqData, "+++++");
 	dbConn.query(`UPDATE year_of_fees set fee_amount = "${YearOFFeeReqData.fee_amount}" WHERE year_of_fees_id=${id};`, (err, res) => {
-		console.log(res);
 		if (res) {
-			console.log("year_of_fees updated successfully");
-			console.log(res);
+			dbConn.query(`SELECT * FROM year_of_fees WHERE year_of_fees_id=${id};`, (err, res) => {
+               let fees_response = res[0];
+			   let fee_amount = fees_response.fee_amount;
+			   let fee_master_id = fees_response.fee_master_id;
+			//    console.log(fee_amount);
+			   if(res){
+				   dbConn.query(`Select * from student_payment_infos WHERE year_of_fees_id=${id};`,(err, res) =>{
+					if (res && res.length > 0) {
+						res.forEach((element) => {
+							let amoumt = Number(fee_amount)-Number(element.amount_paid);
+							console.log(Number(amoumt));
+							dbConn.query(`UPDATE student_payment_infos set actual_fees ="${fee_amount}",balance="${amoumt}" where fee_master_id=${fee_master_id} and student_payment_info_id=${element.student_payment_info_id}`, (err, res)=>{
+								
+							})
+						   });
+					 }
+					   			 
+				   }) 
+			   }
+			});
+			// console.log("year_of_fees updated successfully");
+			// console.log(res);
 			result(null, { message: "Updated Succesfully", data: "Updated Succesfully" });
 		} else {
 			console.log("error updated data year_of_fees");

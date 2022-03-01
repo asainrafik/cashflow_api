@@ -69,10 +69,10 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                             let studentaaa = res[0];
 
                             //let studentid = studentaaa.student_admissions_id;
-                            let to_gradesection_id = studentaaa.grade_section_id;
+                            // let to_gradesection_id = studentaaa.grade_section_id;
 
                             let studentid = studentaaa.student_admissions_id;
-                            let to_gradesection_id = studentaaa.grade_id;
+                            // let to_gradesection_id = studentaaa.grade_id;
 
                             let studentId = studentcodeid;
                             if (res) {
@@ -96,7 +96,6 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                             let student_id = studentall_response.student_id;
                                             let grade_id = studentall_response.grade_id;
                                             let year_id = studentall_response.year_id;
-                                            let section_id = studentall_response.section_id;
                                             if (res) {
                                                 dbConn.query(`SELECT * FROM year_of_fees where year_of_fees.grade_id="${grade_id}";`, (err, res) => {
                                                     if (res && res.length > 0) {
@@ -118,7 +117,7 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                                 balance: element.fee_amount,
                                                                 grade_id: grade_id,
                                                                 year_id: year_id,
-                                                                section_id:newRequestBody.grade_section_id
+                                                                section_id: newRequestBody.grade_section_id,
                                                             };
 
                                                             dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
@@ -127,7 +126,6 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                                 } else {
                                                                     console.log(err);
                                                                 }
-                                                          
                                                             });
                                                         });
                                                     }
