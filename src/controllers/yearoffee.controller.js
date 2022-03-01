@@ -72,12 +72,12 @@ exports.deleteYearOFFee = (req, res) => {
 };
 
 exports.UpdateYearOFFee = (req, res) => {
-    console.log("Update feemaster");
-    console.log(req.body);
-    console.log(req.params.id);
+    // console.log("Update feemaster");
+    // console.log(req.body);
+    // console.log(req.params.id);
     YearOFFeeModel.updateYearOFFeeModel(req.params.id, req.body, (err, yearOfFee) => {
-        console.log("controller feemaster");
-        console.log(yearOfFee);
+        // console.log("controller feemaster");
+        // console.log(yearOfFee);
         if (yearOfFee) {
             res.status(200).send({
                 status: true,
