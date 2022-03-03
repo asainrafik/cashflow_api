@@ -3,16 +3,19 @@ const { Validator } = require("node-input-validator");
 
 exports.updateStudentBalance = (req, res) => {
     let tempArr = [];
-    req.body.forEach((element) => {
-        if (element && element.balance == true) {
+    console.log(req.body,"dd")
+
+    req.body.data.forEach((element) => {
+        if (element && element.Sendbalance == true) {
             tempArr.push(element);
-        } else if (element && element.refund == true) {
-            tempArr.push(element.refund);
+        } else if (element && element.Sendrefund == true) {
+            tempArr.push(element);
         }
     });
     console.log(tempArr);
-    if (tempArr[0].balance && tempArr[0].balance == true) {
-        studentBalanceModel.updateStudentWithBalanceFeeModel(req.body, (err, data) => {
+    if (tempArr[0].Sendbalance && tempArr[0].Sendbalance == true) {
+        console.log(req.body.data,"Data")
+        studentBalanceModel.updateStudentWithBalanceFeeModel(req.body.data, (err, data) => {
             if (data) {
                 res.status(200).send({
                     status: true,
@@ -22,9 +25,9 @@ exports.updateStudentBalance = (req, res) => {
                 res.status(500).send(err);
             }
         });
-    } else if (tempArr[0].refund && tempArr[0].refund == true) {
-        studentBalanceModel.updateStudentWithRefundFeeModel(req.body, (err, years) => {
-            if (years) {
+    } else if (tempArr[0].Sendrefund && tempArr[0].Sendrefund == true) {
+        studentBalanceModel.updateStudentWithRefundFeeModel(req.body.data, (err, data) => {
+            if (data) {
                 res.status(200).send({
                     status: true,
                     message: data,
@@ -34,7 +37,7 @@ exports.updateStudentBalance = (req, res) => {
             }
         });
     } 
-    // else {
-    //     res.status(500).send("failed");
-    // }
+    else {
+        res.status(500).send(req.body);
+    }
 };
