@@ -99,13 +99,13 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                             if (res) {
                                                 dbConn.query(`SELECT * FROM year_of_fees where year_of_fees.grade_id="${grade_id}";`, (err, res) => {
                                                     if (res && res.length > 0) {
-                                                        let Zero = 0;
                                                         res.forEach((element) => {
+                                                            let zero = "000";
                                                             let paymentinfo = {
                                                                 student_admissions_id: student_admissions_id,
                                                                 payment_date: null,
                                                                 actual_fees: element.fee_amount,
-                                                                amount_paid: Zero,
+                                                                amount_paid: zero,
                                                                 payment_mode: null,
                                                                 comments: null,
                                                                 created_at: new Date(),
@@ -113,13 +113,14 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                                 year_of_fees_id: element.year_of_fees_id,
                                                                 student_id: student_id,
                                                                 fee_master_id: element.fee_master_id,
-                                                                refund: Zero,
+                                                                refund: zero,
                                                                 balance: element.fee_amount,
                                                                 grade_id: grade_id,
                                                                 year_id: year_id,
-                                                                section_id: newRequestBody.grade_section_id,
+                                                                discount_amount:zero,
+                                                                dis_feetype_id:zero,
+                                                                section_id: newRequestBody.grade_section_id          
                                                             };
-
                                                             dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
                                                                 if (res) {
                                                                     console.log("Insert successfully");

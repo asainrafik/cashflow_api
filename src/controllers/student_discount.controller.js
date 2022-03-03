@@ -4,6 +4,7 @@ const { Validator } = require("node-input-validator");
 exports.getAllStudent = (req,res) =>{
     const v = new Validator(req.body, {
         student_admissions_id: "required",
+        year_id:"required", 
     });
     v.check().then((matched) => {
         if (!matched) {
@@ -20,3 +21,14 @@ exports.getAllStudent = (req,res) =>{
         }
     });
 };
+
+exports.Updatediscount = (req,res) =>{
+    Discountoffee.updatediscountmodel(req.params.id,req.body, (err,studentdiscount) =>{
+        if(studentdiscount){
+            res.status(200).send({ 
+                  status: true, 
+                  message:"Discount Updated \u{1F389} \u{1F389}",    data:studentdiscount.data
+            });
+        }
+    })
+}
