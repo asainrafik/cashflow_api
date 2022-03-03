@@ -28,7 +28,7 @@ exports.postadmission = (req, res) => {
                 if (err) {
                     res.status(500).send(err);
                 } else {
-                    res.status(200).send({
+                    res.status(201).send({
                         status: true,
                         message:
                             newadmission.IsExsist == "error"
