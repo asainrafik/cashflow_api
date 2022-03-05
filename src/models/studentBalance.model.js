@@ -18,10 +18,14 @@ var studentBalance = function (balance) {
         (this.grade_id = balance.grade_id);
 };
 
+
+
 //update student_payment_infos SET balance=950,refund=450,amount_paid=0
 //WHERE student_id="MVM100060" and grade_id=0 and student_payment_info_id=387;
 
 //update student fees by year based on academic grade
+
+//Refund
 studentBalance.updateStudentWithRefundFeeModel = (studentDataArr, result) => {
     let tempArr = [];
     if (studentDataArr && studentDataArr.length) {
@@ -31,31 +35,39 @@ studentBalance.updateStudentWithRefundFeeModel = (studentDataArr, result) => {
             `,
                 (err, res) => {
                     if (res) {
-                        // dbConn.query(
-                        //     `select * from student_payment_infos where student_payment_info_id=${studentData.student_payment_info_id};`,
-                        //     (err, res) => {
-                        //         let getData = res[0];
-                        //         let createdObj = {
-                        //             student_id :getData.student_id,
-                        //             grade_id :getData.grade_id,
-                        //             section_id :getData.section_id,
-                        //             date_of_transcation :new Date(),
-                        //             actual_fees :getData.actual_fees,
-                        //             balance :getData.balance,
-                        //             amount_paid :getData.amount_paid,
-                        //             discount :getData.discount,
-                        //             refund :getData.refund,
-                        //             fee_master_id :getData.fee_master_id,
-                        //             year_id :getData.year_id,
-                        //             year_of_fees_id :getData.year_of_fees_id,
-                        //             discount_id :getData.discount_id,
-                        //             student_admission_id :getData.student_admission_id,
-                        //             record_created_at :new Date(),
-                        //             comments :getData.comments,
-                        //             student_payment_info_id :getData.student_payment_info_id
-                        //         };
-                        //     }
-                        // );
+                        dbConn.query(
+                            `select * from student_payment_infos where student_payment_info_id=${studentData.student_payment_info_id};`,
+                            (err, res) => {
+                                let getData = res[0];
+                                let createdObj = {
+                                    student_id :getData.student_id,
+                                    grade_id :Number(getData.grade_id),
+                                    section_id :Number(getData.section_id),
+                                    date_of_transcation :new Date(),
+                                    actual_fees :Number(getData.actual_fees),
+                                    balance :Number(getData.balance),
+                                    amount_paid :Number(getData.amount_paid),
+                                    discount :Number(getData.discount_amount),
+                                    refund :Number(getData.refund),
+                                    fee_master_id :Number(getData.fee_master_id),
+                                    year_id :Number(getData.year_id),
+                                    year_of_fees_id :Number(getData.year_of_fees_id),
+                                    discount_id :Number(getData.dis_feetype_id),
+                                    student_admission_id :Number(getData.student_admissions_id),
+                                    record_created_at :new Date(),
+                                    comments :getData.comments,
+                                    payment_infoComments:`Amount Refund on ${new Date()}`,
+                                    student_payment_info_id :Number(getData.student_payment_info_id)
+                                };
+                                dbConn.query(`INSERT INTO student_payment_record SET student_id="${createdObj.student_id}", grade_id=${createdObj.grade_id}, section_id=${createdObj.section_id}, date_of_transcation="${createdObj.date_of_transcation}", actual_fees=${createdObj.actual_fees}, balance=${createdObj.balance}, amount_paid=${createdObj.amount_paid}, discount=${createdObj.discount}, refund=${createdObj.refund}, fee_master_id=${createdObj.fee_master_id}, year_id=${createdObj.year_id}, year_of_fees_id=${createdObj.year_of_fees_id}, discount_id=${createdObj.discount_id}, student_admission_id=${createdObj.student_admission_id}, record_created_at="${createdObj.record_created_at}", comments="${createdObj.comments}", student_payment_info_id=${createdObj.student_payment_info_id} , payment_infoComments="${createdObj.payment_infoComments}";`,(res,err)=>{
+                                    if(res){
+                                        console.log(res)
+                                    }else{
+                                        console.log(err)
+                                    }
+                                });
+                            }
+                        );
                         console.log("Refund added successfully");
                         tempArr.push(res);
                     } else {
@@ -69,6 +81,8 @@ studentBalance.updateStudentWithRefundFeeModel = (studentDataArr, result) => {
     result(null, tempArr);
 };
 
+
+//Balance
 studentBalance.updateStudentWithBalanceFeeModel = (studentDataArr, result) => {
     if (studentDataArr && studentDataArr.length) {
         studentDataArr.forEach((studentData) => {
@@ -78,6 +92,39 @@ studentBalance.updateStudentWithBalanceFeeModel = (studentDataArr, result) => {
             `,
                 (err, res) => {
                     if (res) {
+                        dbConn.query(
+                            `select * from student_payment_infos where student_payment_info_id=${studentData.student_payment_info_id};`,
+                            (err, res) => {
+                                let getData = res[0];
+                                let createdObj = {
+                                    student_id :getData.student_id,
+                                    grade_id :Number(getData.grade_id),
+                                    section_id :Number(getData.section_id),
+                                    date_of_transcation :new Date(),
+                                    actual_fees :Number(getData.actual_fees),
+                                    balance :Number(getData.balance),
+                                    amount_paid :Number(getData.amount_paid),
+                                    discount :Number(getData.discount_amount),
+                                    refund :Number(getData.refund),
+                                    fee_master_id :Number(getData.fee_master_id),
+                                    year_id :Number(getData.year_id),
+                                    year_of_fees_id :Number(getData.year_of_fees_id),
+                                    discount_id :Number(getData.dis_feetype_id),
+                                    student_admission_id :Number(getData.student_admissions_id),
+                                    record_created_at :new Date(),
+                                    comments :getData.comments,
+                                    payment_infoComments:`Amount Paid on ${new Date()}`,
+                                    student_payment_info_id :Number(getData.student_payment_info_id)
+                                };
+                                dbConn.query(`INSERT INTO student_payment_record SET student_id="${createdObj.student_id}", grade_id=${createdObj.grade_id}, section_id=${createdObj.section_id}, date_of_transcation="${createdObj.date_of_transcation}", actual_fees=${createdObj.actual_fees}, balance=${createdObj.balance}, amount_paid=${createdObj.amount_paid}, discount=${createdObj.discount}, refund=${createdObj.refund}, fee_master_id=${createdObj.fee_master_id}, year_id=${createdObj.year_id}, year_of_fees_id=${createdObj.year_of_fees_id}, discount_id=${createdObj.discount_id}, student_admission_id=${createdObj.student_admission_id}, record_created_at="${createdObj.record_created_at}", comments="${createdObj.comments}", student_payment_info_id=${createdObj.student_payment_info_id} , payment_infoComments="${createdObj.payment_infoComments}";`,(res,err)=>{
+                                    if(res){
+                                        console.log(res)
+                                    }else{
+                                        console.log(err)
+                                    }
+                                });
+                            }
+                        );
                         console.log("payment updated successfully");
                     } else {
                         console.log(err);
@@ -89,5 +136,7 @@ studentBalance.updateStudentWithBalanceFeeModel = (studentDataArr, result) => {
     }
     result(null, "success");
 };
+
+
 
 module.exports = studentBalance;
