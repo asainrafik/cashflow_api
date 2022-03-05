@@ -17,7 +17,7 @@ Studentprofile.getStudentModel = (studentprofileReqData,result) =>{
     });
 };
 Studentprofile.updateprofilemodel = (id,studentprofileReqData,result) => {
-    dbConn.query(`UPDATE student_admissions set student_name = "${studentprofileReqData.student_name}", email="${studentprofileReqData.email}",father_name="${studentprofileReqData.father_name}",address="${studentprofileReqData.address}",phone_number="${studentprofileReqData.phone_number}",alt_phone_number="${studentprofileReqData.alt_phone_number}",status="${studentprofileReqData.status}",admission_no="${studentprofileReqData.admission_no}",grade_id="${studentprofileReqData.grade_id}" WHERE student_admissions_id='${id}';`,(err, res) => {
+    dbConn.query(`UPDATE student_admissions set student_name = "${studentprofileReqData.student_name}", email="${studentprofileReqData.email}",father_name="${studentprofileReqData.father_name}",address="${studentprofileReqData.address}",phone_number="${studentprofileReqData.phone_number}",alt_phone_number="${studentprofileReqData.alt_phone_number}",status="${studentprofileReqData.status}",admission_no="${studentprofileReqData.admission_no}",grade_section_id="${studentprofileReqData.grade_section_id}" WHERE student_admissions_id='${id}';`,(err, res) => {
       if(res){
           result(null, res);
       }else{
