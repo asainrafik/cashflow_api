@@ -14,6 +14,8 @@ const lastfourpaymentrecord = require('./src/routes/lastfourpaymentrecord.route'
 const studentPayment = require('./src/routes/studentBalance.route')
 const gradeMaster = require('./src/routes/grademaster.route')
 const studentDiscount = require('./src/routes/student_discount.route')
+const studentAllPayBalance = require('./src/routes/studentPayAllBal.route')
+const studentyears = require('./src/routes/studentyear.route')
 
 var cors = require("cors");
 const app = express();
@@ -62,6 +64,10 @@ app.use('/api/v1/updateStudentBalance',checkToken,studentPayment)
 app.use('/api/v1/grademaster',checkToken,gradeMaster)
 
 app.use('/api/v1/studentdiscount',checkToken,studentDiscount)
+
+app.use('/api/v1/studentAllPayBalance',checkToken,studentAllPayBalance)
+
+app.use('/api/v1/studentyear',checkToken,studentyears)
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
