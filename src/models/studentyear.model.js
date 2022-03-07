@@ -8,8 +8,8 @@ var StudentYear = function (student_year){
 
 StudentYear.getStudentyear = (studentreq,result) =>{
     dbConn.query(`select
-    * from cashflow_api.student_allocations
-    INNER JOIN cashflow_api.years ON student_allocations.year_id = years.year_id where student_admissions_id =${studentreq.student_admissions_id};`,(err, res) =>{
+    * from student_allocations
+    INNER JOIN years ON student_allocations.year_id=years.year_id where student_admissions_id =${studentreq.student_admissions_id};`,(err, res) =>{
         if(res) {
             result(null, res);
         }else{
