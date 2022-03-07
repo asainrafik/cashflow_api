@@ -3,7 +3,7 @@ const { Validator } = require("node-input-validator");
 
 exports.studentyearsget = (req, res) => {
     const v = new Validator(req.body, {
-        student_admissions_id: "required",
+        student_id: "required",
     });
     v.check().then((matched) => {
         if (!matched) {
