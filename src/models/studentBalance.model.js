@@ -1,4 +1,5 @@
 var dbConn = require("../../config/db.config");
+const moment = require('moment');
 
 var studentBalance = function (balance) {
     (this.student_payment_info_id = balance.student_payment_info_id),
@@ -39,6 +40,9 @@ studentBalance.updateStudentWithRefundFeeModel = (studentDataArr, result) => {
                             `select * from student_payment_infos where student_payment_info_id=${studentData.student_payment_info_id};`,
                             (err, res) => {
                                 let getData = res[0];
+                                let dateoftrans = new Date();
+                                let now = moment(dateoftrans).format('DD-MM-YYYY(hh:mm)');
+                              
                                 let createdObj = {
                                     student_id :getData.student_id,
                                     grade_id :Number(getData.grade_id),
@@ -95,11 +99,13 @@ studentBalance.updateStudentWithBalanceFeeModel = (studentDataArr, result) => {
                             `select * from student_payment_infos where student_payment_info_id=${studentData.student_payment_info_id};`,
                             (err, res) => {
                                 let getData = res[0];
+                                let dateoftrans = new Date();
+                                let now = moment(dateoftrans).format('DD-MM-YYYY(hh:mm)');
                                 let createdObj = {
                                     student_id :getData.student_id,
                                     grade_id :Number(getData.grade_id),
                                     section_id :Number(getData.section_id),
-                                    date_of_transcation :new Date(),
+                                    date_of_transcation :now,
                                     actual_fees :Number(getData.actual_fees),
                                     balance :Number(getData.balance),
                                     amount_paid :Number(getData.amount_paid),
