@@ -61,7 +61,8 @@ Discountoffee.updatediscountmodel = (id, discountreqdata, result) => {
                                     discount_id:discountreqdata.dis_feetype_id,
                                     student_admission_id:response.student_admissions_id,
                                     record_created_at:new Date(),
-                                    comments:comments
+                                    comments:comments,
+                                    student_payment_info_id:response.student_payment_info_id
                                 };
                                 console.log(transactionhistory);
                                 dbConn.query("INSERT into student_payment_record SET ?",transactionhistory,(err, res) =>{

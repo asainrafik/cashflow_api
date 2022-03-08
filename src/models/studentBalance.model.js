@@ -56,10 +56,9 @@ studentBalance.updateStudentWithRefundFeeModel = (studentDataArr, result) => {
                                     student_admission_id :Number(getData.student_admissions_id),
                                     record_created_at :new Date(),
                                     comments :getData.comments,
-                                    payment_infoComments:`Amount Refund on ${new Date()}`,
                                     student_payment_info_id :Number(getData.student_payment_info_id)
                                 };
-                                dbConn.query(`INSERT INTO student_payment_record SET student_id="${createdObj.student_id}", grade_id=${createdObj.grade_id}, section_id=${createdObj.section_id}, date_of_transcation="${createdObj.date_of_transcation}", actual_fees=${createdObj.actual_fees}, balance=${createdObj.balance}, amount_paid=${createdObj.amount_paid}, discount=${createdObj.discount}, refund=${createdObj.refund}, fee_master_id=${createdObj.fee_master_id}, year_id=${createdObj.year_id}, year_of_fees_id=${createdObj.year_of_fees_id}, discount_id=${createdObj.discount_id}, student_admission_id=${createdObj.student_admission_id}, record_created_at="${createdObj.record_created_at}", comments="${createdObj.comments}", student_payment_info_id=${createdObj.student_payment_info_id} , payment_infoComments="${createdObj.payment_infoComments}";`,(res,err)=>{
+                                dbConn.query(`INSERT INTO student_payment_record SET student_id="${createdObj.student_id}", grade_id=${createdObj.grade_id}, section_id=${createdObj.section_id}, date_of_transcation="${createdObj.date_of_transcation}", actual_fees=${createdObj.actual_fees}, balance=${createdObj.balance}, amount_paid=${createdObj.amount_paid}, discount=${createdObj.discount}, refund=${createdObj.refund}, fee_master_id=${createdObj.fee_master_id}, year_id=${createdObj.year_id}, year_of_fees_id=${createdObj.year_of_fees_id}, discount_id=${createdObj.discount_id}, student_admission_id=${createdObj.student_admission_id}, record_created_at="${createdObj.record_created_at}", comments="${createdObj.comments}", student_payment_info_id=${createdObj.student_payment_info_id};`,(res,err)=>{
                                     if(res){
                                         console.log(res)
                                     }else{
@@ -113,10 +112,9 @@ studentBalance.updateStudentWithBalanceFeeModel = (studentDataArr, result) => {
                                     student_admission_id :Number(getData.student_admissions_id),
                                     record_created_at :new Date(),
                                     comments :getData.comments,
-                                    payment_infoComments:`Amount Paid on ${new Date()}`,
                                     student_payment_info_id :Number(getData.student_payment_info_id)
                                 };
-                                dbConn.query(`INSERT INTO student_payment_record SET student_id="${createdObj.student_id}", grade_id=${createdObj.grade_id}, section_id=${createdObj.section_id}, date_of_transcation="${createdObj.date_of_transcation}", actual_fees=${createdObj.actual_fees}, balance=${createdObj.balance}, amount_paid=${createdObj.amount_paid}, discount=${createdObj.discount}, refund=${createdObj.refund}, fee_master_id=${createdObj.fee_master_id}, year_id=${createdObj.year_id}, year_of_fees_id=${createdObj.year_of_fees_id}, discount_id=${createdObj.discount_id}, student_admission_id=${createdObj.student_admission_id}, record_created_at="${createdObj.record_created_at}", comments="${createdObj.comments}", student_payment_info_id=${createdObj.student_payment_info_id} , payment_infoComments="${createdObj.payment_infoComments}";`,(res,err)=>{
+                                dbConn.query(`INSERT INTO student_payment_record SET student_id="${createdObj.student_id}", grade_id=${createdObj.grade_id}, section_id=${createdObj.section_id}, date_of_transcation="${createdObj.date_of_transcation}", actual_fees=${createdObj.actual_fees}, balance=${createdObj.balance}, amount_paid=${createdObj.amount_paid}, discount=${createdObj.discount}, refund=${createdObj.refund}, fee_master_id=${createdObj.fee_master_id}, year_id=${createdObj.year_id}, year_of_fees_id=${createdObj.year_of_fees_id}, discount_id=${createdObj.discount_id}, student_admission_id=${createdObj.student_admission_id}, record_created_at="${createdObj.record_created_at}", comments="${createdObj.comments}", student_payment_info_id=${createdObj.student_payment_info_id};`,(res,err)=>{
                                     if(res){
                                         console.log(res)
                                     }else{
