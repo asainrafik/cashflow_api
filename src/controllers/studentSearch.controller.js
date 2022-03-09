@@ -145,10 +145,23 @@ exports.studentSearchController = (req, res) => {
         });
     }
 
-      //year 
-      else if (req.body.academic_year && req.body.academic_year.length>0) {
+    //year
+    else if (req.body.academic_year && req.body.academic_year.length > 0) {
         const textsearch = req.body;
         studentSearch.getYearStudentDetailsModel(textsearch, (err, resultData) => {
+            console.log("auto search");
+            if (resultData) {
+                res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: resultData });
+            } else {
+                res.status(400).send(err);
+            }
+        });
+    }
+    
+    //all balance by student id
+    else if (req.body.allbalance && req.body.allbalance.length > 0) {
+        const textsearch = req.body;
+        studentSearch.getallBalanceStudentDetailsModel(textsearch, (err, resultData) => {
             console.log("auto search");
             if (resultData) {
                 res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: resultData });

@@ -76,7 +76,6 @@ Discountoffee.updatediscountmodel = (id, discountreqdata, result) => {
                                
                             }
                         });
-                        
                     } 
                 }
             );
