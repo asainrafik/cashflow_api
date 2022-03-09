@@ -33,8 +33,7 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
             dbConn.query("SELECT * FROM student_admissions ORDER BY student_admissions_id DESC LIMIT 1", (err, res) => {
                 let lastrecordes = res[0];
                 let stucode = lastrecordes.stu_code;
-                var preStudentId = lastrecordes.student_id && lastrecordes.student_id.toString().length>0 ? lastrecordes.student_id : 100001
-                const [word, digits] = preStudentId.match(/\D+|\d+/g);
+                const [word, digits] = lastrecordes.student_id.match(/\D+|\d+/g);
                 let admisionid = Number(digits) + 1;
 
                 let studentcodeid = stucode + admisionid;
