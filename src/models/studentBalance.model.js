@@ -42,7 +42,6 @@ studentBalance.updateStudentWithRefundFeeModel = (studentDataArr, result) => {
                                 let getData = res[0];
                                 let dateoftrans = new Date();
                                 let now = moment(dateoftrans).format('DD-MM-YYYY(hh:mm)');
-                              
                                 let createdObj = {
                                     student_id :getData.student_id,
                                     grade_id :Number(getData.grade_id),
