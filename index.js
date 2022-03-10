@@ -42,7 +42,7 @@ app.use('/api/v1/year',checkToken,yearRoutes);
 
 //Login Route Moudle
 app.use('/api/v1/login',LoginRoutes);
-app.use('/api/v1/autoSearch',autoSearch)
+app.use('/api/v1/autoSearch',checkToken,autoSearch)
 
 app.use('/api/v1/gradeSection',checkToken,gradeSectionRoutes)
 
