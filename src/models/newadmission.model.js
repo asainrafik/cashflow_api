@@ -30,72 +30,70 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
         if (res.length > 0) {
             result(null, { IsExsist: true, duplication: res });
         } else {
-            dbConn.query("SELECT * FROM student_admissions ORDER BY student_admissions_id DESC LIMIT 1", (err, res) => {
-                let lastrecordes = res[0];
-                let stucode = lastrecordes.stu_code;
-                const [word, digits] = lastrecordes.student_id.match(/\D+|\d+/g);
-                let admisionid = Number(digits) + 1;
-                let studentcodeid = stucode + admisionid;
-               let studentstatus = "Active";
-                let post = {
-                    student_name: newRequestBody.student_name,
-                    DOB: newRequestBody.DOB,
-                    gender: newRequestBody.gender,
-                    email: newRequestBody.email,
-                    from_grade: newRequestBody.from_grade,
-                    admission_date: newRequestBody.admission_date,
-                    grade_section_id: newRequestBody.grade_section_id,
-                    grade_id: newRequestBody.grade_id,
-                    year_id: newRequestBody.year_id,
-                    previous_school_info: newRequestBody.previous_school_info,
-                    father_name: newRequestBody.father_name,
-                    father_occupation: newRequestBody.father_occupation,
-                    address: newRequestBody.address,
-                    phone_number: newRequestBody.phone_number,
-                    alt_phone_number: newRequestBody.alt_phone_number,
-                    student_id: studentcodeid,
-                    admission_no: newRequestBody.admission_no,
-                    status: studentstatus,
-                    stu_code: stucode,
-                    created_at: new Date(),
-                    updated_at: new Date(),
-                };
-                console.log(post);
-                dbConn.query("INSERT into student_admissions SET ?", post, (err, res) => {
-                    if (res) {
-                        dbConn.query(`SELECT * FROM student_admissions where student_id="${studentcodeid}"`, (err, res) => {
-                            let studentaaa = res[0];
+            let stucode = "MVM";
+            let studentcodeid = new Date().getFullYear() + newRequestBody.admission_no;
+            let studentstatus = "Active";
+            let post = {
+                student_name: newRequestBody.student_name,
+                DOB: newRequestBody.DOB,
+                gender: newRequestBody.gender,
+                email: newRequestBody.email,
+                from_grade: newRequestBody.from_grade,
+                admission_date: newRequestBody.admission_date,
+                grade_section_id: newRequestBody.grade_section_id,
+                grade_id: newRequestBody.grade_id,
+                year_id: newRequestBody.year_id,
+                previous_school_info: newRequestBody.previous_school_info,
+                father_name: newRequestBody.father_name,
+                father_occupation: newRequestBody.father_occupation,
+                address: newRequestBody.address,
+                phone_number: newRequestBody.phone_number,
+                alt_phone_number: newRequestBody.alt_phone_number,
+                student_id: studentcodeid,
+                admission_no: newRequestBody.admission_no,
+                status: studentstatus,
+                stu_code: stucode,
+                created_at: new Date(),
+                updated_at: new Date(),
+            };
+            console.log(post);
+            dbConn.query("INSERT into student_admissions SET ?", post, (err, res) => {
+                if (res) {
+                    dbConn.query(`SELECT * FROM student_admissions where student_id="${studentcodeid}"`, (err, res) => {
+                        let studentaaa = res[0];
 
-                            //let studentid = studentaaa.student_admissions_id;
-                            // let to_gradesection_id = studentaaa.grade_section_id;
+                        //let studentid = studentaaa.student_admissions_id;
+                        // let to_gradesection_id = studentaaa.grade_section_id;
 
-                            let studentid = studentaaa.student_admissions_id;
-                            // let to_gradesection_id = studentaaa.grade_id;
+                        let studentid = studentaaa.student_admissions_id;
+                        // let to_gradesection_id = studentaaa.grade_id;
 
-                            let studentId = studentcodeid;
-                            if (res) {
-                                let allocations = {
-                                    student_admissions_id: studentaaa.student_admissions_id,
-                                    student_id: studentId,
-                                    student_type: "day scholar",
-                                    from_grade_id: newRequestBody.from_grade,
-                                    grade_section_id: newRequestBody.grade_section_id,
-                                    grade_id: newRequestBody.grade_id,
-                                    year_id: newRequestBody.year_id,
-                                    created_at: new Date(),
-                                    updated_at: new Date(),
-                                };
-                                console.log("student_allocations", allocations);
-                                dbConn.query("INSERT into student_allocations SET ?", allocations, (err, res) => {
-                                    if (res) {
-                                        dbConn.query(`SELECT * FROM student_allocations where student_id="${studentcodeid}"`, (err, res) => {
-                                            let studentall_response = res[0];
-                                            let student_admissions_id = studentall_response.student_admissions_id;
-                                            let student_id = studentall_response.student_id;
-                                            let grade_id = studentall_response.grade_id;
-                                            let year_id = studentall_response.year_id;
-                                            if (res) {
-                                                dbConn.query(`SELECT * FROM year_of_fees where year_of_fees.grade_id=${grade_id} and year_id=${year_id};`, (err, res) => {
+                        let studentId = studentcodeid;
+                        if (res) {
+                            let allocations = {
+                                student_admissions_id: studentaaa.student_admissions_id,
+                                student_id: studentId,
+                                student_type: "day scholar",
+                                from_grade_id: newRequestBody.from_grade,
+                                grade_section_id: newRequestBody.grade_section_id,
+                                grade_id: newRequestBody.grade_id,
+                                year_id: newRequestBody.year_id,
+                                created_at: new Date(),
+                                updated_at: new Date(),
+                            };
+                            console.log("student_allocations", allocations);
+                            dbConn.query("INSERT into student_allocations SET ?", allocations, (err, res) => {
+                                if (res) {
+                                    dbConn.query(`SELECT * FROM student_allocations where student_id="${studentcodeid}"`, (err, res) => {
+                                        let studentall_response = res[0];
+                                        let student_admissions_id = studentall_response.student_admissions_id;
+                                        let student_id = studentall_response.student_id;
+                                        let grade_id = studentall_response.grade_id;
+                                        let year_id = studentall_response.year_id;
+                                        if (res) {
+                                            dbConn.query(
+                                                `SELECT * FROM year_of_fees where year_of_fees.grade_id=${grade_id} and year_id=${year_id};`,
+                                                (err, res) => {
                                                     if (res && res.length > 0) {
                                                         res.forEach((element) => {
                                                             let zero = "000";
@@ -112,13 +110,13 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                                 student_id: student_id,
                                                                 fee_master_id: element.fee_master_id,
                                                                 refund: zero,
-                                                                cum_amt:zero,
+                                                                cum_amt: zero,
                                                                 balance: element.fee_amount,
                                                                 grade_id: grade_id,
                                                                 year_id: year_id,
-                                                                discount_amount:zero,
-                                                                dis_feetype_id:zero,
-                                                                section_id: newRequestBody.grade_section_id          
+                                                                discount_amount: zero,
+                                                                dis_feetype_id: zero,
+                                                                section_id: newRequestBody.grade_section_id,
                                                             };
                                                             dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
                                                                 if (res) {
@@ -129,25 +127,25 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                             });
                                                         });
                                                     }
-                                                });
-                                            }
-                                        });
-                                        let finaldata = {
-                                            id: studentid,
-                                            ...newRequestBody,
-                                        };
-                                        result(null, { IsExsist: false, data: finaldata });
-                                    } else {
-                                        console.log("error inserting data NewAdmission");
-                                        result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
-                                    }
-                                });
-                            }
-                        });
-                    } else {
-                        result(null, err);
-                    }
-                });
+                                                }
+                                            );
+                                        }
+                                    });
+                                    let finaldata = {
+                                        id: studentid,
+                                        ...newRequestBody,
+                                    };
+                                    result(null, { IsExsist: false, data: finaldata });
+                                } else {
+                                    console.log("error inserting data NewAdmission");
+                                    result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    result(null, err);
+                }
             });
         }
     });
