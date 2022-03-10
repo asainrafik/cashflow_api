@@ -97,7 +97,7 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                             let grade_id = studentall_response.grade_id;
                                             let year_id = studentall_response.year_id;
                                             if (res) {
-                                                dbConn.query(`SELECT * FROM year_of_fees where year_of_fees.grade_id="${grade_id}" and and year_id="${year_id}";`, (err, res) => {
+                                                dbConn.query(`SELECT * FROM year_of_fees where year_of_fees.grade_id=${grade_id} and year_id=${year_id};`, (err, res) => {
                                                     if (res && res.length > 0) {
                                                         res.forEach((element) => {
                                                             let zero = "000";
