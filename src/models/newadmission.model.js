@@ -114,6 +114,7 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                                 student_id: student_id,
                                                                 fee_master_id: element.fee_master_id,
                                                                 refund: zero,
+                                                                cum_amt:zero,
                                                                 balance: element.fee_amount,
                                                                 grade_id: grade_id,
                                                                 year_id: year_id,
