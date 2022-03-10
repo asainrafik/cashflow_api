@@ -59,9 +59,10 @@ studentBalance.updateStudentWithRefundFeeModel = (studentDataArr, result) => {
                                     student_admission_id :Number(getData.student_admissions_id),
                                     record_created_at :new Date(),
                                     comments :getData.comments,
-                                    student_payment_info_id :Number(getData.student_payment_info_id)
+                                    student_payment_info_id :Number(getData.student_payment_info_id),
+                                    cum_amt:0
                                 };
-                                dbConn.query(`INSERT INTO student_payment_record SET student_id="${createdObj.student_id}", grade_id=${createdObj.grade_id}, section_id=${createdObj.section_id}, date_of_transcation="${createdObj.date_of_transcation}", actual_fees=${createdObj.actual_fees}, balance=${createdObj.balance}, amount_paid=${createdObj.amount_paid}, discount=${createdObj.discount}, refund=${createdObj.refund}, fee_master_id=${createdObj.fee_master_id}, year_id=${createdObj.year_id}, year_of_fees_id=${createdObj.year_of_fees_id}, discount_id=${createdObj.discount_id}, student_admission_id=${createdObj.student_admission_id}, record_created_at="${createdObj.record_created_at}", comments="${createdObj.comments}", student_payment_info_id=${createdObj.student_payment_info_id};`,(res,err)=>{
+                                dbConn.query(`INSERT INTO student_payment_record SET student_id="${createdObj.student_id}", grade_id=${createdObj.grade_id}, section_id=${createdObj.section_id}, date_of_transcation="${createdObj.date_of_transcation}", actual_fees=${createdObj.actual_fees}, balance=${createdObj.balance}, amount_paid=${createdObj.amount_paid}, discount=${createdObj.discount}, refund=${createdObj.refund}, fee_master_id=${createdObj.fee_master_id}, year_id=${createdObj.year_id}, year_of_fees_id=${createdObj.year_of_fees_id}, discount_id=${createdObj.discount_id}, student_admission_id=${createdObj.student_admission_id}, record_created_at="${createdObj.record_created_at}", comments="${createdObj.comments}", student_payment_info_id=${createdObj.student_payment_info_id},cum_amt=${createdObj.cum_amt};`,(res,err)=>{
                                     if(res){
                                         console.log(res)
                                     }else{
@@ -88,6 +89,7 @@ studentBalance.updateStudentWithRefundFeeModel = (studentDataArr, result) => {
 studentBalance.updateStudentWithBalanceFeeModel = (studentDataArr, result) => {
     if (studentDataArr && studentDataArr.length) {
         studentDataArr.forEach((studentData) => {
+            let cum_amt =studentData.amoundTyped;
             console.log(studentData, "to balance mopdel");
             dbConn.query(
                 `update student_payment_infos SET balance=${studentData.balance},comments="${studentData.comments}",payment_mode="${studentData.payment_mode}",payment_date="${studentData.payment_date}",amount_paid=${studentData.amount_paid},cum_amt=${studentData.cum_amt} WHERE student_id="${studentData.student_id}" and grade_id=${studentData.grade_id} and student_payment_info_id=${studentData.student_payment_info_id};
@@ -117,9 +119,10 @@ studentBalance.updateStudentWithBalanceFeeModel = (studentDataArr, result) => {
                                     student_admission_id :Number(getData.student_admissions_id),
                                     record_created_at :new Date(),
                                     comments :getData.comments,
-                                    student_payment_info_id :Number(getData.student_payment_info_id)
+                                    student_payment_info_id :Number(getData.student_payment_info_id),
+                                    cum_amt:cum_amt
                                 };
-                                dbConn.query(`INSERT INTO student_payment_record SET student_id="${createdObj.student_id}", grade_id=${createdObj.grade_id}, section_id=${createdObj.section_id}, date_of_transcation="${createdObj.date_of_transcation}", actual_fees=${createdObj.actual_fees}, balance=${createdObj.balance}, amount_paid=${createdObj.amount_paid}, discount=${createdObj.discount}, refund=${createdObj.refund}, fee_master_id=${createdObj.fee_master_id}, year_id=${createdObj.year_id}, year_of_fees_id=${createdObj.year_of_fees_id}, discount_id=${createdObj.discount_id}, student_admission_id=${createdObj.student_admission_id}, record_created_at="${createdObj.record_created_at}", comments="${createdObj.comments}", student_payment_info_id=${createdObj.student_payment_info_id};`,(res,err)=>{
+                                dbConn.query(`INSERT INTO student_payment_record SET student_id="${createdObj.student_id}", grade_id=${createdObj.grade_id}, section_id=${createdObj.section_id}, date_of_transcation="${createdObj.date_of_transcation}", actual_fees=${createdObj.actual_fees}, balance=${createdObj.balance}, amount_paid=${createdObj.amount_paid}, discount=${createdObj.discount}, refund=${createdObj.refund}, fee_master_id=${createdObj.fee_master_id}, year_id=${createdObj.year_id}, year_of_fees_id=${createdObj.year_of_fees_id}, discount_id=${createdObj.discount_id}, student_admission_id=${createdObj.student_admission_id}, record_created_at="${createdObj.record_created_at}", comments="${createdObj.comments}", student_payment_info_id=${createdObj.student_payment_info_id},cum_amt=${createdObj.cum_amt};`,(res,err)=>{
                                     if(res){
                                         console.log(res)
                                     }else{

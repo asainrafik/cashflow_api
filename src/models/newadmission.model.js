@@ -35,9 +35,7 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                 let stucode = lastrecordes.stu_code;
                 const [word, digits] = lastrecordes.student_id.match(/\D+|\d+/g);
                 let admisionid = Number(digits) + 1;
-
                 let studentcodeid = stucode + admisionid;
-
                let studentstatus = "Active";
                 let post = {
                     student_name: newRequestBody.student_name,
