@@ -42,6 +42,7 @@ studentBalance.updateStudentWithRefundFeeModel = (studentDataArr, result) => {
                                 let getData = res[0];
                                 let dateoftrans = new Date();
                                 let now = moment(dateoftrans).format('DD-MM-YYYY(hh:mm)');
+                                let zero =0;
                                 let createdObj = {
                                     student_id :getData.student_id,
                                     grade_id :Number(getData.grade_id),
@@ -50,8 +51,8 @@ studentBalance.updateStudentWithRefundFeeModel = (studentDataArr, result) => {
                                     actual_fees :Number(getData.actual_fees),
                                     balance :Number(getData.balance),
                                     amount_paid :Number(getData.amount_paid),
-                                    discount :Number(getData.discount_amount),
-                                    refund :Number(getData.refund),
+                                    discount :zero,
+                                    refund :Number(studentData.refundtyped),
                                     fee_master_id :Number(getData.fee_master_id),
                                     year_id :Number(getData.year_id),
                                     year_of_fees_id :Number(getData.year_of_fees_id),
@@ -102,6 +103,7 @@ studentBalance.updateStudentWithBalanceFeeModel = (studentDataArr, result) => {
                                 let getData = res[0];
                                 let dateoftrans = new Date();
                                 let now = moment(dateoftrans).format('DD-MM-YYYY(hh:mm)');
+                                let zero =0;
                                 let createdObj = {
                                     student_id :getData.student_id,
                                     grade_id :Number(getData.grade_id),
@@ -110,7 +112,7 @@ studentBalance.updateStudentWithBalanceFeeModel = (studentDataArr, result) => {
                                     actual_fees :Number(getData.actual_fees),
                                     balance :Number(getData.balance),
                                     amount_paid :Number(getData.amount_paid),
-                                    discount :Number(getData.discount_amount),
+                                    discount :zero,
                                     refund :Number(getData.refund),
                                     fee_master_id :Number(getData.fee_master_id),
                                     year_id :Number(getData.year_id),
