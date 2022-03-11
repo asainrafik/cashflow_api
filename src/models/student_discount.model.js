@@ -55,7 +55,7 @@ Discountoffee.updatediscountmodel = (id, discountreqdata, result) => {
                                     balance:response.balance,
                                     amount_paid:response.amount_paid,
                                     discount:discountreqdata.discount_amount,
-                                    refund:response.refund,
+                                    refund:zero,
                                     fee_master_id:response.fee_master_id,
                                     year_id:response.year_id,
                                     year_of_fees_id:response.year_of_fees_id,
