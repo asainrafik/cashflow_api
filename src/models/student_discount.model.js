@@ -44,6 +44,7 @@ Discountoffee.updatediscountmodel = (id, discountreqdata, result) => {
                                 let dateoftrans = new Date();
                                 let now = moment(dateoftrans).format('DD-MM-YYYY(hh:mm)');
                                 let comments = "Discount Changes";
+                                let zero = 0;
                                // console.log(now);
                                 let transactionhistory = {
                                     student_id:response.student_id,
@@ -62,10 +63,10 @@ Discountoffee.updatediscountmodel = (id, discountreqdata, result) => {
                                     student_admission_id:response.student_admissions_id,
                                     record_created_at:new Date(),
                                     comments:comments,
-                                    cum_amt:0,
+                                    cum_amt:zero,
                                     student_payment_info_id:response.student_payment_info_id
                                 };
-                                console.log(transactionhistory);
+                                console.log(transactionhistory,"+++");
                                 dbConn.query("INSERT into student_payment_record SET ?",transactionhistory,(err, res) =>{
                                     if(res){
                                         result(null, { message: "Updated Succesfully", data: "Updated Succesfully" });
