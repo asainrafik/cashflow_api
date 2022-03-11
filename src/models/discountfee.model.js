@@ -45,7 +45,7 @@ Discount.createDiscount = (DiscountReqData, result) => {
 };
 
 Discount.deleteDiscountfee = (DiscountReqData, result) => {
-    dbConn.query(`SELECT * FROM fees_discounts WHERE dis_feetype_id =${DiscountReqData.dis_feetype_id}`, (err, res) => {
+    dbConn.query(`SELECT * FROM student_payment_infos WHERE dis_feetype_id =${DiscountReqData.dis_feetype_id}`, (err, res) => {
         if (res) {
             if (res.length > 0) {
                 result(null, { isDeletable: false,data:res });

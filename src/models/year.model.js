@@ -2,6 +2,7 @@ var dbConn = require("../../config/db.config");
 
 var Year = function (year) {
     this.academic_year = year.academic_year;
+    this.year_id = year.year_id;
     this.created_at = new Date();
     this.updated_at = new Date();
 };

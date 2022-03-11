@@ -40,7 +40,6 @@ exports.createNewYear = (req, res) => {
 };
 
 exports.deleteAcademicYear = (req, res) => {
-    
     YearModel.deleteAcademicYear(req.body, (err, years) => {
         if (years) {
             res.status(200).send({
