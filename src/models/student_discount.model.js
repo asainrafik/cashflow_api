@@ -62,6 +62,7 @@ Discountoffee.updatediscountmodel = (id, discountreqdata, result) => {
                                     student_admission_id:response.student_admissions_id,
                                     record_created_at:new Date(),
                                     comments:comments,
+                                    cum_amt:0,
                                     student_payment_info_id:response.student_payment_info_id
                                 };
                                 console.log(transactionhistory);
