@@ -9,10 +9,8 @@ var Discount = function (Discount) {
 Discount.getAllDiscountModel = (result) => {
     dbConn.query("SELECT * FROM  discount_type_masters", (err, res) => {
         if (res) {
-            // var newArray = res.filter(function (el) {
-            //     return el.dis_feetype_id !=0
-            //   });
-            result(null, newArray);
+          
+            result(null, res);
         } else {
             result(null, err);
         }
