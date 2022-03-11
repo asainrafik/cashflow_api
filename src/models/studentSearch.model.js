@@ -139,6 +139,7 @@ studentSearch.getSearchBYYearStudentDetailsModel = (textsearch, result) => {
                                 let totalpaid = 0;
                                 let totalFees = 0;
                                 let totalcumamt = 0;
+                                let totaldiscountamount =0;
                                 newFilterYear.forEach((addBalance) => {
                                     // console.log(newFilterYear)
                                     if (addBalance.studentData) {
@@ -147,10 +148,11 @@ studentSearch.getSearchBYYearStudentDetailsModel = (textsearch, result) => {
                                         totalpaid = Number(addBalance.studentData.amount_paid) + totalpaid;
                                         totalFees = Number(addBalance.studentData.actual_fees) + totalFees;
                                         totalcumamt = Number(addBalance.studentData.cum_amt) + totalcumamt;
+                                        totaldiscountamount = Number(addBalance.studentData.discount_amount) + totaldiscountamount;
                                     }
                                 });
                                 console.log(balance);
-                                newFilterYear.push({ balance: balance },{totalRefund:totalRefund},{totalpaid:totalpaid},{totalFees:totalFees},{totalcumamt:totalcumamt});
+                                newFilterYear.push({ balance: balance },{totalRefund:totalRefund},{totalpaid:totalpaid},{totalFees:totalFees},{totalcumamt:totalcumamt},{totaldiscountamount:totaldiscountamount});
                                 idArr.push(newFilterYear);
                             }
                         });
