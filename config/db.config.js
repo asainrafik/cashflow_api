@@ -4,7 +4,7 @@ const dbConn = mysql.createConnection({
     host:5000,
     port:3306,
     user: "root",
-    password: "root",
+    password: "nith@1930M",
     database: "cashflow_api",
 });
 

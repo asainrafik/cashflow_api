@@ -66,9 +66,11 @@ YearOFFee.createYearOFFeeModel = (YearOFFeeReqData, result) => {
 														grade_id: element.grade_id,
 														year_id: element.year_id,
 														section_id: element.grade_section_id,
+														cum_amt:0
 													};
 													dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
 														if (res) {
+															console.log(res)
 															console.log("Insert successfully");
 														} else {
 															console.log(err);

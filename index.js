@@ -16,6 +16,7 @@ const gradeMaster = require('./src/routes/grademaster.route')
 const studentDiscount = require('./src/routes/student_discount.route')
 const studentAllPayBalance = require('./src/routes/studentPayAllBal.route')
 const studentyears = require('./src/routes/studentyear.route')
+const promotionRoutes = require('./src/routes/promotion.route')
 
 var cors = require("cors");
 const app = express();
@@ -68,6 +69,9 @@ app.use('/api/v1/studentdiscount',checkToken,studentDiscount)
 app.use('/api/v1/studentAllPayBalance',checkToken,studentAllPayBalance)
 
 app.use('/api/v1/studentyear',checkToken,studentyears)
+
+//Promotion
+app.use('/api/v1/promotion',promotionRoutes)
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
