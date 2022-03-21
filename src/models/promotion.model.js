@@ -50,7 +50,7 @@ PromotionModel.makePromotion = (newRequestBody, result) => {
             dbConn.query(`SELECT * FROM student_allocations where student_id="${newRequestBody.student_id}"`, (err, res) => {
                 if (res) {
                     let student_admissions_id = newRequestBody.student_admissions_id;
-                    let student_id = newRequestBody.section_id;
+                    let student_id = newRequestBody.student_id;
                     let grade_id = newRequestBody.grade_id;
                     let year_id = newRequestBody.year_id;
                     dbConn.query(`SELECT * FROM year_of_fees where grade_id=${grade_id} and year_id=${year_id};`, (err, res) => {
@@ -67,7 +67,7 @@ PromotionModel.makePromotion = (newRequestBody, result) => {
                                     created_at: new Date(),
                                     updated_at: new Date(),
                                     year_of_fees_id: element.year_of_fees_id,
-                                    student_id: student_id,
+                                    student_id: newRequestBody.student_id,
                                     fee_master_id: element.fee_master_id,
                                     refund: zero,
                                     cum_amt: zero,
