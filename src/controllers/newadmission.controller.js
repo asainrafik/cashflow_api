@@ -6,7 +6,6 @@ exports.postadmission = (req, res) => {
         student_name: "required",
         DOB: "required",
         gender: "required",
-        email: "required|email",
         grade_id: "required",
         previous_school_info: "required",
         father_name: "required",
