@@ -32,9 +32,9 @@ exports.createNewYearOFFee = (req, res) => {
         if (!matched) {
             res.status(422).send(v.errors);
         } else {
-            const yearOfFeeReqData = new YearOFFeeModel(req.body);
-            console.log(req.body);
-            YearOFFeeModel.createYearOFFeeModel(yearOfFeeReqData, (err, YearOFFee) => {
+              // const yearOfFeeReqData = new YearOFFeeModel(req.body);
+            // console.log(req.body,"ssss");
+            YearOFFeeModel.createYearOFFeeModel(req.body, (err, YearOFFee) => {
                 if (YearOFFee) {
                     res.status(200).send({
                         status: true,
