@@ -234,38 +234,91 @@ YearOFFee.deleteYearOFFeeModel = (YearOFFeeReqData, result) => {
 	//result(null,"data is up")
 };
 
-YearOFFee.updateYearOFFeeModel = (id, YearOFFeeReqData, result) => {
+
+    YearOFFee.updateYearOFFeeModel = (id, YearOFFeeReqData, result) => {
+        // console.log(YearOFFeeReqData,"+++");
+        // console.log(YearOFFeeReqData.term_fees,"--+---+--");
+        // console.log(id,"Aaa")
+        // console.log(id, YearOFFeeReqData, "+++++");
+        dbConn.query(`UPDATE year_of_fees set fee_amount = "${YearOFFeeReqData.fee_amount}" WHERE year_of_fees_id=${id};`, (err, res) => {
+            if (res) {
+                console.log(res,"ddss")
+                const termfees = YearOFFeeReqData.term_fees;
+                        termfees.forEach((updateterm) =>{
+                            dbConn.query(
+                                `UPDATE terms_year_of_fees set term_name = "${updateterm.term_name}",term_amount="${updateterm.term_amount}" WHERE year_of_fee_id=${id}`,
+                                (err, res) => {  
+                                    console.log(res,"looo")
+                                 }
+                                );
+                        })
+                // dbConn.query(`SELECT * FROM year_of_fees WHERE year_of_fees_id=${id};`, (err, res) => {
+                //     let fees_response = res[0];
+                //     let fee_amount = fees_response.fee_amount;
+                //     let fee_master_id = fees_response.fee_master_id;
+                //     //    console.log(fee_amount);
+                //     if (res) {
+                        
+                        
+                //                 // if (res) {
+                // 				// 	console.log(res,"ll")
+                //                 //     dbConn.query(`Select * from student_payment_infos WHERE year_of_fees_id=${id};`, (err, res) => {
+                //                 //         if (res && res.length > 0) {
+                //                 //             res.forEach((element) => {
+                //                 //                 let amoumt = Number(fee_amount) - Number(element.amount_paid);
+                //                 //                 console.log(Number(amoumt));
+                //                 //                 dbConn.query(
+                //                 //                     `UPDATE student_payment_infos set actual_fees ="${fee_amount}",balance="${amoumt}" where fee_master_id=${fee_master_id} and student_payment_info_id=${element.student_payment_info_id}`,
+                //                 //                     (err, res) => {}
+                //                 //                 );
+                //                 //             });
+                //                 //         }
+                //                 //     });
+                //                 // }
+                         
+                //     }
+                // });
+                // console.log("year_of_fees updated successfully");
+                // console.log(res);
+                result(null, { message: "Updated Succesfully", data: "Updated Succesfully" });
+            } else {
+                console.log("error updated data year_of_fees");
+                result(null, err);
+            }
+        });
+    };
+    
 	// console.log(id, YearOFFeeReqData, "+++++");
-	dbConn.query(`UPDATE year_of_fees set fee_amount = "${YearOFFeeReqData.fee_amount}" WHERE year_of_fees_id=${id};`, (err, res) => {
-		if (res) {
-			dbConn.query(`SELECT * FROM year_of_fees WHERE year_of_fees_id=${id};`, (err, res) => {
-               let fees_response = res[0];
-			   let fee_amount = fees_response.fee_amount;
-			   let fee_master_id = fees_response.fee_master_id;
-			//    console.log(fee_amount);
-			   if(res){
-				   dbConn.query(`Select * from student_payment_infos WHERE year_of_fees_id=${id};`,(err, res) =>{
-					if (res && res.length > 0) {
-						res.forEach((element) => {
-							let amoumt = Number(fee_amount)-Number(element.amount_paid);
-							console.log(Number(amoumt));
-							dbConn.query(`UPDATE student_payment_infos set actual_fees ="${fee_amount}",balance="${amoumt}" where fee_master_id=${fee_master_id} and student_payment_info_id=${element.student_payment_info_id}`, (err, res)=>{
+	// dbConn.query(`UPDATE year_of_fees set fee_amount = "${YearOFFeeReqData.fee_amount}" WHERE year_of_fees_id=${id};`, (err, res) => {
+	// 	if (res) {
+	// 		dbConn.query(`SELECT * FROM year_of_fees WHERE year_of_fees_id=${id};`, (err, res) => {
+    //            let fees_response = res[0];
+	// 		   let fee_amount = fees_response.fee_amount;
+	// 		   let fee_master_id = fees_response.fee_master_id;
+	// 		//    console.log(fee_amount);
+	// 		   if(res){
+	// 			   dbConn.query(`Select * from student_payment_infos WHERE year_of_fees_id=${id};`,(err, res) =>{
+	// 				if (res && res.length > 0) {
+	// 					res.forEach((element) => {
+	// 						let amoumt = Number(fee_amount)-Number(element.amount_paid);
+	// 						console.log(Number(amoumt));
+	// 						dbConn.query(`UPDATE student_payment_infos set actual_fees ="${fee_amount}",balance="${amoumt}" where fee_master_id=${fee_master_id} and student_payment_info_id=${element.student_payment_info_id}`, (err, res)=>{
 								
-							})
-						   });
-					 }
+	// 						})
+	// 					   });
+	// 				 }
 					   			 
-				   }) 
-			   }
-			});
-			// console.log("year_of_fees updated successfully");
-			// console.log(res);
-			result(null, { message: "Updated Succesfully", data: "Updated Succesfully" });
-		} else {
-			console.log("error updated data year_of_fees");
-			result(null, err);
-		}
-	});
-};
+	// 			   }) 
+	// 		   }
+	// 		});
+	// 		// console.log("year_of_fees updated successfully");
+	// 		// console.log(res);
+	// 		result(null, { message: "Updated Succesfully", data: "Updated Succesfully" });
+	// 	} else {
+	// 		console.log("error updated data year_of_fees");
+	// 		result(null, err);
+	// 	}
+	// });
+
 
 module.exports = YearOFFee;
