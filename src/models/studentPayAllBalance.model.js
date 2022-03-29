@@ -7,7 +7,7 @@ var studentBalanceAllBalance =  function (balance) {
 
 //Get Student Balance
 studentBalanceAllBalance.getStudentPaymentDetailsModel = (data,result) => {
-    dbConn.query(`SELECT * FROM student_payment_record where student_id="${data.student_id}" AND year_id=${data.year_id};`, (err, res) => {
+    dbConn.query(`SELECT * FROM student_payment_record where student_id="${data.student_id}" AND year_id=${data.year_id} ORDER BY date_of_transcation DESC;`, (err, res) => {
         if (res) {
             console.log("data fetched successfully");
             console.log(res);
