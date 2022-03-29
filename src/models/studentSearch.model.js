@@ -20,7 +20,7 @@ var studentSearch = function () {
 };
 
 // SELECT * FROM student_admissions WHERE CONCAT(student_admissions_id, student_name, DOB, gender, email, admission_date, academic_year, grade_id, section, previous_school_info, father_name, father_occupation, address, phone_number, alt_phone_number,student_id, status, admission_no) LIKE '%99651%';
-// SELECT * FROM student_admissions LEFT JOIN grade_section ON grade_section.grade_section_id = student_admissions.grade_id LEFT JOIN years ON years.year_id = grade_section.academic_year_id WHERE CONCAT(student_admissions.student_name,years.academic_year) LIKE "%2023%";
+// SELECT * FROM student_admissions LEFT JOIN grade_section ON grade_section.grade_section_id = student_admissions.grade_id LEFT JOIN years ON years.year_id = grade_section.year_id WHERE CONCAT(student_admissions.student_name,years.academic_year) LIKE "%2023%";
 studentSearch.getautoSearchModel = (textsearch, result) => {
     dbConn.query(
         `SELECT * FROM student_admissions LEFT JOIN grade_master ON grade_master.grade_master_id = student_admissions.grade_id 
@@ -41,7 +41,7 @@ LEFT JOIN years ON years.year_id = student_admissions.year_id WHERE CONCAT(stude
 
 // studentSearch.getParticularStudentDetailsModel = (textsearch, result) => {
 //     dbConn.query(
-//         `SELECT * FROM student_admissions LEFT JOIN student_allocations ON student_admissions.student_admissions_id = student_allocations.student_admissions_id  LEFT JOIN student_payment_infos ON student_allocations.student_admissions_id=student_payment_infos.student_admissions_id LEFT JOIN year_of_fees ON year_of_fees.year_of_fees_id = student_payment_infos.year_of_fees_id LEFT JOIN fee_masters ON fee_masters.fee_master_id = year_of_fees.fee_master_id LEFT JOIN grade_section ON grade_section.grade_section_id=year_of_fees.grade_id LEFT JOIN years ON years.year_id=grade_section.academic_year_id WHERE CONCAT(student_admissions.phone_number,student_admissions.alt_phone_number,student_admissions.student_name,student_admissions.student_id,student_admissions.admission_no,grade_section.grade,grade_section.section,years.academic_year) LIKE "%${textsearch.searchby}%" and years.academic_year="${textsearch.academic_year}";`,
+//         `SELECT * FROM student_admissions LEFT JOIN student_allocations ON student_admissions.student_admissions_id = student_allocations.student_admissions_id  LEFT JOIN student_payment_infos ON student_allocations.student_admissions_id=student_payment_infos.student_admissions_id LEFT JOIN year_of_fees ON year_of_fees.year_of_fees_id = student_payment_infos.year_of_fees_id LEFT JOIN fee_masters ON fee_masters.fee_master_id = year_of_fees.fee_master_id LEFT JOIN grade_section ON grade_section.grade_section_id=year_of_fees.grade_id LEFT JOIN years ON years.year_id=grade_section.year_id WHERE CONCAT(student_admissions.phone_number,student_admissions.alt_phone_number,student_admissions.student_name,student_admissions.student_id,student_admissions.admission_no,grade_section.grade,grade_section.section,years.academic_year) LIKE "%${textsearch.searchby}%" and years.academic_year="${textsearch.academic_year}";`,
 //         (err, res) => {
 //             if (res) {
 //                 console.log("year fetched successfully");
@@ -52,8 +52,8 @@ LEFT JOIN years ON years.year_id = student_admissions.year_id WHERE CONCAT(stude
 //                 let uniqueTempArr = [...new Set(academic_yearArr)];
 //                 //   console.log(uniqueTempArr);
 
-//                 const ids = res.map((o) => o.academic_year_id);
-//                 const filtered = res.filter(({ academic_year_id }, index) => !ids.includes(academic_year_id, index + 1));
+//                 const ids = res.map((o) => o.year_id);
+//                 const filtered = res.filter(({ year_id }, index) => !ids.includes(year_id, index + 1));
 
 //                 let identicaladmissionId = [];
 //                 uniqueTempArr.forEach((uniq) => {
@@ -105,7 +105,7 @@ LEFT JOIN years ON years.year_id = student_admissions.year_id WHERE CONCAT(stude
 //text year
 studentSearch.getSearchBYYearStudentDetailsModel = (textsearch, result) => {
     dbConn.query(
-        `SELECT * FROM student_admissions LEFT JOIN student_allocations ON student_admissions.student_admissions_id = student_allocations.student_admissions_id  LEFT JOIN student_payment_infos ON student_allocations.student_admissions_id=student_payment_infos.student_admissions_id LEFT JOIN year_of_fees ON year_of_fees.year_of_fees_id = student_payment_infos.year_of_fees_id LEFT JOIN fee_masters ON fee_masters.fee_master_id = year_of_fees.fee_master_id LEFT JOIN grade_master ON grade_master.grade_master_id=year_of_fees.grade_id LEFT JOIN years ON years.year_id=student_payment_infos.year_id LEFT JOIN grade_section ON grade_section.grade_section_id = student_allocations.grade_section_id WHERE CONCAT(student_admissions.student_name,student_admissions.student_id,student_admissions.admission_no,grade_section.section,years.academic_year,student_admissions.phone_number,student_admissions.alt_phone_number) LIKE "%${textsearch.searchby}%" and years.academic_year="${textsearch.academic_year}";`,
+        `SELECT * FROM student_admissions LEFT JOIN student_allocations ON student_admissions.student_admissions_id = student_allocations.student_admissions_id  LEFT JOIN student_payment_infos ON student_allocations.student_admissions_id=student_payment_infos.student_admissions_id and student_allocations.year_id = student_payment_infos.year_id LEFT JOIN year_of_fees ON year_of_fees.year_of_fees_id = student_payment_infos.year_of_fees_id LEFT JOIN fee_masters ON fee_masters.fee_master_id = year_of_fees.fee_master_id LEFT JOIN grade_master ON grade_master.grade_master_id=year_of_fees.grade_id LEFT JOIN years ON years.year_id=student_payment_infos.year_id LEFT JOIN grade_section ON grade_section.grade_section_id = student_allocations.grade_section_id WHERE CONCAT(student_admissions.student_name,student_admissions.student_id,student_admissions.admission_no,grade_section.section,years.academic_year,student_admissions.phone_number,student_admissions.alt_phone_number) LIKE "%${textsearch.searchby}%" and years.academic_year="${textsearch.academic_year}";`,
         (err, res) => {
             if (res) {
                 console.log("year fetched successfully");
@@ -116,8 +116,8 @@ studentSearch.getSearchBYYearStudentDetailsModel = (textsearch, result) => {
                 let uniqueTempArr = [...new Set(academic_yearArr)];
                 //   console.log(uniqueTempArr);
 
-                const ids = res.map((o) => o.academic_year_id);
-                const filtered = res.filter(({ academic_year_id }, index) => !ids.includes(academic_year_id, index + 1));
+                const ids = res.map((o) => o.year_id);
+                const filtered = res.filter(({ year_id }, index) => !ids.includes(year_id, index + 1));
 
                 let identicaladmissionId = [];
                 uniqueTempArr.forEach((uniq) => {
@@ -199,8 +199,8 @@ studentSearch.getSearchBYYearGradeStudentDetailsModel = (textsearch, result) => 
                 let uniqueTempArr = [...new Set(academic_yearArr)];
                 //   console.log(uniqueTempArr);
 
-                const ids = res.map((o) => o.academic_year_id);
-                const filtered = res.filter(({ academic_year_id }, index) => !ids.includes(academic_year_id, index + 1));
+                const ids = res.map((o) => o.year_id);
+                const filtered = res.filter(({ year_id }, index) => !ids.includes(year_id, index + 1));
 
                 let identicaladmissionId = [];
                 uniqueTempArr.forEach((uniq) => {
@@ -261,7 +261,7 @@ studentSearch.getSearchBYYearGradeStudentDetailsModel = (textsearch, result) => 
 //text year section
 studentSearch.getSearchBYYearSectionStudentDetailsModel = (textsearch, result) => {
     dbConn.query(
-        `SELECT * FROM student_admissions LEFT JOIN student_allocations ON student_admissions.student_admissions_id = student_allocations.student_admissions_id  LEFT JOIN student_payment_infos ON student_allocations.student_admissions_id=student_payment_infos.student_admissions_id LEFT JOIN year_of_fees ON year_of_fees.year_of_fees_id = student_payment_infos.year_of_fees_id LEFT JOIN fee_masters ON fee_masters.fee_master_id = year_of_fees.fee_master_id LEFT JOIN grade_master ON grade_master.grade_master_id=year_of_fees.grade_id LEFT JOIN years ON years.year_id=student_payment_infos.year_id LEFT JOIN grade_section ON grade_section.grade_section_id = student_allocations.grade_section_id WHERE CONCAT(student_admissions.student_name,student_admissions.student_id,student_admissions.admission_no,grade_section.section,years.academic_year,student_admissions.phone_number,student_admissions.alt_phone_number) LIKE "%${textsearch.searchby}%" and years.academic_year="${textsearch.academic_year}" and grade_section.section="${textsearch.section}";`,
+        `SELECT * FROM student_admissions LEFT JOIN student_allocations ON student_admissions.student_admissions_id = student_allocations.student_admissions_id  LEFT JOIN student_payment_infos ON student_allocations.student_admissions_id=student_payment_infos.student_admissions_id and student_allocations.year_id = student_payment_infos.year_id LEFT JOIN year_of_fees ON year_of_fees.year_of_fees_id = student_payment_infos.year_of_fees_id LEFT JOIN fee_masters ON fee_masters.fee_master_id = year_of_fees.fee_master_id LEFT JOIN grade_master ON grade_master.grade_master_id=year_of_fees.grade_id LEFT JOIN years ON years.year_id=student_payment_infos.year_id LEFT JOIN grade_section ON grade_section.grade_section_id = student_allocations.grade_section_id WHERE CONCAT(student_admissions.student_name,student_admissions.student_id,student_admissions.admission_no,grade_section.section,years.academic_year,student_admissions.phone_number,student_admissions.alt_phone_number) LIKE "%${textsearch.searchby}%" and years.academic_year="${textsearch.academic_year}" and grade_section.section="${textsearch.section}";`,
         (err, res) => {
             if (res) {
                 console.log("year fetched successfully");
@@ -272,8 +272,8 @@ studentSearch.getSearchBYYearSectionStudentDetailsModel = (textsearch, result) =
                 let uniqueTempArr = [...new Set(academic_yearArr)];
                 //   console.log(uniqueTempArr);
 
-                const ids = res.map((o) => o.academic_year_id);
-                const filtered = res.filter(({ academic_year_id }, index) => !ids.includes(academic_year_id, index + 1));
+                const ids = res.map((o) => o.year_id);
+                const filtered = res.filter(({ year_id }, index) => !ids.includes(year_id, index + 1));
 
                 let identicaladmissionId = [];
                 uniqueTempArr.forEach((uniq) => {
@@ -345,8 +345,8 @@ studentSearch.getSearchBYYearGradeSectionStudentDetailsModel = (textsearch, resu
                 let uniqueTempArr = [...new Set(academic_yearArr)];
                 //   console.log(uniqueTempArr);
 
-                const ids = res.map((o) => o.academic_year_id);
-                const filtered = res.filter(({ academic_year_id }, index) => !ids.includes(academic_year_id, index + 1));
+                const ids = res.map((o) => o.year_id);
+                const filtered = res.filter(({ year_id }, index) => !ids.includes(year_id, index + 1));
 
                 let identicaladmissionId = [];
                 uniqueTempArr.forEach((uniq) => {
@@ -418,8 +418,8 @@ studentSearch.getYearGradeSectionStudentDetailsModel = (textsearch, result) => {
                 let uniqueTempArr = [...new Set(academic_yearArr)];
                 //   console.log(uniqueTempArr);
 
-                const ids = res.map((o) => o.academic_year_id);
-                const filtered = res.filter(({ academic_year_id }, index) => !ids.includes(academic_year_id, index + 1));
+                const ids = res.map((o) => o.year_id);
+                const filtered = res.filter(({ year_id }, index) => !ids.includes(year_id, index + 1));
 
                 let identicaladmissionId = [];
                 uniqueTempArr.forEach((uniq) => {
@@ -491,8 +491,8 @@ studentSearch.getYearGradeStudentDetailsModel = (textsearch, result) => {
                 let uniqueTempArr = [...new Set(academic_yearArr)];
                 //   console.log(uniqueTempArr);
 
-                const ids = res.map((o) => o.academic_year_id);
-                const filtered = res.filter(({ academic_year_id }, index) => !ids.includes(academic_year_id, index + 1));
+                const ids = res.map((o) => o.year_id);
+                const filtered = res.filter(({ year_id }, index) => !ids.includes(year_id, index + 1));
 
                 let identicaladmissionId = [];
                 uniqueTempArr.forEach((uniq) => {
@@ -564,8 +564,8 @@ studentSearch.getYearSectionStudentDetailsModel = (textsearch, result) => {
                 let uniqueTempArr = [...new Set(academic_yearArr)];
                 //   console.log(uniqueTempArr);
 
-                const ids = res.map((o) => o.academic_year_id);
-                const filtered = res.filter(({ academic_year_id }, index) => !ids.includes(academic_year_id, index + 1));
+                const ids = res.map((o) => o.year_id);
+                const filtered = res.filter(({ year_id }, index) => !ids.includes(year_id, index + 1));
 
                 let identicaladmissionId = [];
                 uniqueTempArr.forEach((uniq) => {
@@ -637,8 +637,8 @@ studentSearch.getYearStudentDetailsModel = (textsearch, result) => {
                 let uniqueTempArr = [...new Set(academic_yearArr)];
                 //   console.log(uniqueTempArr);
 
-                const ids = res.map((o) => o.academic_year_id);
-                const filtered = res.filter(({ academic_year_id }, index) => !ids.includes(academic_year_id, index + 1));
+                const ids = res.map((o) => o.year_id);
+                const filtered = res.filter(({ year_id }, index) => !ids.includes(year_id, index + 1));
 
                 let identicaladmissionId = [];
                 uniqueTempArr.forEach((uniq) => {
@@ -699,9 +699,10 @@ studentSearch.getYearStudentDetailsModel = (textsearch, result) => {
 //search for all balance
 studentSearch.getallBalanceStudentDetailsModel = (textsearch, result) => {
     dbConn.query(
-        `SELECT * FROM student_admissions LEFT JOIN student_allocations ON student_admissions.student_admissions_id = student_allocations.student_admissions_id  LEFT JOIN student_payment_infos ON student_allocations.student_admissions_id=student_payment_infos.student_admissions_id LEFT JOIN year_of_fees ON year_of_fees.year_of_fees_id = student_payment_infos.year_of_fees_id LEFT JOIN fee_masters ON fee_masters.fee_master_id = year_of_fees.fee_master_id LEFT JOIN grade_master ON grade_master.grade_master_id=year_of_fees.grade_id LEFT JOIN years ON years.year_id=student_payment_infos.year_id LEFT JOIN grade_section ON grade_section.grade_section_id = student_allocations.grade_section_id WHERE  student_admissions.student_id="${textsearch.allbalance}";`,
+        `SELECT * FROM student_admissions LEFT JOIN student_allocations ON student_admissions.student_admissions_id = student_allocations.student_admissions_id  LEFT JOIN student_payment_infos ON student_allocations.student_admissions_id=student_payment_infos.student_admissions_id and student_allocations.year_id = student_payment_infos.year_id LEFT JOIN year_of_fees ON year_of_fees.year_of_fees_id = student_payment_infos.year_of_fees_id LEFT JOIN fee_masters ON fee_masters.fee_master_id = year_of_fees.fee_master_id LEFT JOIN grade_master ON grade_master.grade_master_id=year_of_fees.grade_id LEFT JOIN years ON years.year_id=student_payment_infos.year_id LEFT JOIN grade_section ON grade_section.grade_section_id = student_allocations.grade_section_id WHERE  student_admissions.student_id="${textsearch.allbalance}";`,
         (err, res) => {
             if (res) {
+               // result(null,res)
                 console.log("year fetched successfully");
                 let academic_yearArr = [];
                 res.forEach((element) => {
@@ -709,8 +710,9 @@ studentSearch.getallBalanceStudentDetailsModel = (textsearch, result) => {
                 });
                 let uniqueTempArr = [...new Set(academic_yearArr)];
                 //   console.log(uniqueTempArr);
-                const ids = res.map((o) => o.academic_year_id);
-                const filtered = res.filter(({ academic_year_id }, index) => !ids.includes(academic_year_id, index + 1));
+                const ids = res.map((o) => o.year_id);
+                const filtered = res.filter(({ year_id }, index) => !ids.includes(year_id, index + 1));
+                console.log(filtered,"+++++")
                 let identicaladmissionId = [];
                 uniqueTempArr.forEach((uniq) => {
                     if (uniq != null) {
@@ -728,14 +730,15 @@ studentSearch.getallBalanceStudentDetailsModel = (textsearch, result) => {
                                 });
                                 let balance = 0;
                                 newFilterYear.forEach((addBalance) => {
-                                    // console.log(newFilterYear)
+                                  //  console.log(newFilterYear)
                                     if (addBalance.studentData) {
                                         balance = Number(addBalance.studentData.balance) + balance;
                                     }
                                 });
-                                console.log(balance);
+                                //console.log(balance);
                                 newFilterYear.push({ balance: balance });
                                 idArr.push(newFilterYear);
+                                //console.log(newFilterYear)
                             }
                         });
                         // res.forEach((resalldata) => {
@@ -751,7 +754,7 @@ studentSearch.getallBalanceStudentDetailsModel = (textsearch, result) => {
                         identicaladmissionId.push(idArr);
                     }
                 });
-                // console.log(res)
+          
                 // if(res){
                 //     res.filter(res => {
                 //         return(JSON.stringify(res).toLocaleLowerCase()).match(y.toLocaleLowerCase());
