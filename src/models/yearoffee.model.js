@@ -90,7 +90,7 @@ YearOFFee.createYearOFFeeModel = (YearOFFeeReqData, result) => {
                                             console.log(secondevalue[1]);
                                             console.log(induchuval[0]);
                                             console.log(induchuval[1]);
-                                            const termlength = termfees.length;
+                                            const termlength = YearOFFeeReqData.term_count;
                                             console.log(termlength, "lll");
                                             let month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                                             let academicyearEnd = secondevalue[1];
