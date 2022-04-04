@@ -17,6 +17,14 @@ const studentDiscount = require('./src/routes/student_discount.route')
 const studentAllPayBalance = require('./src/routes/studentPayAllBal.route')
 const studentyears = require('./src/routes/studentyear.route')
 const promotionRoutes = require('./src/routes/promotion.route')
+const hostalname = require('./src/routes/hostalname.router')
+const RoomNo = require('./src/routes/roomno.route')
+const uniformsize = require('./src/routes/uniformsize.route')
+const uniformitems = require('./src/routes/items.route')
+const uniformprice = require('./src/routes/uniformprice.route')
+const Places = require('./src/routes/places.route')
+const Transport = require('./src/routes/transport.route')
+const Stopping = require('./src/routes/stopping.route')
 
 var cors = require("cors");
 const app = express();
@@ -72,6 +80,22 @@ app.use('/api/v1/studentyear',checkToken,studentyears)
 
 //Promotion
 app.use('/api/v1/promotion',promotionRoutes)
+
+app.use('/api/v1/hostal_name',checkToken,hostalname)
+
+app.use('/api/v1/room_no',checkToken,RoomNo)
+
+app.use('/api/v1/uniform_size',checkToken,uniformsize)
+
+app.use('/api/v1/uniform_items',checkToken,uniformitems)
+
+app.use('/api/v1/uniform_price',checkToken,uniformprice)
+
+app.use('/api/v1/places',checkToken,Places)
+
+app.use('/api/v1/transport',checkToken,Transport)
+
+app.use('/api/v1/stopping',checkToken,Stopping)
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
