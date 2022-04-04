@@ -32,7 +32,7 @@ exports.createNewYearOFFee = (req, res) => {
         if (!matched) {
             res.status(422).send(v.errors);
         } else {
-              // const yearOfFeeReqData = new YearOFFeeModel(req.body);
+            // const yearOfFeeReqData = new YearOFFeeModel(req.body);
             // console.log(req.body,"ssss");
             YearOFFeeModel.createYearOFFeeModel(req.body, (err, YearOFFee) => {
                 if (YearOFFee) {
@@ -81,8 +81,13 @@ exports.UpdateYearOFFee = (req, res) => {
         if (yearOfFee) {
             res.status(200).send({
                 status: true,
-                message: "YearOFFee update \u{1F389} \u{1F389}",
-                data: yearOfFee.data,
+                message:
+                yearOfFee.IsExsist == "error"
+                    ? "Cannot Create Year of fee \u{1F6AB}"
+                    : yearOfFee.IsExsist
+                    ? `Year of Fee already Insert Data  \u{26D4} \u{26D4}`
+                    : `Year of Fee updated \u{1F973} \u{1F973}`,
+            data: yearOfFee,
             });
         } else {
             res.status(500).send(err);
