@@ -3,9 +3,9 @@ const mysql = require("mysql");
 const dbConn = mysql.createConnection({
     host:5000,
     port:3306,
-    user: "root",
+    user: "cashflow",
     password: "root",
-    database: "cashflow_newdata",
+    database: "cashflow_api",
 });
 
 dbConn.connect(function (error) {
