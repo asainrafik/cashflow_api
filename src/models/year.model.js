@@ -28,14 +28,36 @@ Year.createYear = (yearReqData, result) => {
             if (res.length > 0) {
                 result(null, { IsExsist: true });
             } else {
-                dbConn.query("INSERT into years SET ?", yearReqData, (err, res) => {
-                    if (err) {
-                        console.log("error inserting data year");
-                        result(null, err);
-                    } else {
-                        console.log("year inserted successfully");
-                        console.log(res);
-                        result(null, res);
+                dbConn.query(`select * from school`, (err, res) => {
+                    if (res) {
+                        res.map((academ) => {
+                            let monthstart = academ.months_start;
+                            let monthend = academ.months_end;
+                            let academicyear = yearReqData.academic_year;
+                            console.log(academicyear, "kkkkk");
+                            let month = yearReqData.academic_year;
+                            let mm = month.split("-");
+                            let mmm = mm.shift();
+                            console.log(mmm, "sss");
+                            let kkk = monthstart;
+                            let FormMonth = mmm+"-"+kkk;
+                            let kka = mm.pop();
+                            console.log(kka, "mmm");
+                            let mas = monthend;
+                            let Tomonth = kka+"-"+mas;
+                            let lllsd = FormMonth.concat(",", Tomonth);
+                            let academic = { academic_year: yearReqData.academic_year, academic_months: lllsd };
+                            dbConn.query("INSERT into years SET ?", academic, (err, res) => {
+                                if (err) {
+                                    console.log("error inserting data year");
+                                    result(null, err);
+                                } else {
+                                    console.log("year inserted successfully");
+                                    console.log(res);
+                                    result(null, res);
+                                }
+                            });
+                        });
                     }
                 });
             }
