@@ -32,7 +32,7 @@ HostalName.createhostalmodel =(hostalreq,result) =>{
                     } else {
                         console.log("Hostal inserted successfully");
                         console.log(res);
-                        result(null, res);
+                        result(null, {IsExsist: false,data:res});
                     }
                 });
             }
