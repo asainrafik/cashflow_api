@@ -26,9 +26,9 @@ Uniformprice.createprice = (priceReqData, result) => {
                 } else {
                     dbConn.query("INSERT into uniform_price SET ?", priceReqData, (err, res) => {
                         if (res) {
-                            result(null, res);
+                            result(null, { IsExsist: false, data: res });
                         } else {
-                            result(null, err);
+                            result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
                         }
                     });
                 }

@@ -25,7 +25,7 @@ exports.createuniform = (req, res) => {
                 if (uniform) {
                     res.status(200).send({
                         status: true,
-                        message: uniform.IsExsist ? `uniformsize already present \u{26D4} \u{26D4}` : `uniformsize inserted \u{1F973} \u{1F973}`,
+                        message: uniform.IsExsist == "error" ? "Cannot Create Size" :uniform.IsExsist ?  `uniformsize already present \u{26D4} \u{26D4}` : `uniformsize inserted \u{1F973} \u{1F973}`,
                         data: uniform,
                     });
                    

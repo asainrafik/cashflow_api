@@ -13,7 +13,7 @@ School.schoolcreatemodel = (schoolReqData, result) => {
     dbConn.query(`SELECT * FROM school WHERE school_name ="${schoolReqData.school_name}"`, (err, res) => {
         if (res) {
             if (res.length > 0) {
-                result(null, { IsExsist: true });
+                result(null, { IsExsist: true ,duplication: res});
             } else {
                   let schools = {
                     school_name:schoolReqData.school_name,
@@ -25,11 +25,11 @@ School.schoolcreatemodel = (schoolReqData, result) => {
                     dbConn.query("INSERT into school SET ?",schools, (err, res) => {
                         if (err) {
                             console.log("error inserting data school");
-                            result(null, err);
+                            result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
                         } else {
                             console.log("school inserted successfully");
                             console.log(res);
-                            result(null, res);
+                            result(null, { IsExsist: false, data: res });
                         }
                     });
             }

@@ -19,7 +19,7 @@ exports.schoolcreate = (req, res) => {
                 if (school) {
                     res.status(200).send({
                         status: true,
-                        message: school.IsExsist ? `School already present \u{26D4} \u{26D4}` : `school inserted \u{1F973} \u{1F973}`,
+                        message: school.IsExsist == "error" ? "Cannot create School":school.IsExsist ? `School already present \u{26D4} \u{26D4}` : `school inserted \u{1F973} \u{1F973}`,
                         data: school,
                     });
                    

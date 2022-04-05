@@ -25,7 +25,7 @@ exports.createplaces = (req, res) => {
                 if (Places) {
                     res.status(200).send({
                         status: true,
-                        message: Places.IsExsist ? `Places already present \u{26D4} \u{26D4}` : `Places inserted \u{1F973} \u{1F973}`,
+                        message: Places.IsExsist == "error"  ? "Cannot Create Places" :Places.IsExsist ? `Places already present \u{26D4} \u{26D4}` : `Places inserted \u{1F973} \u{1F973}`,
                         data: Places,
                     });
                    

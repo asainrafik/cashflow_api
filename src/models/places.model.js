@@ -2,7 +2,6 @@ var dbConn = require("../../config/db.config");
 
 var Places = function (places) {
     this.places = places.places;
-   
 };
 
 Places.getmodelplaces = (result) => {
@@ -15,31 +14,27 @@ Places.getmodelplaces = (result) => {
     });
 };
 
-Places.createplacesmodel = (placesReq,result) =>{
+Places.createplacesmodel = (placesReq, result) => {
     dbConn.query(`SELECT * FROM places WHERE places ="${placesReq.places}"`, (err, res) => {
         if (res) {
             if (res.length > 0) {
-                result(null, { IsExsist: true });
+                result(null, { IsExsist: true, duplication: res });
             } else {
                 dbConn.query("INSERT into places SET ?", placesReq, (err, res) => {
                     if (err) {
-              
-                        result(null, err);
+                        result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
                     } else {
-                      
-                        result(null, res);
+                        result(null, { IsExsist: false, data: res });
                     }
                 });
             }
         } else {
-          
             result(null, err);
         }
     });
-  
-}
+};
 
-Places.deleteplacemodel = (placesreq,result) =>{
+Places.deleteplacemodel = (placesreq, result) => {
     dbConn.query(`SELECT * FROM stopping WHERE places_id =${placesreq.places_id}`, (err, res) => {
         if (res) {
             if (res.length > 0) {
@@ -58,5 +53,5 @@ Places.deleteplacemodel = (placesreq,result) =>{
             result(null, err);
         }
     });
-}
+};
 module.exports = Places;

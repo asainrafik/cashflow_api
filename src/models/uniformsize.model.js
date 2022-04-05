@@ -27,11 +27,11 @@ Size.createuniform = (uniformReqData, result) =>{
                 dbConn.query("INSERT into size SET ?", uniformReqData, (err, res) => {
                     if (err) {
                         console.log("error inserting data size");
-                        result(null, err);
+                        result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
                     } else {
                         console.log("size inserted successfully");
                         console.log(res);
-                        result(null, res);
+                        result(null, { IsExsist: false, data: res });
                     }
                 });
             }
