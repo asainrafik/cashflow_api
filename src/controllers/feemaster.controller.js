@@ -56,3 +56,16 @@ exports.deletefeemaster = (req, res) => {
 
 };
 
+exports.updatefeemaster = (req, res) => {
+    FeeMasterModel.updatefeemastermodel(req.params.id, req.body, (err, updatefeemaster) => {
+        if (updatefeemaster) {
+            res.status(200).send({
+                status: true,
+                message: "Update Sucessfully",
+                data: updatefeemaster,
+            });
+        } else {
+            res.status(500).send(err);
+        }
+    });
+};
