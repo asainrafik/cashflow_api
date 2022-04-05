@@ -82,4 +82,14 @@ feemaster.deletefeemasterModel = (feemasterReqData, result) => {
     //result(null,"data is up")
 };
 
+feemaster.updatefeemastermodel = (id, updatefeemaster, result) => {
+    dbConn.query(`UPDATE fee_masters set fee_type_name = "${updatefeemaster.fee_type_name}" WHERE fee_master_id=${id};`, (err, res) => {
+        if(res){
+            result(null,res)
+        }else{
+            result(null, err)
+        }
+    });
+    }
+
 module.exports = feemaster;
