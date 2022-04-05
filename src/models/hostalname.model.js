@@ -23,7 +23,7 @@ HostalName.createhostalmodel =(hostalreq,result) =>{
             // console.log("Hostal fetched successfully");
             console.log(res);
             if (res.length > 0) {
-                result(null, { IsExsist: false });
+                result(null, { IsExsist: true });
             } else {
                 dbConn.query("INSERT into hostal_name SET ?", hostalreq, (err, res) => {
                     if (err) {
@@ -32,7 +32,7 @@ HostalName.createhostalmodel =(hostalreq,result) =>{
                     } else {
                         console.log("Hostal inserted successfully");
                         console.log(res);
-                        result(null, {IsExsist: true,data:res});
+                        result(null, {IsExsist: false,data:res});
                     }
                 });
             }
