@@ -25,8 +25,8 @@ exports.createhostal = (req, res) => {
                 if (hostal) {
                     res.status(200).send({
                         status: true,
-                        message: hostal.IsExsist ? `Hostal already present \u{26D4} \u{26D4}` : `Hostal inserted \u{1F973} \u{1F973}`,
-                        data:{ IsExsist:hostal.IsExsist},
+                        message: hostal.IsExsist == "error" ? "Cannot Create Hostalname" :hostal.IsExsist ? `Hostal already present \u{26D4} \u{26D4}` : `Hostal inserted \u{1F973} \u{1F973}`,
+                        data: hostal,
                     });
                    
                 } else {
