@@ -23,16 +23,16 @@ HostalName.createhostalmodel =(hostalreq,result) =>{
             // console.log("Hostal fetched successfully");
             console.log(res);
             if (res.length > 0) {
-                result(null, { IsExsist: true });
+                result(null, { IsExsist: true,duplication: res });
             } else {
                 dbConn.query("INSERT into hostal_name SET ?", hostalreq, (err, res) => {
                     if (err) {
                         console.log("error inserting data Hostal");
-                        result(null, err);
+                        result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
                     } else {
                         console.log("Hostal inserted successfully");
                         console.log(res);
-                        result(null, res);
+                        result(null, { IsExsist: false, data: res });
                     }
                 });
             }

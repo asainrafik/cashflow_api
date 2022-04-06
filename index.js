@@ -25,6 +25,8 @@ const uniformprice = require('./src/routes/uniformprice.route')
 const Places = require('./src/routes/places.route')
 const Transport = require('./src/routes/transport.route')
 const Stopping = require('./src/routes/stopping.route')
+const School = require('./src/routes/school.route')
+
 
 var cors = require("cors");
 const app = express();
@@ -96,6 +98,9 @@ app.use('/api/v1/places',checkToken,Places)
 app.use('/api/v1/transport',checkToken,Transport)
 
 app.use('/api/v1/stopping',checkToken,Stopping)
+
+app.use('/api/v1/school',checkToken,School)
+
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")

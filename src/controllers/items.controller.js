@@ -25,7 +25,7 @@ exports.createitem = (req, res) => {
                 if (items) {
                     res.status(200).send({
                         status: true,
-                        message: items.IsExsist ? `items already present \u{26D4} \u{26D4}` : `items inserted \u{1F973} \u{1F973}`,
+                        message: items.IsExsist == "error" ? "Cannot create School":items.IsExsist ? `items already present \u{26D4} \u{26D4}` : `items inserted \u{1F973} \u{1F973}`,
                         data: items,
                     });
                    

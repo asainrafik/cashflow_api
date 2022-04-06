@@ -2,7 +2,6 @@ var dbConn = require("../../config/db.config");
 
 var Items = function (year) {
     this.items = year.items;
-   
 };
 
 Items.getitemmodel = (result) => {
@@ -21,16 +20,14 @@ Items.getitemmodel = (result) => {
 Items.createitemmodel = (itemreq, result) => {
     dbConn.query(`SELECT * FROM items WHERE items ="${itemreq.items}"`, (err, res) => {
         if (res) {
-            
             if (res.length > 0) {
                 result(null, { IsExsist: true });
             } else {
                 dbConn.query("INSERT into items SET ?", itemreq, (err, res) => {
                     if (err) {
-                        result(null, err);
+                        result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
                     } else {
-                        result(null, res);
-                    }
+                        result(null, { IsExsist: false, data: res });                    }
                 });
             }
         } else {
@@ -42,7 +39,6 @@ Items.createitemmodel = (itemreq, result) => {
 Items.deleteitemmodel = (itemsReq, result) => {
     dbConn.query(`SELECT * FROM uniform_price WHERE items_id =${itemsReq.items_id}`, (err, res) => {
         if (res) {
-         
             if (res.length > 0) {
                 result(null, { isDeletable: false, data: res });
             } else {

@@ -26,7 +26,7 @@ exports.createroom = (req, res) => {
                 if (Room) {
                     res.status(200).send({
                         status: true,
-                        message: Room.IsExsist ? `Room already present \u{26D4} \u{26D4}` : `Room inserted \u{1F973} \u{1F973}`,
+                        message: Room.IsExsist == "error"  ? "Cannot Create Room":Room.IsExsist ? `Room already present \u{26D4} \u{26D4}` : `Room inserted \u{1F973} \u{1F973}`,
                         data: Room,
                     });
                    

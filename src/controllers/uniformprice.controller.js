@@ -28,7 +28,7 @@ exports.createprice = (req, res) => {
                 if (price) {
                     res.status(200).send({
                         status: true,
-                        message: price.IsExsist ? `UniformPrice already present \u{26D4} \u{26D4}` : `UniformPrice inserted \u{1F973} \u{1F973}`,
+                        message: price.IsExsist == "error" ? "Cannot Create Price" : price.IsExsist ? `UniformPrice already present \u{26D4} \u{26D4}` : `UniformPrice inserted \u{1F973} \u{1F973}`,
                         data: price,
                     });
                    

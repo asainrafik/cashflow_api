@@ -26,7 +26,7 @@ Roomno.createroommodel = (roomreq,result) =>{
             console.log("Room fetched successfully");
             console.log(res);
             if (res.length > 0) {
-                result(null, { IsExsist: true });
+                result(null, { IsExsist: true , duplication: res });
             } else {
                 let insertroom = {
                     hostel_name_id:roomreq.hostel_name_id,
@@ -37,11 +37,11 @@ Roomno.createroommodel = (roomreq,result) =>{
                 dbConn.query("INSERT into hostal_room SET ?", insertroom, (err, res) => {
                     if (err) {
                         console.log("error inserting data year");
-                        result(null, err);
+                        result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
                     } else {
                         console.log("Room inserted successfully");
                         console.log(res);
-                        result(null, res);
+                        result(null, { IsExsist: false, data: res });
                     }
                 });
             }
