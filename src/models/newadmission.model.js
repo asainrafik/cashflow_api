@@ -56,7 +56,7 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                 created_at: new Date(),
                 updated_at: new Date(),
             };
-            console.log(post);
+            // console.log(post);
             dbConn.query("INSERT into student_admissions SET ?", post, (err, res) => {
                 if (res) {
                     dbConn.query(`SELECT * FROM student_admissions where student_id="${studentcodeid}"`, (err, res) => {
@@ -92,40 +92,61 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                         let year_id = studentall_response.year_id;
                                         if (res) {
                                             dbConn.query(
-                                                `SELECT * FROM year_of_fees where year_of_fees.grade_id=${grade_id} and year_id=${year_id};`,
+                                                `select * from year_of_fees
+                                            left join terms_year_of_fees on
+                                                year_of_fees.year_of_fees_id = terms_year_of_fees.year_of_fee_id where year_of_fees.grade_id=${grade_id} and year_of_fees.year_id=${year_id} and year_of_fees.optional_fee=false;`,
                                                 (err, res) => {
+                                                    console.log(res, "sdds");
                                                     if (res && res.length > 0) {
-                                                        res.forEach((element) => {
-                                                            let zero = "000";
-                                                            let paymentinfo = {
-                                                                student_admissions_id: student_admissions_id,
-                                                                payment_date: null,
-                                                                actual_fees: element.fee_amount,
-                                                                amount_paid: zero,
-                                                                payment_mode: null,
-                                                                comments: null,
-                                                                created_at: new Date(),
-                                                                updated_at: new Date(),
-                                                                year_of_fees_id: element.year_of_fees_id,
-                                                                student_id: student_id,
-                                                                fee_master_id: element.fee_master_id,
-                                                                refund: zero,
-                                                                cum_amt: zero,
-                                                                balance: element.fee_amount,
-                                                                grade_id: grade_id,
-                                                                year_id: year_id,
-                                                                discount_amount: zero,
-                                                                dis_feetype_id: zero,
-                                                                section_id: newRequestBody.grade_section_id,
-                                                            };
-                                                            dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
-                                                                if (res) {
-                                                                    console.log("Insert successfully");
-                                                                } else {
-                                                                    console.log(err);
+                                                        // console.log(res);
+                                                        res.map((ele) => {
+                                                            console.log(ele.optional_fee, "Year Of Fees ID");
+                                                             function aa(){
+                                                                if(ele.term_amount == null){
+                                                                  return balance = ele.fee_amount
+                                                                }else{
+                                                                    return balance = ele.term_amount
                                                                 }
+                                                             }   
+                                                             let balanceterm = aa();
+                                                             console.log(balanceterm,"ssd");
+                                                                let paymentinfo = {
+                                                                    student_admissions_id:studentid,
+                                                                    payment_date: 0,
+                                                                    actual_fees: ele.fee_amount,
+                                                                    amount_paid: 0,
+                                                                    payment_mode: null,
+                                                                    comments: null,
+                                                                    created_at: new Date(),
+                                                                    updated_at: new Date(),
+                                                                    year_of_fees_id: ele.year_of_fees_id,
+                                                                    student_id: studentId,
+                                                                    fee_master_id: ele.fee_master_id,
+                                                                    refund: 0,
+                                                                    cum_amt: 0,
+                                                                    balance:balanceterm,
+                                                                    grade_id:newRequestBody.grade_id,
+                                                                    year_id: newRequestBody.year_id,
+                                                                    discount_amount: 0,
+                                                                    dis_feetype_id: 0,
+                                                                    section_id: newRequestBody.grade_section_id,
+                                                                    term_name: ele.term_name,
+                                                                    term_amount: ele.term_amount,
+                                                                    optional_fees:0,
+                                                                    terms_months: ele.terms_months,
+                                                                };
+                                                                console.log(paymentinfo, "fees");
+                                                                dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
+                                                                    if (res) {
+                                                                        console.log("Insert successfully");
+                                                                    } else {
+                                                                        console.log(err);
+                                                                    }
+                                                                });
                                                             });
-                                                        });
+                                                  
+                                                    } else {
+                                                        console.log("Please fill The Year of Fee");
                                                     }
                                                 }
                                             );
