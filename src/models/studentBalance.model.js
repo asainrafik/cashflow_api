@@ -32,7 +32,7 @@ studentBalance.updateStudentWithRefundFeeModel = (studentDataArr, result) => {
     if (studentDataArr && studentDataArr.length) {
         studentDataArr.forEach((studentData) => {
             dbConn.query(
-                `update student_payment_infos SET balance=${studentData.balance},refund=${studentData.refund},comments="${studentData.comments}",payment_mode="${studentData.payment_mode}",payment_date="${studentData.payment_date}",amount_paid=${studentData.amount_paid},cum_amt=${studentData.cum_amt} WHERE student_id="${studentData.student_id}" and grade_id=${studentData.grade_id} and student_payment_info_id=${studentData.student_payment_info_id};
+                `update student_payment_infos SET balance=${studentData.balance},refund=${studentData.refund},comments="${studentData.comments}",payment_mode="${studentData.payment_mode}",payment_date="${studentData.payment_date}",amount_paid=${studentData.amount_paid},cum_amt=${studentData.cum_amt} WHERE student_id="${studentData.student_id}" and student_payment_info_id=${studentData.student_payment_info_id};
             `,
                 (err, res) => {
                     if (res) {
@@ -93,7 +93,7 @@ studentBalance.updateStudentWithBalanceFeeModel = (studentDataArr, result) => {
             let cum_amt =studentData.amoundTyped;
             console.log(studentData, "to balance mopdel");
             dbConn.query(
-                `update student_payment_infos SET balance=${studentData.balance},comments="${studentData.comments}",payment_mode="${studentData.payment_mode}",payment_date="${studentData.payment_date}",amount_paid=${studentData.amount_paid},cum_amt=${studentData.cum_amt} WHERE student_id="${studentData.student_id}" and grade_id=${studentData.grade_id} and student_payment_info_id=${studentData.student_payment_info_id};
+                `update student_payment_infos SET balance=${studentData.balance},comments="${studentData.comments}",payment_mode="${studentData.payment_mode}",payment_date="${studentData.payment_date}",amount_paid=${studentData.amount_paid},cum_amt=${studentData.cum_amt} WHERE student_id="${studentData.student_id}" and student_payment_info_id=${studentData.student_payment_info_id};
             `,
                 (err, res) => {
                     if (res) {
