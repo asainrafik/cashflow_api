@@ -20,28 +20,42 @@ YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
 	on  year_of_fees.year_of_fees_id=terms_year_of_fees.year_of_fee_id where year_of_fees.grade_id=${grade_id} and year_of_fees.year_id=${yearoffeeReqData.year_id};`,
         (err, res) => {
             if (res) {
-                // console.log(res,"lppooo")
-                // 	const identicaladmissionId = []
-                // 	let tempar =[{yearoffee:res}]
-                // 	res.forEach((ele) =>{
-                // 		dbConn.query(`select * from terms_year_of_fees where year_of_fee_id =${ele.year_of_fees_id};`, (err, ress) => {
-                // 			if(ress){
-                // 				var newfilter = ress;
-                // 				var go = [];
-                // 				newfilter.forEach((element) =>{
-                // 					console.log(element,"sdsd")
-                // 				})
-                // 				go.push(newfilter);
-                // 				console.log(go)
-                // 			}else{
-                // 				console.log(err,"ssd")
-                // 			}
-                // 		})
-
-                //  })
-                //  console.log(tempar,"hhh")
-                result(null, res);
-            } else {
+                let yearfee = [];
+             let duplicate = [];
+             let term_fee = [];
+    
+            // console.log(unique)
+         res.map((e)=>{
+             if(e.term_name != null){
+                let term_name = e.term_name;
+                let term_amount = e.term_amount;
+                let tempObj = {}
+                tempObj.term_name = term_name
+                tempObj.term_amount = term_amount
+                term_fee.push(tempObj);
+                yearfee.push(e);
+             }else{
+               let year_of_fees_id = e.year_of_fees_id;
+               let fee_amount = e.fee_amount;
+               let fee_master_id = e.fee_master_id;  
+               let optional_fee =e.optional_fee;   
+               let term = {year_of_fees_id,fee_amount,fee_master_id,optional_fee,term_fee:[null]}
+                duplicate.push(term)
+             }
+         })
+       
+        if(yearfee.length>0){
+            let year_of_fees_id = yearfee[0].year_of_fees_id;
+            let fee_amount =yearfee[0].fee_amount;
+            let fee_master_id =yearfee[0].fee_master_id;
+            let optional_fee = yearfee[0].optional_fee;
+           let ss = {year_of_fees_id,fee_amount,fee_master_id,optional_fee,term_fee}
+           duplicate.push(ss)
+        }
+            
+         
+          result(null,duplicate)
+                    } else {
                 console.log("error fetching data year");
                 result(null, err);
             }
