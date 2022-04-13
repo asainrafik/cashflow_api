@@ -22,7 +22,7 @@ YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
             if (res) {
                 let yearfee = [];
              let duplicate = [];
-             let term_fee = [];
+             let term_fees = [];
     
             // console.log(unique)
          res.map((e)=>{
@@ -32,14 +32,14 @@ YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
                 let tempObj = {}
                 tempObj.term_name = term_name
                 tempObj.term_amount = term_amount
-                term_fee.push(tempObj);
+                term_fees.push(tempObj);
                 yearfee.push(e);
              }else{
                let year_of_fees_id = e.year_of_fees_id;
                let fee_amount = e.fee_amount;
                let fee_master_id = e.fee_master_id;  
                let optional_fee =e.optional_fee;   
-               let term = {year_of_fees_id,fee_amount,fee_master_id,optional_fee,term_fee:[null]}
+               let term = {year_of_fees_id,fee_amount,fee_master_id,optional_fee,term_fees:[null]}
                 duplicate.push(term)
              }
          })
@@ -49,7 +49,7 @@ YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
             let fee_amount =yearfee[0].fee_amount;
             let fee_master_id =yearfee[0].fee_master_id;
             let optional_fee = yearfee[0].optional_fee;
-           let ss = {year_of_fees_id,fee_amount,fee_master_id,optional_fee,term_fee}
+           let ss = {year_of_fees_id,fee_amount,fee_master_id,optional_fee,term_fees}
            duplicate.push(ss)
         }
             
