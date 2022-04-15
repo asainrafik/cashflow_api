@@ -26,6 +26,7 @@ const Places = require('./src/routes/places.route')
 const Transport = require('./src/routes/transport.route')
 const Stopping = require('./src/routes/stopping.route')
 const School = require('./src/routes/school.route')
+const Payment = require('./src/routes/paymentfee.route')
 
 
 var cors = require("cors");
@@ -100,6 +101,8 @@ app.use('/api/v1/transport',checkToken,Transport)
 app.use('/api/v1/stopping',checkToken,Stopping)
 
 app.use('/api/v1/school',checkToken,School)
+
+app.use('/api/v1/payment',checkToken,Payment)
 
 
 app.get('/',(req,res)=>{
