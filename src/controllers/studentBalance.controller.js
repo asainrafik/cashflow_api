@@ -3,8 +3,7 @@ const { Validator } = require("node-input-validator");
 
 exports.updateStudentBalance = (req, res) => {
     let tempArr = [];
-    console.log(req.body,"dd")
-
+    // console.log(req.body,"dd")
     req.body.data.forEach((element) => {
         if (element && element.Sendbalance == true) {
             tempArr.push(element);
@@ -12,11 +11,11 @@ exports.updateStudentBalance = (req, res) => {
             tempArr.push(element);
         }
     });
-    console.log(tempArr);
+    // console.log(tempArr);
     if (tempArr[0].Sendbalance && tempArr[0].Sendbalance == true) {
-        console.log(req.body.data,"Data")
+        // console.log(req.body.data,"Data")
         studentBalanceModel.updateStudentWithBalanceFeeModel(req.body.data, (err, data) => {
-            if (data) {
+            if (dataa) {
                 res.status(200).send({
                     status: true,
                     message: data,
@@ -36,11 +35,7 @@ exports.updateStudentBalance = (req, res) => {
                 res.status(500).send(err);
             }
         });
-    } 
-    else {
+    } else {
         res.status(500).send(req.body);
     }
-
-
 };
-
