@@ -15,7 +15,7 @@ exports.updateStudentBalance = (req, res) => {
     if (tempArr[0].Sendbalance && tempArr[0].Sendbalance == true) {
         // console.log(req.body.data,"Data")
         studentBalanceModel.updateStudentWithBalanceFeeModel(req.body.data, (err, data) => {
-            if (dataa) {
+            if (data) {
                 res.status(200).send({
                     status: true,
                     message: data,
