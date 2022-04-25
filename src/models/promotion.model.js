@@ -33,74 +33,98 @@ PromotionModel.getStudentPromotion = (promoReqData, result) => {
 };
 
 PromotionModel.makePromotion = (newRequestBody, result) => {
-    let allocations = {
-        student_admissions_id: newRequestBody.student_admissions_id,
-        student_id: newRequestBody.student_id,
-        student_type: "day scholar",
-        from_grade_id: newRequestBody.from_grade,
-        grade_section_id: newRequestBody.section_id,
-        grade_id: newRequestBody.grade_id,
-        year_id: newRequestBody.year_id,
-        created_at: new Date(),
-        updated_at: new Date(),
-    };
-    console.log("student_allocations", allocations);
-    dbConn.query("INSERT into student_allocations SET ?", allocations, (err, res) => {
-        if (res) {
-            dbConn.query(`SELECT * FROM student_allocations where student_id="${newRequestBody.student_id}"`, (err, res) => {
+    dbConn.query(`select * from student_payment_infos where grade_id=${newRequestBody.grade_id} and year_id=${newRequestBody.year_id} and student_id="${newRequestBody.student_id}" and student_admissions_id="${newRequestBody.student_admissions_id}";`, (err, res) => {
+        if (res.length > 0) {
+            result(null, { IsExsist: true, duplication: res });
+        } else {
+            console.log(newRequestBody);
+            let allocations = {
+                student_admissions_id: newRequestBody.student_admissions_id,
+                student_id: newRequestBody.student_id,
+                student_type: "day scholar",
+                from_grade_id: newRequestBody.from_grade,
+                grade_section_id: newRequestBody.section_id,
+                grade_id: newRequestBody.grade_id,
+                year_id: newRequestBody.year_id,
+                created_at: new Date(),
+                updated_at: new Date(),
+            };
+            console.log("student_allocations", allocations);
+            dbConn.query("INSERT into student_allocations SET ?", allocations, (err, res) => {
                 if (res) {
-                    let student_admissions_id = newRequestBody.student_admissions_id;
-                    let student_id = newRequestBody.student_id;
-                    let grade_id = newRequestBody.grade_id;
-                    let year_id = newRequestBody.year_id;
-                    dbConn.query(`SELECT * FROM year_of_fees where grade_id=${grade_id} and year_id=${year_id};`, (err, res) => {
-                        if (res && res.length > 0) {
-                            res.forEach((element) => {
-                                let zero = "000";
-                                let paymentinfo = {
-                                    student_admissions_id: newRequestBody.student_admissions_id,
-                                    payment_date: null,
-                                    actual_fees: element.fee_amount,
-                                    amount_paid: zero,
-                                    payment_mode: null,
-                                    comments: null,
-                                    created_at: new Date(),
-                                    updated_at: new Date(),
-                                    year_of_fees_id: element.year_of_fees_id,
-                                    student_id: newRequestBody.student_id,
-                                    fee_master_id: element.fee_master_id,
-                                    refund: zero,
-                                    cum_amt: zero,
-                                    balance: element.fee_amount,
-                                    grade_id: grade_id,
-                                    year_id: year_id,
-                                    discount_amount: zero,
-                                    dis_feetype_id: zero,
-                                    section_id: newRequestBody.section_id,
-                                };
-                                dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
-                                    if (res) {
-                                        console.log("Insert successfully");
+                    dbConn.query(`SELECT * FROM student_allocations where student_id="${newRequestBody.student_id}"`, (err, res) => {
+                        if (res) {
+                            let student_admissions_id = newRequestBody.student_admissions_id;
+                            let student_id = newRequestBody.student_id;
+                            let grade_id = newRequestBody.grade_id;
+                            let year_id = newRequestBody.year_id;
+                            dbConn.query(
+                                `select *
+                    FROM year_of_fees
+                    LEFT JOIN terms_year_of_fees on year_of_fees.year_of_fees_id=terms_year_of_fees.year_of_fee_id where year_of_fees.grade_id=${grade_id} and year_of_fees.year_id=${year_id} and optional_fee=false;`,
+                                (err, res) => {
+                                    if (res && res.length > 0) {
+                                        // console.log(res,"Response");
+                                        res.forEach((element) => {
+                                            function aa() {
+                                                if (element.term_amount == null) {
+                                                    return (balance = element.fee_amount);
+                                                } else {
+                                                    return (balance = element.term_amount);
+                                                }
+                                            }
+                                            let balanceterm = aa();
+                                            let zero = "000";
+                                            let paymentinfo = {
+                                                student_admissions_id: newRequestBody.student_admissions_id,
+                                                payment_date: 0,
+                                                actual_fees: element.fee_amount,
+                                                amount_paid: zero,
+                                                payment_mode: 0,
+                                                comments: 0,
+                                                created_at: new Date(),
+                                                updated_at: new Date(),
+                                                year_of_fees_id: element.year_of_fees_id,
+                                                student_id: newRequestBody.student_id,
+                                                fee_master_id: element.fee_master_id,
+                                                refund: zero,
+                                                cum_amt: zero,
+                                                balance: balanceterm,
+                                                grade_id: grade_id,
+                                                year_id: year_id,
+                                                discount_amount: zero,
+                                                dis_feetype_id: zero,
+                                                term_name: element.term_name,
+                                                term_amount: element.term_amount,
+                                                terms_months: element.terms_months,
+                                                optional_fees: element.optional_fees,
+                                                section_id: newRequestBody.section_id,
+                                            };
+                                            dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
+                                                if (res) {
+                                                    console.log("Insert successfully");
+                                                } else {
+                                                    console.log(err);
+                                                    return null, err;
+                                                }
+                                            });
+                                        });
                                     } else {
-                                        console.log(err);
-                                        return(null,err)
+                                        console.log("result", res, "error", err);
                                     }
-                                });
-                            });
-                        }else{
-                            console.log("result",res,"error",err)
+                                }
+                            );
                         }
                     });
-                }
+                    let finaldata = {
+                        id: newRequestBody.student_id,
+                        ...newRequestBody,
+                    };
+                    result(null, { IsExsist: false, data: finaldata });
+                } else {
+                    console.log("error inserting data NewAdmission");
+                    result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });                }
             });
-            let finaldata = {
-                id: newRequestBody.student_id,
-                ...newRequestBody,
-            };
-            result(null, { IsExsist: false, data: finaldata });
-        } else {
-            console.log("error inserting data NewAdmission");
-            result(null, err);
         }
     });
 };
