@@ -6,13 +6,14 @@ var Discountoffee = function (discountfee) {
     this.year_id = discountfee.year_id;
     this.discount_amount = discountfee.discount_amount;
     this.dis_feetype_id = discountfee.dis_feetype_id;
+    this.term_name=discountfee.term_name;
     this.created_at = new Date();
     this.updated_at = new Date();
 };
 
 Discountoffee.getAllStudentModel = (discountfeeReqData, result) => {
     dbConn.query(
-        `SELECT * FROM student_payment_infos where student_admissions_id="${discountfeeReqData.student_admissions_id}" and year_id ="${discountfeeReqData.year_id}";`,
+        `SELECT * FROM student_payment_infos where student_admissions_id="${discountfeeReqData.student_admissions_id}" and year_id ="${discountfeeReqData.year_id}" and term_name="${discountfeeReqData.term_name}";`,
         (err, res) => {
             console.log(res);
             if (res) {
