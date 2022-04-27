@@ -26,6 +26,7 @@ const Places = require('./src/routes/places.route')
 const Transport = require('./src/routes/transport.route')
 const Stopping = require('./src/routes/stopping.route')
 const School = require('./src/routes/school.route')
+const Optional = require('./src/routes/feeoptional.route')
 const Payment = require('./src/routes/paymentfee.route')
 
 
@@ -95,6 +96,8 @@ app.use('/api/v1/uniform_items',checkToken,uniformitems)
 app.use('/api/v1/uniform_price',checkToken,uniformprice)
 
 app.use('/api/v1/places',checkToken,Places)
+
+app.use('/api/v1/optional',checkToken,Optional)
 
 app.use('/api/v1/transport',checkToken,Transport)
 
