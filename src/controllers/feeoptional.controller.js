@@ -24,7 +24,7 @@ exports.createoptional = (req, res) => {
         } else {
             optionalModel.createoptionalModel(req.body, (err, option) => {
                 if (option) {
-                    res.status(404).send({
+                    res.status(201).send({
                         status: true,
                         message:option.IsExsist == "error"
                         ? "Cannot Create Optional"
