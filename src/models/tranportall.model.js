@@ -25,7 +25,7 @@ transportall.getfiltertransportmodel = (reqest, result) => {
     });
 };
 transportall.gettermsmodel = (reqest, result) => {
-    dbConn.query(`select * FROM cashflow_newdata.transport_fees where places_id=${reqest.places_id} and year_id=${reqest.year_id};`, (err, res) => {
+    dbConn.query(`select * FROM transport_fees where places_id=${reqest.places_id} and year_id=${reqest.year_id};`, (err, res) => {
         console.log(err);
         if (res) {
             let re = [];
