@@ -8,7 +8,7 @@ var Payment = function (payment) {
 
 Payment.getPaymentModel = (paymentReq, result) => {
     // console.log(paymentReq,"Payment")
-    dbConn.query(`SELECT * from student_payment_infos where student_id = "${paymentReq.student_id}" and year_id ="${paymentReq.year_id}" and term_name ="${paymentReq.term_name}";`,(err, res) =>{
+    dbConn.query(`SELECT * from student_payment_infos where student_id = "${paymentReq.student_id}" and year_id ="${paymentReq.year_id}" and (term_name ="${paymentReq.term_name}" or optional_fees=true);`,(err, res) =>{
         if(res){
             let temArr = [];
             let pusharr = [];
@@ -65,7 +65,10 @@ Payment.getPaymentModel = (paymentReq, result) => {
           //         result(null,temArr)
           //     }
           //  })
-        }
+        }else{
+            result(null, err);
+            console.log(err)
+          }
     })
    
 };
