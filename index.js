@@ -114,7 +114,6 @@ app.use('/api/v1/hostal_allocation',checkToken,hostal_allocation)
 app.use('/api/v1/transport_allocation',checkToken,transport_allocation)
 
 
-
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
 })
