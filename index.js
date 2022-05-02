@@ -28,6 +28,8 @@ const Stopping = require('./src/routes/stopping.route')
 const School = require('./src/routes/school.route')
 const Optional = require('./src/routes/feeoptional.route')
 const Payment = require('./src/routes/paymentfee.route')
+const hostal_allocation = require('./src/routes/hostal_allcation.route')
+const transport_allocation = require('./src/routes/tranportall.route') 
 
 
 var cors = require("cors");
@@ -106,6 +108,11 @@ app.use('/api/v1/stopping',checkToken,Stopping)
 app.use('/api/v1/school',checkToken,School)
 
 app.use('/api/v1/payment',checkToken,Payment)
+
+app.use('/api/v1/hostal_allocation',checkToken,hostal_allocation)
+
+app.use('/api/v1/transport_allocation',checkToken,transport_allocation)
+
 
 
 app.get('/',(req,res)=>{
