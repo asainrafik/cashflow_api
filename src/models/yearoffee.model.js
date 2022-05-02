@@ -145,7 +145,7 @@ YearOFFee.createYearOFFeeModel = (YearOFFeeReqData, result) => {
                                                             term_from_months: new Date(),
                                                             grade_id: year_fees_Data.grade_id,
                                                             year_id: year_fees_Data.year_id,
-                                                            optional_fee: year_fees_Data.optional_fee,
+                                                            optional_fees: year_fees_Data.optional_fee,
                                                             terms_months:JSON.stringify(eleee.termfess)
                                                         };
                                                         dbConn.query("INSERT into terms_year_of_fees SET ?", terms_ma, (err, res) => {
