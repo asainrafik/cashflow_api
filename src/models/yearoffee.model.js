@@ -17,7 +17,7 @@ YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
         `select *
 	FROM year_of_fees
 	LEFT JOIN terms_year_of_fees
-	on  year_of_fees.year_of_fees_id=terms_year_of_fees.year_of_fee_id where year_of_fees.grade_id=${grade_id} and year_of_fees.year_id=${yearoffeeReqData.year_id};`,
+	on  year_of_fees.year_of_fees_id=terms_year_of_fees.year_of_fee_id LEFT join fee_masters on year_of_fees.fee_master_id = fee_masters.fee_master_id where year_of_fees.grade_id=${grade_id} and year_of_fees.year_id=${yearoffeeReqData.year_id};`,
         (err, res) => {
             if (res) {
                 let yearfee = [];
