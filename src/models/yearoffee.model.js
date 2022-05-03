@@ -38,8 +38,9 @@ YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
                let year_of_fees_id = e.year_of_fees_id;
                let fee_amount = e.fee_amount;
                let fee_master_id = e.fee_master_id;  
+               let fee_type_name = e.fee_type_name;
                let optional_fee =e.optional_fee;   
-               let term = {year_of_fees_id,fee_amount,fee_master_id,optional_fee,term_fees:[null]}
+               let term = {year_of_fees_id,fee_amount,fee_master_id,fee_type_name,optional_fee,term_fees:[null]}
                 duplicate.push(term)
              }
          })
@@ -47,9 +48,10 @@ YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
         if(yearfee.length>0){
             let year_of_fees_id = yearfee[0].year_of_fees_id;
             let fee_amount =yearfee[0].fee_amount;
-            let fee_master_id =yearfee[0].fee_master_id;
+            let fee_master_id = yearfee[0].fee_master_id;
+            let fee_type_name = yearfee[0].fee_type_name;
             let optional_fee = yearfee[0].optional_fee;
-           let ss = {year_of_fees_id,fee_amount,fee_master_id,optional_fee,term_fees}
+           let ss = {year_of_fees_id,fee_amount,fee_master_id,fee_type_name,optional_fee,term_fees}
            duplicate.push(ss)
         }
             
