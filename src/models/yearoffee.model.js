@@ -17,47 +17,17 @@ YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
         `select *
 	FROM year_of_fees
 	LEFT JOIN terms_year_of_fees
-	on  year_of_fees.year_of_fees_id=terms_year_of_fees.year_of_fee_id LEFT join fee_masters on year_of_fees.fee_master_id = fee_masters.fee_master_id where year_of_fees.grade_id=${grade_id} and year_of_fees.year_id=${yearoffeeReqData.year_id};`,
+	on year_of_fees.year_of_fees_id=terms_year_of_fees.year_of_fee_id left join fee_masters on year_of_fees.fee_master_id = fee_masters.fee_master_id where year_of_fees.grade_id=${grade_id} and year_of_fees.year_id=${yearoffeeReqData.year_id};`,
         (err, res) => {
             if (res) {
-                let yearfee = [];
-             let duplicate = [];
-             let term_fees = [];
-    
-            // console.log(unique)
-         res.map((e)=>{
-             if(e.term_name != null){
-                let term_name = e.term_name;
-                let term_amount = e.term_amount;
-                let tempObj = {}
-                tempObj.term_name = term_name
-                tempObj.term_amount = term_amount
-                term_fees.push(tempObj);
-                yearfee.push(e);
-             }else{
-               let year_of_fees_id = e.year_of_fees_id;
-               let fee_amount = e.fee_amount;
-               let fee_master_id = e.fee_master_id;  
-               let fee_type_name = e.fee_type_name;
-               let optional_fee =e.optional_fee;   
-               let term = {year_of_fees_id,fee_amount,fee_master_id,fee_type_name,optional_fee,term_fees:[null]}
-                duplicate.push(term)
-             }
-         })
-       
-        if(yearfee.length>0){
-            let year_of_fees_id = yearfee[0].year_of_fees_id;
-            let fee_amount =yearfee[0].fee_amount;
-            let fee_master_id = yearfee[0].fee_master_id;
-            let fee_type_name = yearfee[0].fee_type_name;
-            let optional_fee = yearfee[0].optional_fee;
-           let ss = {year_of_fees_id,fee_amount,fee_master_id,fee_type_name,optional_fee,term_fees}
-           duplicate.push(ss)
-        }
-            
-         
-          result(null,duplicate)
-                    } else {
+                const unique = [...new Set(res.map((item) => item.fee_master_id))];
+                let terms_fees_data = []
+                unique.forEach((values) => {
+                    let filter = res.filter((d) => d.fee_master_id === values);
+                    terms_fees_data.push({fee_master_name:filter[0].fee_type_name,terms:filter})
+                });
+                result(null, terms_fees_data);
+            } else {
                 console.log("error fetching data year");
                 result(null, err);
             }
@@ -134,30 +104,30 @@ YearOFFee.createYearOFFeeModel = (YearOFFeeReqData, result) => {
                                                     tempArr.push(a);
                                                 }
                                             }
-                                            tempArr.map((el,index) =>{
-                                                termfees[index].termfess = el
-                                                })
-                                                console.log(termfees);
-                                                                                  
-                                                termfees.map((eleee) =>{
-                                                        let terms_ma = {
-                                                            year_of_fee_id: year_fees_Data.year_of_fees_id,
-                                                            term_name: eleee.term_name,
-                                                            term_amount: eleee.term_amount,
-                                                            term_from_months: new Date(),
-                                                            grade_id: year_fees_Data.grade_id,
-                                                            year_id: year_fees_Data.year_id,
-                                                            optional_fees: year_fees_Data.optional_fee,
-                                                            terms_months:JSON.stringify(eleee.termfess)
-                                                        };
-                                                        dbConn.query("INSERT into terms_year_of_fees SET ?", terms_ma, (err, res) => {
-                                                            if (res) {
-                                                                console.log(res, "terms_year_of_fees");
-                                                            } else {
-                                                                console.log(err);
-                                                            }
-                                                     });                                              
+                                            tempArr.map((el, index) => {
+                                                termfees[index].termfess = el;
+                                            });
+                                            console.log(termfees);
+
+                                            termfees.map((eleee) => {
+                                                let terms_ma = {
+                                                    year_of_fee_id: year_fees_Data.year_of_fees_id,
+                                                    term_name: eleee.term_name,
+                                                    term_amount: eleee.term_amount,
+                                                    term_from_months: new Date(),
+                                                    grade_id: year_fees_Data.grade_id,
+                                                    year_id: year_fees_Data.year_id,
+                                                    optional_fees: year_fees_Data.optional_fee,
+                                                    terms_months: JSON.stringify(eleee.termfess),
+                                                };
+                                                dbConn.query("INSERT into terms_year_of_fees SET ?", terms_ma, (err, res) => {
+                                                    if (res) {
+                                                        console.log(res, "terms_year_of_fees");
+                                                    } else {
+                                                        console.log(err);
+                                                    }
                                                 });
+                                            });
                                         }
 
                                         // dbConn.query(
@@ -244,30 +214,27 @@ YearOFFee.deleteYearOFFeeModel = (YearOFFeeReqData, result) => {
                             if (fees_discounts_data.length > 0) {
                                 result(null, { isDeletable: false, data: { res } });
                             } else {
-                                dbConn.query(`select * from terms_year_of_fees where year_of_fee_id = "${YearOFFeeReqData.year_of_fees_id}";`,(err, res) => {
-                                 let termsTofind = {year_of_fee_id:YearOFFeeReqData.year_of_fees_id}
-                                dbConn.query("DELETE FROM terms_year_of_fees WHERE ?",termsTofind)
+                                dbConn.query(`select * from terms_year_of_fees where year_of_fee_id = "${YearOFFeeReqData.year_of_fees_id}";`, (err, res) => {
+                                    let termsTofind = { year_of_fee_id: YearOFFeeReqData.year_of_fees_id };
+                                    dbConn.query("DELETE FROM terms_year_of_fees WHERE ?", termsTofind);
                                     let gradeToFind = { year_of_fees_id: YearOFFeeReqData.year_of_fees_id };
-                                dbConn.query("DELETE FROM year_of_fees WHERE ?", gradeToFind, (err, res) => {
-                                    if (res) {
-                                        console.log("year of fee deleted successfully");
-                                        console.log(res);
-                                        result(null, { isDeletable: true, record: "record Deleted" });
-                                        
-                                    } else {
-                                        console.log("error inserting data year");
-                                        result(null, err);
-                                    }
+                                    dbConn.query("DELETE FROM year_of_fees WHERE ?", gradeToFind, (err, res) => {
+                                        if (res) {
+                                            console.log("year of fee deleted successfully");
+                                            console.log(res);
+                                            result(null, { isDeletable: true, record: "record Deleted" });
+                                        } else {
+                                            console.log("error inserting data year");
+                                            result(null, err);
+                                        }
+                                    });
                                 });
-                                })
-                                
+
                                 // result(null, { isDeletable: true, data: { res } });
                             }
                         }
                     );
                 }
-
-               
             } else {
                 console.log("error fetching data year");
                 result(null, err);
@@ -278,43 +245,37 @@ YearOFFee.deleteYearOFFeeModel = (YearOFFeeReqData, result) => {
 };
 
 YearOFFee.updateYearOFFeeModel = (id, YearOFFeeReqData, result) => {
-
-    dbConn.query(`select * from student_payment_infos where year_of_fees_id = "${id}";`,(err, res) =>{
+    dbConn.query(`select * from student_payment_infos where year_of_fees_id = "${id}";`, (err, res) => {
         if (res.length > 0) {
             result(null, { IsExsist: true, duplication: res });
-        }else{
+        } else {
             dbConn.query(`UPDATE year_of_fees set fee_amount = "${YearOFFeeReqData.fee_amount}" WHERE year_of_fees_id=${id};`, (err, res) => {
                 if (res) {
-                    dbConn.query(`select * from terms_year_of_fees where year_of_fee_id = "${id}";`,(err, res) =>{
-                        if(res){
+                    dbConn.query(`select * from terms_year_of_fees where year_of_fee_id = "${id}";`, (err, res) => {
+                        if (res) {
                             const termfees = YearOFFeeReqData.term_fees;
 
-                              res.map((el,index) =>{
-                                termfees[index].termfess = el
-                                })
-                                termfees.forEach((updateterm) => {
-                                    console.log(updateterm,"aasas")
-                                    console.log(updateterm.termfess.terms_id,"sss")
-                                    dbConn.query(
-                                        `UPDATE terms_year_of_fees set term_name = "${updateterm.term_name}",term_amount="${updateterm.term_amount}" WHERE terms_id=${updateterm.termfess.terms_id}`,
-                                        (err, res) => {
-                                         
-                                        }
-                                    );
-                                });
-                                result(null, { IsExsist: false, data: "Updated Succesfully" });
-
+                            res.map((el, index) => {
+                                termfees[index].termfess = el;
+                            });
+                            termfees.forEach((updateterm) => {
+                                console.log(updateterm, "aasas");
+                                console.log(updateterm.termfess.terms_id, "sss");
+                                dbConn.query(
+                                    `UPDATE terms_year_of_fees set term_name = "${updateterm.term_name}",term_amount="${updateterm.term_amount}" WHERE terms_id=${updateterm.termfess.terms_id}`,
+                                    (err, res) => {}
+                                );
+                            });
+                            result(null, { IsExsist: false, data: "Updated Succesfully" });
                         }
                     });
-                   
                 } else {
                     console.log("error updated data year_of_fees");
                     result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
                 }
             });
         }
-    })
-    
+    });
 };
 
 module.exports = YearOFFee;
