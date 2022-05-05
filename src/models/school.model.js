@@ -6,6 +6,7 @@ var School = function (school) {
     this.branch = school.branch;
     this.term_count = school.term_count;
     this.one_time = school.one_time;
+    this.optionalterm_count = school.optionalterm_count;
 };
 School.getschoolmodel = (result) =>{
     dbConn.query(`select school_name,address,branch,term_count,one_time from school where one_time=false;`,(err, res) =>{
@@ -28,6 +29,7 @@ School.schoolcreatemodel = (schoolReqData, result) => {
                     months_end:schoolReqData.months_end,
                     term_count:schoolReqData.term_count,
                     one_time:schoolReqData.one_time,
+                    optionalterm_count:schoolReqData.optionalterm_count,
                   };
                     dbConn.query("INSERT into school SET ?",schools, (err, res) => {
                         if (err) {
