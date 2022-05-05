@@ -9,7 +9,7 @@ var School = function (school) {
     this.optional_term_count = school.optional_term_count;
 };
 School.getschoolmodel = (result) =>{
-    dbConn.query(`select school_name,address,branch,term_count,one_time from school where one_time=false;`,(err, res) =>{
+    dbConn.query(`select school_name,address,branch,term_count,one_time,optional_term_count from school where one_time=false;`,(err, res) =>{
         result(null,res);
     })
 }
