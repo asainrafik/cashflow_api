@@ -30,6 +30,7 @@ const Optional = require('./src/routes/feeoptional.route')
 const Payment = require('./src/routes/paymentfee.route')
 const hostal_allocation = require('./src/routes/hostal_allcation.route')
 const transport_allocation = require('./src/routes/tranportall.route') 
+const modeoftransport = require('./src/routes/modeoftransport.route')
 
 
 var cors = require("cors");
@@ -113,6 +114,7 @@ app.use('/api/v1/hostal_allocation',checkToken,hostal_allocation)
 
 app.use('/api/v1/transport_allocation',checkToken,transport_allocation)
 
+app.use('/api/v1/modeoftransport',checkToken,modeoftransport)
 
 app.get('/',(req,res)=>{
     res.status(200).send("api running \u{1F973}")
