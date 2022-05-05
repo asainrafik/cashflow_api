@@ -16,6 +16,9 @@ exports.createNewGradeSection = (req, res) => {
     const v = new Validator(req.body, {
         fee_type_name: "required",
         order_id: "required",
+        transport_fee: "required",
+        hostal_fee: "required",
+        optional_fee:"required",
     });
     v.check().then((matched) => {
         if (!matched) {
@@ -53,9 +56,7 @@ exports.deletefeemaster = (req, res) => {
             res.status(500).send(err);
         }
     });
-
 };
-
 exports.updatefeemaster = (req, res) => {
     FeeMasterModel.updatefeemastermodel(req.params.id, req.body, (err, updatefeemaster) => {
         if (updatefeemaster) {

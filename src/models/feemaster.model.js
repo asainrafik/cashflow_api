@@ -5,6 +5,9 @@ var feemaster = function (feeMaster) {
     this.order_id = feeMaster.order_id;
     this.created_at = new Date();
     this.updated_at = new Date();
+    this.transport_fee = feeMaster.transport_fee;
+    this.hostal_fee = feeMaster.hostal_fee;
+    this.optional_fee = feeMaster.optional_fee;
 };
 
 feemaster.getAllfeemasterModel = (result) => {
@@ -24,6 +27,11 @@ feemaster.createfeemasterModel = (feemasterReqData, result) => {
     let dataToSend = {
         fee_type_name: feemasterReqData.fee_type_name.toUpperCase(),
         order_id: feemasterReqData.order_id,
+        transport_fee: feemasterReqData.transport_fee,
+        hostal_fee: feemasterReqData.hostal_fee,
+        created_at: new Date(),
+        updated_at: new Date(),
+        optional_fee:feemasterReqData.optional_fee
     };
     dbConn.query(`select * from fee_masters where fee_type_name="${dataToSend.fee_type_name}";`, (err, res) => {
         if (res) {
@@ -84,11 +92,12 @@ feemaster.deletefeemasterModel = (feemasterReqData, result) => {
 
 feemaster.updatefeemastermodel = (id, updatefeemaster, result) => {
     dbConn.query(`UPDATE fee_masters set fee_type_name = "${updatefeemaster.fee_type_name}" WHERE fee_master_id=${id};`, (err, res) => {
-        if(res){
-            result(null,res)
-        }else{
-            result(null, err)
+        if (res) {
+            result(null, res);
+        } else {
+            result(null, err);
         }
     });
-    }
+};
+
 module.exports = feemaster;
