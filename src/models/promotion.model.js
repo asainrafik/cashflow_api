@@ -41,13 +41,15 @@ PromotionModel.makePromotion = (newRequestBody, result) => {
             let allocations = {
                 student_admissions_id: newRequestBody.student_admissions_id,
                 student_id: newRequestBody.student_id,
-                student_type: "day scholar",
                 from_grade_id: newRequestBody.from_grade,
                 grade_section_id: newRequestBody.section_id,
                 grade_id: newRequestBody.grade_id,
                 year_id: newRequestBody.year_id,
                 created_at: new Date(),
                 updated_at: new Date(),
+                mode_of_transport:"Self",
+                mode_of_transport_allocation:0,
+                mode_of_transport_touched:0
             };
             console.log("student_allocations", allocations);
             dbConn.query("INSERT into student_allocations SET ?", allocations, (err, res) => {
@@ -66,14 +68,14 @@ PromotionModel.makePromotion = (newRequestBody, result) => {
                                     if (res && res.length > 0) {
                                         // console.log(res,"Response");
                                         res.forEach((element) => {
-                                            function aa() {
-                                                if (element.term_amount == null) {
-                                                    return (balance = element.fee_amount);
-                                                } else {
-                                                    return (balance = element.term_amount);
-                                                }
-                                            }
-                                            let balanceterm = aa();
+                                            // function aa() {
+                                            //     if (element.term_amount == null) {
+                                            //         return (balance = element.fee_amount);
+                                            //     } else {
+                                            //         return (balance = element.term_amount);
+                                            //     }
+                                            // }
+                                            // let balanceterm = aa();
                                             let zero = "000";
                                             let paymentinfo = {
                                                 student_admissions_id: newRequestBody.student_admissions_id,
@@ -89,7 +91,7 @@ PromotionModel.makePromotion = (newRequestBody, result) => {
                                                 fee_master_id: element.fee_master_id,
                                                 refund: zero,
                                                 cum_amt: zero,
-                                                balance: balanceterm,
+                                                balance: element.term_amount,
                                                 grade_id: grade_id,
                                                 year_id: year_id,
                                                 discount_amount: zero,
@@ -99,6 +101,8 @@ PromotionModel.makePromotion = (newRequestBody, result) => {
                                                 terms_months: element.terms_months,
                                                 optional_fees: element.optional_fees,
                                                 section_id: newRequestBody.section_id,
+                                                terms_id:element.terms_id,
+                                                checked_status:true
                                             };
                                             dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
                                                 if (res) {

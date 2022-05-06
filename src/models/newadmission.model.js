@@ -73,11 +73,13 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                             let allocations = {
                                 student_admissions_id: studentaaa.student_admissions_id,
                                 student_id: studentId,
-                                student_type: "day scholar",
                                 from_grade_id: newRequestBody.from_grade,
                                 grade_section_id: newRequestBody.grade_section_id,
                                 grade_id: newRequestBody.grade_id,
                                 year_id: newRequestBody.year_id,
+                                mode_of_transport:"Self",
+                                mode_of_transport_allocation:0,
+                                mode_of_transport_touched:0,
                                 created_at: new Date(),
                                 updated_at: new Date(),
                             };
@@ -101,15 +103,15 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                         // console.log(res);
                                                         res.map((ele) => {
                                                             console.log(ele.optional_fee, "Year Of Fees ID");
-                                                             function aa(){
-                                                                if(ele.term_amount == null){
-                                                                  return balance = ele.fee_amount
-                                                                }else{
-                                                                    return balance = ele.term_amount
-                                                                }
-                                                             }   
-                                                             let balanceterm = aa();
-                                                             console.log(balanceterm,"ssd");
+                                                            //  function aa(){
+                                                            //     if(ele.term_amount == null){
+                                                            //       return balance = ele.fee_amount
+                                                            //     }else{
+                                                            //         return balance = ele.term_amount
+                                                            //     }
+                                                            //  }   
+                                                            //  let balanceterm = aa();
+                                                            //  console.log(balanceterm,"ssd");
                                                                 let paymentinfo = {
                                                                     student_admissions_id:studentid,
                                                                     payment_date: 0,
@@ -124,7 +126,7 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                                     fee_master_id: ele.fee_master_id,
                                                                     refund: 0,
                                                                     cum_amt: 0,
-                                                                    balance:balanceterm,
+                                                                    balance:ele.term_amount,
                                                                     grade_id:newRequestBody.grade_id,
                                                                     year_id: newRequestBody.year_id,
                                                                     discount_amount: 0,
@@ -134,6 +136,8 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                                                                     term_amount: ele.term_amount,
                                                                     optional_fees:0,
                                                                     terms_months: ele.terms_months,
+                                                                    terms_id:ele.terms_id,
+                                                                    checked_status:true
                                                                 };
                                                                 console.log(paymentinfo, "fees");
                                                                 dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
