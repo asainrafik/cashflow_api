@@ -18,6 +18,8 @@ exports.postmodeoftranport = (req, res) => {
             tempArr.push(req.body);
         } else if (req.body && req.body.Hostal == true) {
             tempArr.push(req.body);
+        } else if (req.body && req.body.Self == true) {
+            tempArr.push(req.body);
         }
 
     //   console.log(tempArr);
@@ -27,7 +29,12 @@ exports.postmodeoftranport = (req, res) => {
             if (data) {
                 res.status(200).send({
                     status: true,
-                    message: data,
+                    message:data.IsExsist == "error"
+                    ? "Cannot Create insert mode of transport \u{1F6AB}"
+                    : data.IsExsist
+                    ? `mode of transport already present \u{26D4} \u{26D4}`
+                    : `mode of transport inserted \u{1F973} \u{1F973}`,
+                    data: data,
                 });
             } else {
                 res.status(500).send(err);
@@ -38,13 +45,32 @@ exports.postmodeoftranport = (req, res) => {
             if (data) {
                 res.status(200).send({
                     status: true,
-                    message: data,
+                    message: data.IsExsist == "error"
+                    ? "Cannot Create insert mode of transport \u{1F6AB}"
+                    : data.IsExsist
+                    ? `mode of transport already present \u{26D4} \u{26D4}`
+                    : `mode of transport inserted \u{1F973} \u{1F973}`,
+                    data: data,
                 });
             } else {
                 res.status(500).send(err);
             }
         });
-    } else {
+    } else if (tempArr[0].Self && tempArr[0].Self == true) {
+        modeoftranportModel.insertSelfmodel(req.body,(err, data) => {
+            if(data){
+                res.status(200).send({
+                    status: true,
+                    message: data.IsExsist == "error"
+                    ? "Cannot Create insert mode of transport \u{1F6AB}"
+                    : data.IsExsist 
+                    ? `mode of transport already present \u{26D4} \u{26D4}`
+                    : `mode of transport inserted \u{1F973} \u{1F973}`,data: data,
+                })
+            }
+        })
+    }
+     else {
         res.status(500).send(req.body);
     }
 };
