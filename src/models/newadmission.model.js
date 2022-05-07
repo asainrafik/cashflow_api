@@ -30,6 +30,12 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
         if (res.length > 0) {
             result(null, { IsExsist: true, duplication: res });
         } else {
+            dbConn.query(
+                `select * from year_of_fees
+            left join terms_year_of_fees on
+                year_of_fees.year_of_fees_id = terms_year_of_fees.year_of_fee_id where year_of_fees.grade_id=${newRequestBody.grade_id} and year_of_fees.year_id=${newRequestBody.year_id} and year_of_fees.optional_fee=false;`,
+                (err, res) => {
+                    if (res.length > 0) {
             let stucode = "MVM";
             let studentcodeid = new Date().getFullYear() + newRequestBody.admission_no;
             let studentstatus = "Active";
@@ -172,8 +178,12 @@ NewAdmission.getNewAdmissionModel = (newRequestBody, result) => {
                     result(null, err);
                 }
             });
+        }else {
+            result(null, { IsExsist: "year", data: "Please fill The Year of Fee \u{26D4} \u{26D4}" });
         }
     });
+}
+});
 };
 
 module.exports = NewAdmission;

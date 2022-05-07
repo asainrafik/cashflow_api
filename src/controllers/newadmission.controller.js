@@ -29,6 +29,7 @@ exports.postadmission = (req, res) => {
                     res.status(201).send({
                         status: true,
                         message:
+                            newadmission.IsExsist == "year" ? "Please fill The Year of Fee":
                             newadmission.IsExsist == "error"
                                 ? "Cannot Create NewAdmission\u{1F6AB}"
                                 : newadmission.IsExsist
