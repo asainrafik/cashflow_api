@@ -13,15 +13,10 @@ exports.getoptional = (req, res) => {
 };
 
 exports.createoptional = (req, res) => {
-    const v = new Validator(req.body, {
-        student_admissions_id: "required",
-        student_id: "required",
-        fee_master_id: "required",
-    });
-    v.check().then((matched) => {
-        if (!matched) {
-            res.status(422).send(v.errors);
-        } else {
+    let matched = req.body.length > 0     
+    if (!matched) {
+        res.status(400).send({error: "please send valid data 🚫🚫"});
+    } else if(matched) {
             optionalModel.createoptionalModel(req.body, (err, option) => {
                 if (option) {
                     res.status(201).send({
@@ -39,7 +34,6 @@ exports.createoptional = (req, res) => {
                 }
             });
         }
-    });
 };
 
 // exports.deletefeemaster = (req, res) => {

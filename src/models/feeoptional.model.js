@@ -41,14 +41,14 @@ OptinalModel.createoptionalModel = (optionalReqData, result) => {
                                 if (res) {
                                     //console.log(res,"response");
                                     res.forEach((ele) => {
-                                        function aa() {
-                                            if (ele.term_amount == null) {
-                                                return (balance = ele.fee_amount);
-                                            } else {
-                                                return (balance = ele.term_amount);
-                                            }
-                                        }
-                                        let balanceterm = aa();
+                                        // function aa() {
+                                        //     if (ele.term_amount == null) {
+                                        //         return (balance = ele.fee_amount);
+                                        //     } else {
+                                        //         return (balance = ele.term_amount);
+                                        //     }
+                                        // }
+                                        // let balanceterm = aa();
                                         let optionalfee = {
                                             student_admissions_id: optional.student_admissions_id,
                                             payment_date: 0,
@@ -63,7 +63,7 @@ OptinalModel.createoptionalModel = (optionalReqData, result) => {
                                             fee_master_id: optional.fee_master_id,
                                             refund: 0,
                                             cum_amt: 0,
-                                            balance: balanceterm,
+                                            balance: ele.term_amount,
                                             grade_id: optional.grade_id,
                                             year_id: optional.year_id,
                                             discount_amount: 0,
@@ -74,7 +74,7 @@ OptinalModel.createoptionalModel = (optionalReqData, result) => {
                                             optional_fees: 1,
                                             terms_months: ele.terms_months,
                                         };
-                                        console.log(optionalfee, "feeoptional");
+                                        // console.log(optionalfee, "feeoptional");
                                         // console.log(optionalfee, "optional");
                                         dbConn.query("INSERT into student_payment_infos SET ?", optionalfee, (err, res) => {
                                             if (res) {
