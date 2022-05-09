@@ -12,6 +12,17 @@ modeoftranportModel.getFeemasterModel = (result) => {
         }
     });
 };
+
+modeoftranportModel.getHostalModel = (result) =>{
+    dbConn.query(`select fee_master_id,fee_type_name,order_id from fee_masters WHERE hostal_fee="true";`,(err, res) => {
+      if(res){
+          result(null, res);
+      } else {
+          result(null, err);
+      }
+    })
+   }
+   
 modeoftranportModel.insertransportModel = (transportDataArr, result) => {
     dbConn.query(
         `select * from student_payment_infos where student_admissions_id=${transportDataArr.student_admissions_id} and fee_master_id=${transportDataArr.fee_master_id} and year_id=${transportDataArr.year_id};`,

@@ -10,6 +10,15 @@ exports.getFeemaster = (req, res) =>{
         }
     })
 }
+exports.getHostalFeemaster = (req, res) =>{
+    modeoftranportModel.getHostalModel((err,gethostal) =>{
+        if(gethostal){
+            res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: gethostal });
+        } else {
+            res.status(400).send(err);
+        }
+    })
+}
 
 exports.postmodeoftranport = (req, res) => {
     let tempArr = [];
