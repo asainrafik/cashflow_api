@@ -73,6 +73,8 @@ OptinalModel.createoptionalModel = (optionalReqData, result) => {
                                             term_amount: ele.term_amount,
                                             optional_fees: 1,
                                             terms_months: ele.terms_months,
+                                            terms_id:ele.terms_id,
+                                            checked_status:true
                                         };
                                         // console.log(optionalfee, "feeoptional");
                                         // console.log(optionalfee, "optional");
