@@ -47,7 +47,7 @@ exports.makePromotion = (req, res) => {
                 if (resdata) {
                     res.status(200).send({
                         status: true,
-                        message: `promotion  details \u{1F973} \u{1F973}`,
+                        message: resdata.IsExsist == "error" ? "Cannot Create promotion \u{1F6AB}" : resdata.IsExsist ? `Promotion already present \u{26D4} \u{26D4}`: `promotion insert \u{1F973} \u{1F973}`,
                         data: resdata,
                     });
                 } else {
