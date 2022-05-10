@@ -62,8 +62,8 @@ PromotionModel.makePromotion = (newRequestBody, result) => {
                             let year_id = newRequestBody.year_id;
                             dbConn.query(
                                 `select *
-                    FROM year_of_fees
-                    LEFT JOIN terms_year_of_fees on year_of_fees.year_of_fees_id=terms_year_of_fees.year_of_fee_id where year_of_fees.grade_id=${grade_id} and year_of_fees.year_id=${year_id} and optional_fee=false;`,
+                                FROM year_of_fees
+                                LEFT JOIN terms_year_of_fees on year_of_fees.year_of_fees_id=terms_year_of_fees.year_of_fee_id where year_of_fees.grade_id=${grade_id} and year_of_fees.year_id=${year_id} and optional_fee=false;`,
                                 (err, res) => {
                                     if (res && res.length > 0) {
                                         // console.log(res,"Response");
@@ -101,7 +101,7 @@ PromotionModel.makePromotion = (newRequestBody, result) => {
                                                 terms_months: element.terms_months,
                                                 optional_fees: element.optional_fees,
                                                 section_id: newRequestBody.section_id,
-                                                terms_id:element.terms_id,
+                                                terms_id: element.terms_id,
                                                 checked_status:true
                                             };
                                             dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
