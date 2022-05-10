@@ -10,6 +10,7 @@ exports.getFeemaster = (req, res) =>{
         }
     })
 }
+
 exports.getHostalFeemaster = (req, res) =>{
     modeoftranportModel.getHostalModel((err,gethostal) =>{
         if(gethostal){

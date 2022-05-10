@@ -24,16 +24,16 @@ modeoftranportModel.getHostalModel = (result) => {
 };
 
 modeoftranportModel.insertransportModel = (transportDataArr, result) => {
+    dbConn.query(
+        `update student_allocations set mode_of_transport="Transport",mode_of_transport_allocation=${transportDataArr.transport},mode_of_transport_touched=true where student_admissions_id=${transportDataArr.student_admissions_id} and year_id=${transportDataArr.year_id};`,
+        (err, res) => {
+            if (res) {
                 dbConn.query(
-                    `update student_allocations set mode_of_transport="Transport",mode_of_transport_allocation=${transportDataArr.transport},mode_of_transport_touched=true where student_admissions_id=${transportDataArr.student_admissions_id} and year_id=${transportDataArr.year_id};`,
+                    `select * from student_payment_infos where student_admissions_id=${transportDataArr.student_admissions_id} and fee_master_id=${transportDataArr.fee_master_id} and year_id=${transportDataArr.year_id};`,
                     (err, res) => {
-                        if (res) {
-                            dbConn.query(
-                                `select * from student_payment_infos where student_admissions_id=${transportDataArr.student_admissions_id} and fee_master_id=${transportDataArr.fee_master_id} and year_id=${transportDataArr.year_id};`,
-                                (err, res) => {
-                                    if (res.length > 0) {
-                                        result(null, { IsExsist: true, duplication: res });
-                                    } else {
+                        if (res.length > 0) {
+                            result(null, { IsExsist: true, duplication: res });
+                        } else {
                             dbConn.query(
                                 `SELECT * FROM terms_year_of_fees  
                    LEFT JOIN year_of_fees ON 
@@ -89,12 +89,12 @@ modeoftranportModel.insertransportModel = (transportDataArr, result) => {
                         }
                     }
                 );
-                        } else {
-                            result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
-                        }
-                    }
-                );
-        
+            } else {
+                result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
+            }
+        }
+    );
+
     // dbConn.query(`select * from fee_masters where transport_fee = true;`, (err, res) => {
     //     if (res) {
     //         let transport_fees = res[0];
@@ -150,12 +150,15 @@ modeoftranportModel.inserthostelModel = (transportDataArr, result) => {
         `update student_allocations set mode_of_transport="Hostal",mode_of_transport_allocation=${transportDataArr.Hostal},mode_of_transport_touched=true where student_admissions_id=${transportDataArr.student_admissions_id} and year_id=${transportDataArr.year_id};`,
         (err, res) => {
             if (res) {
+                console.log(res);
                 dbConn.query(
                     `select * from student_payment_infos where student_admissions_id=${transportDataArr.student_admissions_id} and fee_master_id=${transportDataArr.fee_master_id} and year_id=${transportDataArr.year_id};`,
                     (err, res) => {
                         if (res.length > 0) {
+                            console.log(res, "aa");
                             result(null, { IsExsist: true, duplication: res });
                         } else {
+                            console.log(res, "response");
                             dbConn.query(
                                 `SELECT * FROM terms_year_of_fees  
                     LEFT JOIN year_of_fees  ON 
@@ -164,6 +167,7 @@ modeoftranportModel.inserthostelModel = (transportDataArr, result) => {
                     ON fee_masters.fee_master_id = year_of_fees.fee_master_id WHERE fee_masters.hostal_fee="true" and year_of_fees.year_id=${transportDataArr.year_id} and year_of_fees.grade_id=${transportDataArr.grade_id};`,
                                 (err, res) => {
                                     if (res) {
+                                        console.log(res, "value");
                                         let Inserted = "Insert successfully";
                                         res.map((ele) => {
                                             let paymentinfo = {
@@ -203,6 +207,8 @@ modeoftranportModel.inserthostelModel = (transportDataArr, result) => {
                                             });
                                         });
                                         result(null, { IsExsist: false, data: Inserted });
+                                    } else {
+                                        console.log("Please fill the Optional Fee");
                                     }
                                 }
                             );
