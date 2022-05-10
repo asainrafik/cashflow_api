@@ -37,6 +37,12 @@ PromotionModel.makePromotion = (newRequestBody, result) => {
         if (res.length > 0) {
             result(null, { IsExsist: true, duplication: res });
         } else {
+            dbConn.query(
+                `select * from year_of_fees
+            left join terms_year_of_fees on
+                year_of_fees.year_of_fees_id = terms_year_of_fees.year_of_fee_id where year_of_fees.grade_id=${newRequestBody.grade_id} and year_of_fees.year_id=${newRequestBody.year_id} and year_of_fees.optional_fee=false;`,
+                (err, res) => {
+                     if(res.length > 0) {
             console.log(newRequestBody);
             let allocations = {
                 student_admissions_id: newRequestBody.student_admissions_id,
@@ -129,7 +135,11 @@ PromotionModel.makePromotion = (newRequestBody, result) => {
                     console.log("error inserting data NewAdmission");
                     result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });                }
             });
+        } else {
+            result(null, { IsExsist: "year", data: "Please fill The Year of Fee \u{26D4} \u{26D4}" });
         }
+    })
+}
     });
 };
 

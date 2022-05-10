@@ -13,27 +13,27 @@ modeoftranportModel.getFeemasterModel = (result) => {
     });
 };
 
-modeoftranportModel.getHostalModel = (result) =>{
-    dbConn.query(`select fee_master_id,fee_type_name,order_id from fee_masters WHERE hostal_fee="true";`,(err, res) => {
-      if(res){
-          result(null, res);
-      } else {
-          result(null, err);
-      }
-    })
-   }
-   
+modeoftranportModel.getHostalModel = (result) => {
+    dbConn.query(`select fee_master_id,fee_type_name,order_id from fee_masters WHERE hostal_fee="true";`, (err, res) => {
+        if (res) {
+            result(null, res);
+        } else {
+            result(null, err);
+        }
+    });
+};
+
 modeoftranportModel.insertransportModel = (transportDataArr, result) => {
-    dbConn.query(
-        `select * from student_payment_infos where student_admissions_id=${transportDataArr.student_admissions_id} and fee_master_id=${transportDataArr.fee_master_id} and year_id=${transportDataArr.year_id};`,
-        (err, res) => {
-            if (res.length > 0) {
-                result(null, { IsExsist: true, duplication: res });
-            } else {
                 dbConn.query(
                     `update student_allocations set mode_of_transport="Transport",mode_of_transport_allocation=${transportDataArr.transport},mode_of_transport_touched=true where student_admissions_id=${transportDataArr.student_admissions_id} and year_id=${transportDataArr.year_id};`,
                     (err, res) => {
                         if (res) {
+                            dbConn.query(
+                                `select * from student_payment_infos where student_admissions_id=${transportDataArr.student_admissions_id} and fee_master_id=${transportDataArr.fee_master_id} and year_id=${transportDataArr.year_id};`,
+                                (err, res) => {
+                                    if (res.length > 0) {
+                                        result(null, { IsExsist: true, duplication: res });
+                                    } else {
                             dbConn.query(
                                 `SELECT * FROM terms_year_of_fees  
                    LEFT JOIN year_of_fees ON 
@@ -86,15 +86,15 @@ modeoftranportModel.insertransportModel = (transportDataArr, result) => {
                                     }
                                 }
                             );
+                        }
+                    }
+                );
                         } else {
                             result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
                         }
                     }
                 );
-            }
-        }
-    );
-
+        
     // dbConn.query(`select * from fee_masters where transport_fee = true;`, (err, res) => {
     //     if (res) {
     //         let transport_fees = res[0];
@@ -147,15 +147,15 @@ modeoftranportModel.insertransportModel = (transportDataArr, result) => {
 
 modeoftranportModel.inserthostelModel = (transportDataArr, result) => {
     dbConn.query(
-        `select * from student_payment_infos where student_admissions_id=${transportDataArr.student_admissions_id} and fee_master_id=${transportDataArr.fee_master_id} and year_id=${transportDataArr.year_id};`,
+        `update student_allocations set mode_of_transport="Hostal",mode_of_transport_allocation=${transportDataArr.Hostal},mode_of_transport_touched=true where student_admissions_id=${transportDataArr.student_admissions_id} and year_id=${transportDataArr.year_id};`,
         (err, res) => {
-            if (res.length > 0) {
-                result(null, { IsExsist: true, duplication: res });
-            } else {
+            if (res) {
                 dbConn.query(
-                    `update student_allocations set mode_of_transport="Hostal",mode_of_transport_allocation=${transportDataArr.Hostal},mode_of_transport_touched=true where student_admissions_id=${transportDataArr.student_admissions_id} and year_id=${transportDataArr.year_id};`,
+                    `select * from student_payment_infos where student_admissions_id=${transportDataArr.student_admissions_id} and fee_master_id=${transportDataArr.fee_master_id} and year_id=${transportDataArr.year_id};`,
                     (err, res) => {
-                        if (res) {
+                        if (res.length > 0) {
+                            result(null, { IsExsist: true, duplication: res });
+                        } else {
                             dbConn.query(
                                 `SELECT * FROM terms_year_of_fees  
                     LEFT JOIN year_of_fees  ON 
@@ -206,11 +206,11 @@ modeoftranportModel.inserthostelModel = (transportDataArr, result) => {
                                     }
                                 }
                             );
-                        } else {
-                            result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
                         }
                     }
                 );
+            } else {
+                result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
             }
         }
     );
@@ -272,21 +272,12 @@ modeoftranportModel.inserthostelModel = (transportDataArr, result) => {
 
 modeoftranportModel.insertSelfmodel = (transportDataArr, result) => {
     dbConn.query(
-        `select * from student_allocations where student_admissions_id=${transportDataArr.student_admissions_id} and year_id =${transportDataArr.year_id} and mode_of_transport="Self";`,
+        `update student_allocations set mode_of_transport="Self",mode_of_transport_allocation=${transportDataArr.Self},mode_of_transport_touched=${transportDataArr.mode_of_transport_touched} where student_admissions_id=${transportDataArr.student_admissions_id} and year_id=${transportDataArr.year_id};`,
         (err, res) => {
-            if (res.length > 0) {
-                result(null, { IsExsist: true, duplication: res })
+            if (res) {
+                result(null, { IsExsist: false, data: res });
             } else {
-                dbConn.query(
-                    `update student_allocations set mode_of_transport="Self",mode_of_transport_allocation=${transportDataArr.Self},mode_of_transport_touched=${transportDataArr.mode_of_transport_touched} where student_admissions_id=${transportDataArr.student_admissions_id} and year_id=${transportDataArr.year_id};`,
-                    (err, res) => {
-                        if (res) {
-                            result(null,{ IsExsist: false, data: res });
-                        } else {
-                            result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
-                        }
-                    }
-                );
+                result(null, { IsExsist: "error", data: "please check the entered data failed Insert \u{26D4} \u{26D4}" });
             }
         }
     );
