@@ -8,7 +8,7 @@ var Payment = function (payment) {
 
 Payment.getPaymentModel = (paymentReq, result) => {
     // console.log(paymentReq,"Payment")
-    dbConn.query(`SELECT * from student_payment_infos LEFT join fee_masters on student_payment_infos.fee_master_id=fee_masters.fee_master_id where student_id = "${paymentReq.student_id}" and year_id ="${paymentReq.year_id}" and (term_name ="${paymentReq.term_name}" or optional_fees=true);`,(err, res) =>{
+    dbConn.query(`SELECT * from student_payment_infos LEFT join fee_masters on student_payment_infos.fee_master_id=fee_masters.fee_master_id where student_id = "${paymentReq.student_id}" and year_id ="${paymentReq.year_id}" and term_name ="${paymentReq.term_name}"`,(err, res) =>{
         if(res){
             let temArr = [];
             let pusharr = [];
