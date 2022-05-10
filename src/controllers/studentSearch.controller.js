@@ -104,6 +104,7 @@ exports.studentSearchController = (req, res) => {
         req.body.grade.length > 0 &&
         req.body.section &&
         req.body.section.length > 0 ){
+            const textsearch = req.body;
             studentSearch.getYearGradeSectionStudentDetailsModelWithoutterm(textsearch, (err, resultData) => {
                 console.log("auto search");
                 if (resultData) {
