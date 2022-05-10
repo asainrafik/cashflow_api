@@ -161,6 +161,7 @@ exports.studentSearchController = (req, res) => {
             }
         });
     }
+    //year and terms
     else if (req.body.academic_year && req.body.academic_year.length > 0 && req.body.term &&
         req.body.term.length > 0 ){
             const textsearch = req.body;
