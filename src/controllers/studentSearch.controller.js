@@ -98,7 +98,21 @@ exports.studentSearchController = (req, res) => {
             }
         });
     }
-
+    else if (req.body.academic_year &&
+        req.body.academic_year.length > 0 &&
+        req.body.grade &&
+        req.body.grade.length > 0 &&
+        req.body.section &&
+        req.body.section.length > 0 ){
+            studentSearch.getYearGradeSectionStudentDetailsModelWithoutterm(textsearch, (err, resultData) => {
+                console.log("auto search");
+                if (resultData) {
+                    res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: resultData });
+                } else {
+                    res.status(400).send(err);
+                }
+            });
+        }
     //year grade section
     else if (
         req.body.academic_year &&
