@@ -38,8 +38,10 @@ exports.postmodeoftranport = (req, res) => {
         modeoftranportModel.insertransportModel(req.body, (err, data) => {
             if (data) {
                 res.status(200).send({
-                    status: true,
-                    message:data.IsExsist == "error"
+                    status: true, 
+                    message:
+                    data.IsExsist == "year" ? "Please Fill The Year of fee" :
+                    data.IsExsist == "error"
                     ? "Cannot Create insert mode of transport \u{1F6AB}"
                     : data.IsExsist
                     ? `mode of transport already present \u{26D4} \u{26D4}`
@@ -55,7 +57,9 @@ exports.postmodeoftranport = (req, res) => {
             if (data) {
                 res.status(200).send({
                     status: true,
-                    message: data.IsExsist == "error"
+                    
+                    message: data.IsExsist == "year" ? "Please Fill The Year of fee" :
+                     data.IsExsist == "error"
                     ? "Cannot Create insert mode of transport \u{1F6AB}"
                     : data.IsExsist
                     ? `mode of transport already present \u{26D4} \u{26D4}`
