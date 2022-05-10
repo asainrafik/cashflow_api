@@ -692,6 +692,7 @@ studentSearch.getYearSectionStudentDetailsModel = (textsearch, result) => {
         }
     );
 };
+//year and term
 studentSearch.getYearSearchtermDetailsModel = (textsearch, result) => {
     dbConn.query(
         `SELECT * FROM student_admissions LEFT JOIN student_allocations ON student_admissions.student_admissions_id = student_allocations.student_admissions_id  LEFT JOIN student_payment_infos ON student_allocations.student_admissions_id=student_payment_infos.student_admissions_id LEFT JOIN year_of_fees ON year_of_fees.year_of_fees_id = student_payment_infos.year_of_fees_id LEFT JOIN fee_masters ON fee_masters.fee_master_id = year_of_fees.fee_master_id LEFT JOIN grade_master ON grade_master.grade_master_id=year_of_fees.grade_id LEFT JOIN years ON years.year_id=student_payment_infos.year_id LEFT JOIN grade_section ON grade_section.grade_section_id = student_allocations.grade_section_id WHERE years.academic_year="${textsearch.academic_year}" and term_name="${textsearch.term}";`,
