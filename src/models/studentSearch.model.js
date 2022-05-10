@@ -709,8 +709,8 @@ studentSearch.getallBalanceStudentDetailsModel = (textsearch, result) => {
                 });
                 let uniqueTempArr = [...new Set(academic_yearArr)];
                 //   console.log(uniqueTempArr);
-                const ids = res.map((o) => o.academic_year_id);
-                const filtered = res.filter(({ academic_year_id }, index) => !ids.includes(academic_year_id, index + 1));
+                const ids = res.map((o) => o.year_id);
+                const filtered = res.filter(({ year_id }, index) => !ids.includes(year_id, index + 1));
                 let identicaladmissionId = [];
                 uniqueTempArr.forEach((uniq) => {
                     if (uniq != null) {
