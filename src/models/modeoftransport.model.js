@@ -40,7 +40,7 @@ modeoftranportModel.insertransportModel = (transportDataArr, result) => {
                                 `select * from student_payment_infos where student_admissions_id=${transportDataArr.student_admissions_id} and fee_master_id=${transportDataArr.fee_master_id} and year_id=${transportDataArr.year_id};`,
                                 (err, res) => {
                                     if (res.length > 0) {
-                                        result(null, { IsExsist: true, duplication: res });
+                                        result(null, { IsExsist: false, duplication: "Fees Already Add the Payment Page" });
                                     } else {
                                         dbConn.query(
                                             `SELECT * FROM terms_year_of_fees  
@@ -130,7 +130,7 @@ modeoftranportModel.inserthostelModel = (transportDataArr, result) => {
                                 (err, res) => {
                                     if (res.length > 0) {
                                         console.log(res, "aa");
-                                        result(null, { IsExsist: true, duplication: res });
+                                        result(null, { IsExsist: false, duplication: "Fees Already Add the Payment Page" });
                                     } else {
                                         dbConn.query(
                                             `SELECT * FROM terms_year_of_fees  
