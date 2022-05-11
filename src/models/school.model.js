@@ -11,6 +11,7 @@ var School = function (school) {
 School.getschoolmodel = (result) =>{
     dbConn.query(`select school_name,address,branch,term_count,one_time,optional_term_count from school where one_time=false;`,(err, res) =>{
         res.forEach((term)=>{
+            const temp = [];
             let term_count = parseInt(term.term_count);
             let optional_term_count = parseInt(term.optional_term_count);
             let school_name = term.school_name;
@@ -24,7 +25,6 @@ School.getschoolmodel = (result) =>{
             temp.push(final) 
        })
        console.log(temp);
-
         result(null,temp);
     })
 }
