@@ -10,7 +10,22 @@ var School = function (school) {
 };
 School.getschoolmodel = (result) =>{
     dbConn.query(`select school_name,address,branch,term_count,one_time,optional_term_count from school where one_time=false;`,(err, res) =>{
-        result(null,res);
+        res.forEach((term)=>{
+            let term_count = parseInt(term.term_count);
+            let optional_term_count = parseInt(term.optional_term_count);
+            let school_name = term.school_name;
+            let address = term.address;
+            let branch = term.branch;
+            let one_time = term.one_time;
+            let obj = {term_count,optional_term_count}
+            const vals = Object.values(obj);
+            const max_count = Math.max(...vals);
+            let final = {school_name,address,branch,one_time,term_count,optional_term_count,max_count}
+            temp.push(final) 
+       })
+       console.log(temp);
+
+        result(null,temp);
     })
 }
 
