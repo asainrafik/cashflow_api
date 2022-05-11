@@ -15,7 +15,8 @@ exports.getoptional = (req, res) => {
 exports.getoptionalsearch = (req, res) => {
     optionalModel.getoptionalsearchModel(req.body, (err, optionalsearch) => {
           if(optionalsearch){
-            res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: optionalsearch });
+            res.status(200).send({ status: true,
+                message:optionalsearch.Nodata ? "data fetched successfully \u{1F389} \u{1F389}" : "No Data Found", data: optionalsearch });
           }else{
             res.status(500).send({ status: false, message: err });
           }

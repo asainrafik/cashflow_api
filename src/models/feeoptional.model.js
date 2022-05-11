@@ -52,14 +52,14 @@ OptinalModel.getoptionalsearchModel = (optionalsearchReq, result) => {
                                 });
                             }
                             mergeArrayObjects(resStudents, resData);
-                            result(null, tempArr);
+                            result(null,{Nodata:true ,data:tempArr});
                         } else {
                             result(null, errorData);
                         }
                     }
                 );
             } else {
-                result(null, err);
+                result(null, {Nodata:false,message:"No data found"});
             }
         }
     );
