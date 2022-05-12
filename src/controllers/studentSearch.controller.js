@@ -98,22 +98,22 @@ exports.studentSearchController = (req, res) => {
             }
         });
     }
-    else if (req.body.academic_year &&
-        req.body.academic_year.length > 0 &&
-        req.body.grade &&
-        req.body.grade.length > 0 &&
-        req.body.section &&
-        req.body.section.length > 0 ){
-            const textsearch = req.body;
-            studentSearch.getYearGradeSectionStudentDetailsModelWithoutterm(textsearch, (err, resultData) => {
-                console.log("auto search");
-                if (resultData) {
-                    res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: resultData });
-                } else {
-                    res.status(400).send(err);
-                }
-            });
-        }
+    // else if (req.body.academic_year &&
+    //     req.body.academic_year.length > 0 &&
+    //     req.body.grade &&
+    //     req.body.grade.length > 0 &&
+    //     req.body.section &&
+    //     req.body.section.length > 0 ){
+    //         const textsearch = req.body;
+    //         studentSearch.getYearGradeSectionStudentDetailsModelWithoutterm(textsearch, (err, resultData) => {
+    //             console.log("auto search");
+    //             if (resultData) {
+    //                 res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: resultData });
+    //             } else {
+    //                 res.status(400).send(err);
+    //             }
+    //         });
+    //     }
     //year grade section
     else if (
         req.body.academic_year &&
@@ -162,17 +162,17 @@ exports.studentSearchController = (req, res) => {
         });
     }
     //year and terms
-    else if (req.body.academic_year && req.body.academic_year.length > 0 && req.body.term &&
-        req.body.term.length > 0 ){
-            const textsearch = req.body;
-         studentSearch.getYearSearchtermDetailsModel(textsearch, (err, resultData) => {
-            if (resultData) {
-                res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: resultData });
-            } else {
-                res.status(400).send(err);
-            }
-         })
-        }
+    // else if (req.body.academic_year && req.body.academic_year.length > 0 && req.body.term &&
+    //     req.body.term.length > 0 ){
+    //         const textsearch = req.body;
+    //      studentSearch.getYearSearchtermDetailsModel(textsearch, (err, resultData) => {
+    //         if (resultData) {
+    //             res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: resultData });
+    //         } else {
+    //             res.status(400).send(err);
+    //         }
+    //      })
+    //     }
     //year
     else if (req.body.academic_year && req.body.academic_year.length > 0) {
         const textsearch = req.body;
