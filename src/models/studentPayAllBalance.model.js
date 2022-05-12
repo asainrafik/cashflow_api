@@ -23,9 +23,13 @@ studentBalanceAllBalance.getStudentPaymentDetailsModel = (data,result) => {
 studentBalanceAllBalance.getStudentfourPaymentDetailsModel = (data,result) => {
     dbConn.query(`SELECT * FROM student_payment_record where student_id="${data.student_id}" AND year_id=${data.year_id} ORDER BY payment_transcation_id DESC LIMIT 4 `, (err, res) => {
         if (res) {
-            console.log("data fetched successfully");
-            console.log(res);
-            result(null, res);
+            let temp = []
+            res.map((ele) =>{
+                if(ele.cum_amt !== 0){
+                    temp.push(ele)
+                }
+            })
+            result(null, temp);
         } else {
             console.log("error fetching data year");
             result(null, err);
