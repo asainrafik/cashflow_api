@@ -44,7 +44,7 @@ Discountoffee.updatediscountmodel = (id, discountreqdata, result) => {
                                 // console.log(response);
                                 let dateoftrans = new Date();
                                 let now = moment(dateoftrans).format('DD-MM-YYYY(hh:mm)');
-                                let comments = "Discount Changes";
+                                let comments ="" ;
                                 let zero = 0;
                                // console.log(now);
                                 let transactionhistory = {
