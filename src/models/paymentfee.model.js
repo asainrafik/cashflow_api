@@ -25,7 +25,7 @@ Payment.getPaymentModel = (paymentReq, result) => {
                 balance = Number(ele.balance) + balance;
                 totalRefund = Number(ele.refund) + totalRefund;
                 totalpaid = Number(ele.amount_paid) + totalpaid;
-                totalFees = totalFees + Number(ele.actual_fees);
+                totalFees =Number(ele.actual_fees)+ totalFees;
                 totalcumamt = Number(ele.cum_amt) + totalcumamt;
                 totaldiscountamount = Number(ele.discount_amount) + totaldiscountamount;
                 console.log(temArr,"balance") 
