@@ -11,7 +11,7 @@ var OptinalModel = function (optional) {
 
 OptinalModel.getoptionalModel = (req, result) => {
     dbConn.query(
-        `select * from year_of_fees left join fee_masters on year_of_fees.fee_master_id = fee_masters.fee_master_id where year_of_fees.optional_fee=true and fee_masters.hostal_fee != "true" and fee_masters.transport_fee != "true" and year_id=${req.year_id} and grade_id =${req.grade_id};`,
+        `select * from year_of_fees left join fee_masters on year_of_fees.fee_master_id = fee_masters.fee_master_id where year_of_fees.optional_fee=true and fee_masters.optional_fee ="true" and fee_masters.hostal_fee = "false" and fee_masters.transport_fee = "false" and year_id=${req.year_id} and grade_id =${req.grade_id};`,
         (err, res) => {
             console.log(res);
             if (res) {
