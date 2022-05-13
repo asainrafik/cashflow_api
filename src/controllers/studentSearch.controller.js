@@ -186,7 +186,7 @@ exports.studentSearchController = (req, res) => {
         });
     }
 
-    //year section
+    //year && section
     else if (req.body.academic_year && req.body.academic_year.length > 0 && req.body.section && req.body.section.length > 0) {
         const textsearch = req.body;
         studentSearch.getYearSectionStudentDetailsModel(textsearch, (err, resultData) => {
