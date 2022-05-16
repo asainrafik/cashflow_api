@@ -23,6 +23,51 @@ OptinalModel.getoptionalModel = (req, result) => {
     );
 };
 
+OptinalModel.getoneModel = (optionalsearchReq, result) => {
+    dbConn.query(
+        `(select spi.student_admissions_id, spi.student_id, count(1) as term_count, true as status
+    from student_payment_infos spi where fee_master_id = ${optionalsearchReq.fee_master_id} and year_id = ${optionalsearchReq.year_id} and grade_id = ${optionalsearchReq.grade_id} and section_id = ${optionalsearchReq.section_id} and student_id="${optionalsearchReq.student_id}"
+    group by spi.student_admissions_id, spi.student_id)
+    union
+    (select sall.student_admissions_id, sall.student_id , 0 as term_count, false as status
+    from student_allocations sall where sall.year_id = ${optionalsearchReq.year_id} and sall.grade_id = ${optionalsearchReq.grade_id} and grade_section_id = ${optionalsearchReq.section_id} and student_id="${optionalsearchReq.student_id}"
+    and student_admissions_id not in (select student_admissions_id from student_payment_infos spi where fee_master_id = ${optionalsearchReq.fee_master_id} and year_id = ${optionalsearchReq.year_id} and grade_id = ${optionalsearchReq.grade_id} and section_id =${optionalsearchReq.section_id} and student_id="${optionalsearchReq.student_id}"
+    )
+    )`,
+        (err, resData) => {
+            if (resData && resData.length) {
+                dbConn.query(
+                    `SELECT student_admissions.student_name,student_admissions.year_id,student_admissions.student_admissions_id  FROM student_admissions 
+             LEFT JOIN student_allocations ON student_admissions.student_admissions_id = student_allocations.student_admissions_id
+             WHERE student_allocations.year_id=${optionalsearchReq.year_id} and student_allocations.grade_id=${optionalsearchReq.grade_id} and student_allocations.grade_section_id=${optionalsearchReq.section_id} and student_allocations.student_id="${optionalsearchReq.student_id}";`,
+                    (errorData, resStudents) => {
+                        if (resStudents && resStudents.length) {
+                            let tempArr = [];
+                            function mergeArrayObjects(arr1, arr2) {
+                                return arr1.map((item, i) => {
+                                    arr2.map((item2, i2) => {
+                                        if (item.student_admissions_id === arr2[i2].student_admissions_id) {
+                                            tempArr.push(Object.assign({}, item, arr2[i2]));
+                                        }
+                                    });
+                                });
+                            }
+                            mergeArrayObjects(resStudents, resData);
+                            result(null,{Nodata:true ,data:tempArr});
+                        } else {
+                            result(null, errorData);
+                        }
+                    }
+                );
+            } else {
+                console.log(err,"error")
+                result(null, {Nodata:false,message:"No data found"});
+            }
+        }
+    );
+};
+
+
 OptinalModel.getoptionalsearchModel = (optionalsearchReq, result) => {
     dbConn.query(
         `(select spi.student_admissions_id, spi.student_id, count(1) as term_count, true as status

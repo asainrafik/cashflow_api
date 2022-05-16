@@ -13,39 +13,58 @@ exports.getoptional = (req, res) => {
 };
 
 exports.getoptionalsearch = (req, res) => {
-    optionalModel.getoptionalsearchModel(req.body, (err, optionalsearch) => {
-          if(optionalsearch){
-            res.status(200).send({ status: true,
-                message:optionalsearch.Nodata ? "data fetched successfully \u{1F389} \u{1F389}" : "No Data Found", data: optionalsearch });
-          }else{
-            res.status(500).send({ status: false, message: err });
-          }
-    })
-}
-
+    if (req.body.student_id && req.body.student_id.length > 0) {
+        const text = req.body;
+        optionalModel.getoneModel(text, (err, optionalsearch) => {
+            if (optionalsearch) {
+                res.status(200).send({
+                    status: true,
+                    message: optionalsearch.Nodata ? "data fetched successfully \u{1F389} \u{1F389}" : "No Data Found",
+                    data: optionalsearch,
+                });
+            } else {
+                res.status(500).send({ status: false, message: err });
+            }
+        });
+        console.log(req.body, "ss");
+    } else {
+        const text = req.body;
+        optionalModel.getoptionalsearchModel(text, (err, optionalsearch) => {
+            if (optionalsearch) {
+                res.status(200).send({
+                    status: true,
+                    message: optionalsearch.Nodata ? "data fetched successfully \u{1F389} \u{1F389}" : "No Data Found",
+                    data: optionalsearch,
+                });
+            } else {
+                res.status(500).send({ status: false, message: err });
+            }
+        });
+    }
+};
 
 exports.createoptional = (req, res) => {
-    let matched = req.body.length > 0     
+    let matched = req.body.length > 0;
     if (!matched) {
-        res.status(400).send({error: "please send valid data 🚫🚫"});
-    } else if(matched) {
-            optionalModel.createoptionalModel(req.body, (err, option) => {
-                if (option) {
-                    res.status(201).send({
-                        status: true,
-                        message:option.IsExsist == "error"
-                        ? "Cannot Create Optional"
-                        : option.IsExsist
-                        ? `optionalFee already present \u{26D4} \u{26D4}`
-                        : `optionalFee inserted \u{1F973} \u{1F973}`,
-                        data: option,
-                    });
-
-                } else {
-                     res.status(500).send(err);
-                }
-            });
-        }
+        res.status(400).send({ error: "please send valid data 🚫🚫" });
+    } else if (matched) {
+        optionalModel.createoptionalModel(req.body, (err, option) => {
+            if (option) {
+                res.status(201).send({
+                    status: true,
+                    message:
+                        option.IsExsist == "error"
+                            ? "Cannot Create Optional"
+                            : option.IsExsist
+                            ? `optionalFee already present \u{26D4} \u{26D4}`
+                            : `optionalFee inserted \u{1F973} \u{1F973}`,
+                    data: option,
+                });
+            } else {
+                res.status(500).send(err);
+            }
+        });
+    }
 };
 
 // exports.deletefeemaster = (req, res) => {
