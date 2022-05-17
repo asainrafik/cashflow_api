@@ -37,7 +37,7 @@ OptinalModel.getoneModel = (optionalsearchReq, result) => {
         (err, resData) => {
             if (resData && resData.length) {
                 dbConn.query(
-                    `SELECT student_admissions.student_name,student_admissions.year_id,student_admissions.student_admissions_id,student_allocations.grade_id, student_allocations.grade_section_id FROM student_admissions 
+                    `SELECT student_admissions.student_name,student_admissions.year_id,student_admissions.student_admissions_id,student_allocations.grade_id,student_allocations.grade_section_id FROM student_admissions 
              LEFT JOIN student_allocations ON student_admissions.student_admissions_id = student_allocations.student_admissions_id
              WHERE student_allocations.year_id=${optionalsearchReq.year_id} and student_allocations.grade_id=${optionalsearchReq.grade_id} and student_allocations.grade_section_id=${optionalsearchReq.section_id} and student_allocations.student_id="${optionalsearchReq.student_id}";`,
                     (errorData, resStudents) => {
