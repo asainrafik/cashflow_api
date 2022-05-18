@@ -4,7 +4,7 @@ const { Validator } = require("node-input-validator");
 exports.getFeemaster = (req, res) =>{
     modeoftranportModel.getFeemasterModel((err,getfeemaster) =>{
         if(getfeemaster){
-            res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: getfeemaster });
+            res.status(200).send({ status: true, message: "data fetched successfully", data: getfeemaster });
         } else {
             res.status(400).send(err);
         }
@@ -14,7 +14,7 @@ exports.getFeemaster = (req, res) =>{
 exports.getHostalFeemaster = (req, res) =>{
     modeoftranportModel.getHostalModel((err,gethostal) =>{
         if(gethostal){
-            res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: gethostal });
+            res.status(200).send({ status: true, message: "data fetched successfully", data: gethostal });
         } else {
             res.status(400).send(err);
         }
@@ -42,10 +42,10 @@ exports.postmodeoftranport = (req, res) => {
                     message:
                     data.IsExsist == "year" ? "Please Fill The Year of fee" :
                     data.IsExsist == "error"
-                    ? "Cannot Create insert mode of transport \u{1F6AB}"
+                    ? "Cannot Create insert Student Facilities"
                     : data.IsExsist
-                    ? `mode of transport already present \u{26D4} \u{26D4}`
-                    : `mode of transport inserted \u{1F973} \u{1F973}`,
+                    ? `Student Facilities already present`
+                    : `Student Facilities inserted`,
                     data: data,
                 });
             } else {
@@ -60,10 +60,10 @@ exports.postmodeoftranport = (req, res) => {
                     
                     message: data.IsExsist == "year" ? "Please Fill The Year of fee" :
                      data.IsExsist == "error"
-                    ? "Cannot Create insert mode of transport \u{1F6AB}"
+                    ? "Cannot Create insert Student Facilities"
                     : data.IsExsist
-                    ? `mode of transport already present \u{26D4} \u{26D4}`
-                    : `mode of transport inserted \u{1F973} \u{1F973}`,
+                    ? `Student Facilities already present`
+                    : `Student Facilities inserted`,
                     data: data,
                 });
             } else {
@@ -76,10 +76,10 @@ exports.postmodeoftranport = (req, res) => {
                 res.status(200).send({
                     status: true,
                     message: data.IsExsist == "error"
-                    ? "Cannot Create insert mode of transport \u{1F6AB}"
+                    ? "Cannot Create insert Student Facilities"
                     : data.IsExsist 
-                    ? `mode of transport already present \u{26D4} \u{26D4}`
-                    : `mode of transport inserted \u{1F973} \u{1F973}`,data: data,
+                    ? `Student Facilities already present`
+                    : `Student Facilities inserted`,data: data,
                 })
             }
         })

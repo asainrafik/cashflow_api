@@ -40,10 +40,10 @@ exports.createNewYearOFFee = (req, res) => {
                         status: true,
                         message:
                             YearOFFee.IsExsist == "error"
-                                ? "Cannot Create Year of fee \u{1F6AB}"
+                                ? "Cannot Create Year of fee"
                                 : YearOFFee.IsExsist
-                                ? `Year of Fee already present \u{26D4} \u{26D4}`
-                                : `Year of Fee inserted \u{1F973} \u{1F973}`,
+                                ? `Year of Fee already present`
+                                : `Year of Fee inserted`,
                         data: YearOFFee,
                     });
                 } else {
@@ -62,7 +62,7 @@ exports.deleteYearOFFee = (req, res) => {
         if (YearOFFee) {
             res.status(200).send({
                 status: true,
-                message: YearOFFee.isDeletable ? "YearOFFee deleted \u{1F5D1} \u{1F5D1}" : { dataExsists: YearOFFee.data },
+                message: YearOFFee.isDeletable ? "YearOFFee deleted" : { dataExsists: YearOFFee.data },
                 data: { isDeletable: YearOFFee.isDeletable },
             });
         } else {
@@ -83,10 +83,10 @@ exports.UpdateYearOFFee = (req, res) => {
                 status: true,
                 message:
                 yearOfFee.IsExsist == "error"
-                    ? "Cannot Create Year of fee \u{1F6AB}"
+                    ? "Cannot Create Year of fee"
                     : yearOfFee.IsExsist
-                    ? `Year of Fee already Insert Data  \u{26D4} \u{26D4}`
-                    : `Year of Fee updated \u{1F973} \u{1F973}`,
+                    ? `Year of Fee already Insert Data`
+                    : `Year of Fee updated`,
             data: yearOfFee,
             });
         } else {

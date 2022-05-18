@@ -5,7 +5,7 @@ exports.getoptional = (req, res) => {
     console.log("get all Grade Section");
     optionalModel.getoptionalModel(req.body, (err, optional) => {
         if (optional) {
-            res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: optional });
+            res.status(200).send({ status: true, message: "data fetched successfully", data: optional });
         } else {
             res.status(500).send({ status: false, message: err });
         }
@@ -19,7 +19,7 @@ exports.getoptionalsearch = (req, res) => {
             if (optionalsearch) {
                 res.status(200).send({
                     status: true,
-                    message: optionalsearch.Nodata ? "data fetched successfully \u{1F389} \u{1F389}" : "No Data Found",
+                    message: optionalsearch.Nodata ? "data fetched successfully" : "No Data Found",
                     data: optionalsearch,
                 });
             } else {
@@ -33,7 +33,7 @@ exports.getoptionalsearch = (req, res) => {
             if (optionalsearch) {
                 res.status(200).send({
                     status: true,
-                    message: optionalsearch.Nodata ? "data fetched successfully \u{1F389} \u{1F389}" : "No Data Found",
+                    message: optionalsearch.Nodata ? "data fetched successfully" : "No Data Found",
                     data: optionalsearch,
                 });
             } else {
@@ -56,8 +56,8 @@ exports.createoptional = (req, res) => {
                         option.IsExsist == "error"
                             ? "Cannot Create Optional"
                             : option.IsExsist
-                            ? `optionalFee already present \u{26D4} \u{26D4}`
-                            : `optionalFee inserted \u{1F973} \u{1F973}`,
+                            ? `optionalFee already present`
+                            : `optionalFee inserted`,
                     data: option,
                 });
             } else {
