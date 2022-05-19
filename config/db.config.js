@@ -6,7 +6,7 @@ const dbConn = mysql.createPool({
     port:3306,
     user: "cashflow",
     password: "root",
-    database: "cashflow_test1",
+    database: "cashflow_stage",
     debug    :  false
 });
 
