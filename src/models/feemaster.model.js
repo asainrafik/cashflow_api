@@ -11,7 +11,7 @@ var feemaster = function (feeMaster) {
 };
 
 feemaster.getAllfeemasterModel = (result) => {
-    dbConn.query("SELECT * FROM fee_masters", (err, res) => {
+    dbConn.query(`SELECT * FROM fee_masters where transport_fee = "false"`, (err, res) => {
         if (res) {
             console.log("Grade Section fetched successfully");
             result(null, res);
@@ -31,7 +31,7 @@ feemaster.createfeemasterModel = (feemasterReqData, result) => {
         hostal_fee: feemasterReqData.hostal_fee,
         created_at: new Date(),
         updated_at: new Date(),
-        optional_fee:feemasterReqData.optional_fee
+        optional_fee: feemasterReqData.optional_fee,
     };
     dbConn.query(`select * from fee_masters where fee_type_name="${dataToSend.fee_type_name}";`, (err, res) => {
         if (res) {
