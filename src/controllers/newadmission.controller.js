@@ -26,7 +26,7 @@ exports.postadmission = (req, res) => {
                 if (err) {
                     res.status(500).send(err);
                 } else {
-                    res.status(201).send({
+                    res.status(200).send({
                         status: true,
                         message:
                             newadmission.IsExsist == "year" ? "Please fill The Year of Fee":

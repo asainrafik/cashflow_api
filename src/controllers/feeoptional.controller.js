@@ -13,14 +13,35 @@ exports.getoptional = (req, res) => {
 };
 
 exports.getoptionalsearch = (req, res) => {
-    optionalModel.getoptionalsearchModel(req.body, (err, optionalsearch) => {
-          if(optionalsearch){
-            res.status(200).send({ status: true,
-                message:optionalsearch.Nodata ? "data fetched successfully \u{1F389} \u{1F389}" : "No Data Found", data: optionalsearch });
-          }else{
-            res.status(500).send({ status: false, message: err });
-          }
-    })
+    if(req.body.student_id &&
+        req.body.student_id.length > 0){
+            const text = req.body;
+            optionalModel.getoneModel(text, (err, optionalsearch)=>{
+                if (optionalsearch) {
+                    res.status(200).send({
+                        status: true,
+                        message: optionalsearch.Nodata ? "data fetched successfully \u{1F389} \u{1F389}" : "No Data Found",
+                        data: optionalsearch,
+                    });
+                } else {
+                    res.status(500).send({ status: false, message: err });
+                }
+            })
+            console.log(req.body,"ss")
+        }else{
+            const text = req.body;
+            optionalModel.getoptionalsearchModel(text, (err, optionalsearch) => {
+                if (optionalsearch) {
+                    res.status(200).send({
+                        status: true,
+                        message: optionalsearch.Nodata ? "data fetched successfully \u{1F389} \u{1F389}" : "No Data Found",
+                        data: optionalsearch,
+                    });
+                } else {
+                    res.status(500).send({ status: false, message: err });
+                }
+            });
+        }
 }
 
 

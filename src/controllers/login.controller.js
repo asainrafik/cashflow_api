@@ -7,14 +7,16 @@ var dbConn = require("../../config/db.config");
 exports.login = (req, res) => {
     const body = req.body;
     getLoginModule(body.email, (err, results) => {
-        if (err) {
-            console.log(err);
-        }
         if (!results) {
-            return res.json({
+            return res.status(400).json({
                 success: 0,
                 data: "Invaild email or password",
             });
+        }else if(err){
+            return res.status(500).json({
+                success: 0,
+                data: "Error",
+            })
         }
         let passwordd = results.password;
         let needresult = () => {
@@ -24,7 +26,7 @@ exports.login = (req, res) => {
                     const jsontoken = sign({ result: results }, "qwe1234", {
                         expiresIn: "24h",
                     });
-                    return res.json({
+                    return res.status(200).json({
                         success: 1,
                         message: "Login successfully",
                         token: jsontoken,

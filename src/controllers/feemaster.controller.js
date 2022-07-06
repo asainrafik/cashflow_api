@@ -2,7 +2,7 @@ const FeeMasterModel = require("../models/feemaster.model");
 const { Validator } = require("node-input-validator");
 
 exports.getAllFeeMaster = (req, res) => {
-    console.log("get all Grade Section");
+    // console.log("get all Grade Section");
     FeeMasterModel.getAllfeemasterModel((err, feeMaster) => {
         if (feeMaster) {
             res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: feeMaster });
@@ -25,14 +25,24 @@ exports.createNewGradeSection = (req, res) => {
             res.status(422).send(v.errors);
         } else {
             const gradeReqData = new FeeMasterModel(req.body);
-            console.log(req.body);
+            // console.log(req.body);
             FeeMasterModel.createfeemasterModel(gradeReqData, (err, feeMaster) => {
                 if (feeMaster) {
-                    res.status(200).send({
-                        status: true,
-                        message: feeMaster.IsExsist ? `feemaster already present \u{26D4} \u{26D4}` : `feemaster inserted \u{1F973} \u{1F973}`,
-                        data: feeMaster,
-                    });
+                    if(feeMaster.IsExsist == true) {
+                        res.status(409).send({
+                            status: false,
+                            message:`feemaster already present`,
+                            data: feeMaster,
+                        });
+                    }
+                    else if(feeMaster.IsExsist == false){
+                        res.status(201).send({
+                            status: true,
+                            message:`feemaster inserted`,
+                            data: feeMaster,
+                        });
+                    }
+                   
                 } else {
                     res.status(500).send(err);
                 }
@@ -42,16 +52,22 @@ exports.createNewGradeSection = (req, res) => {
 };
 
 exports.deletefeemaster = (req, res) => {
-    console.log("delete feemaster");
-    console.log(req.body);
+    // console.log("delete feemaster");
+    // console.log(req.body);
     FeeMasterModel.deletefeemasterModel(req.body, (err, feemaster) => {
-        console.log("controller feemaster");
+        // console.log("controller feemaster");
         if (feemaster) {
-            res.status(200).send({
-                status: true,
-                message: feemaster.isDeletable ? "feemaster deleted \u{1F5D1} \u{1F5D1}" : { dataExsists: feemaster.data.res[0] },
-                data: { isDeletable: feemaster.isDeletable },
-            });
+            if(feemaster.isDeletable == true){
+                res.status(200).send({
+                    status: true,
+                    message:"feemaster deleted"
+                })
+            }else if (feemaster.isDeletable == false){
+                res.status(409).send({
+                    message:"year of fee bind the data"
+                })
+            }
+            
         } else {
             res.status(500).send(err);
         }

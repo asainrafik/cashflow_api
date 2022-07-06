@@ -4,9 +4,9 @@ const dbConn = mysql.createPool({
     connectionLimit : 20,
     host:5000,
     port:3306,
-    user: "cashflow",
+    user: "root",
     password: "root",
-    database: "cashflow_test1",
+    database: "cashflow_update",
     debug    :  false
 });
 
