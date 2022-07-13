@@ -22,6 +22,18 @@ feemaster.getAllfeemasterModel = (result) => {
     });
 };
 
+feemaster.getAlltransportModel = (result) => {
+    dbConn.query(`SELECT * FROM fee_masters where transport_fee = "true"`, (err, res) => {
+        if (res) {
+            console.log("Grade Section fetched successfully");
+            result(null, res);
+        } else {
+            console.log("error fetching data year");
+            result(null, err);
+        }
+    });
+};
+
 feemaster.createfeemasterModel = (feemasterReqData, result) => {
     console.log(feemasterReqData, "+++++");
     let dataToSend = {

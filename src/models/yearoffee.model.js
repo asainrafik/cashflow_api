@@ -17,14 +17,14 @@ YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
         `select *
 	FROM year_of_fees
 	LEFT JOIN terms_year_of_fees
-	on year_of_fees.year_of_fees_id=terms_year_of_fees.year_of_fee_id left join fee_masters on year_of_fees.fee_master_id = fee_masters.fee_master_id where year_of_fees.grade_id=${grade_id} and year_of_fees.year_id=${yearoffeeReqData.year_id};`,
+	on year_of_fees.year_of_fees_id=terms_year_of_fees.year_of_fee_id left join fee_masters on year_of_fees.fee_master_id = fee_masters.fee_master_id where year_of_fees.grade_id=${grade_id} and year_of_fees.year_id=${yearoffeeReqData.year_id} and transport_fee = "false";`,
         (err, res) => {
             if (res) {
                 const unique = [...new Set(res.map((item) => item.fee_master_id))];
-                let terms_fees_data = []
+                let terms_fees_data = [];
                 unique.forEach((values) => {
                     let filter = res.filter((d) => d.fee_master_id === values);
-                    terms_fees_data.push({fee_master_name:filter[0].fee_type_name,terms:filter})
+                    terms_fees_data.push({ fee_master_name: filter[0].fee_type_name, terms: filter });
                 });
                 result(null, terms_fees_data);
             } else {
@@ -36,8 +36,6 @@ YearOFFee.getAllYearOFFeeModel = (yearoffeeReqData, result) => {
 };
 
 YearOFFee.createYearOFFeeModel = (YearOFFeeReqData, result) => {
-    //  console.log(YearOFFeeReqData, "+++++");
-    // element.map((YearOFFeeReqData) =>{
     dbConn.query(
         `select * from year_of_fees where fee_master_id="${YearOFFeeReqData.fee_master_id}" and grade_id="${YearOFFeeReqData.grade_id}" and year_id="${YearOFFeeReqData.year_id}";`,
         (err, res) => {
@@ -129,46 +127,6 @@ YearOFFee.createYearOFFeeModel = (YearOFFeeReqData, result) => {
                                                 });
                                             });
                                         }
-
-                                        // dbConn.query(
-                                        // 	`SELECT * FROM student_admissions where grade_id=${YearOFFeeReqData.grade_id} and year_id=${YearOFFeeReqData.year_id};`,
-                                        // 	(err, resData) => {
-                                        // 		console.log(resData);
-                                        // 		if (resData && resData.length > 0) {
-                                        // 			console.log(resData);
-                                        // 			let Zero = 0;
-                                        // 			resData.forEach((element) => {
-                                        // 				let paymentinfo = {
-                                        // 					student_admissions_id: element.student_admissions_id,
-                                        // 					payment_date: null,
-                                        // 					actual_fees: year_fees_Data.fee_amount,
-                                        // 					amount_paid: Zero,
-                                        // 					payment_mode: null,
-                                        // 					comments: null,
-                                        // 					created_at: new Date(),
-                                        // 					updated_at: new Date(),
-                                        // 					year_of_fees_id: year_fees_Data.year_of_fees_id,
-                                        // 					student_id: element.student_id,
-                                        // 					fee_master_id: year_fees_Data.fee_master_id,
-                                        // 					refund: Zero,
-                                        // 					balance: year_fees_Data.fee_amount,
-                                        // 					grade_id: element.grade_id,
-                                        // 					year_id: element.year_id,
-                                        // 					section_id: element.grade_section_id,
-                                        // 					cum_amt:element.cum_amt
-                                        // 				};
-                                        // 				console.log(paymentinfo,"lll")
-                                        // 				dbConn.query("INSERT into student_payment_infos SET ?", paymentinfo, (err, res) => {
-                                        // 					if (res) {
-                                        // 						console.log("Insert successfully");
-                                        // 					} else {
-                                        // 						console.log(err);
-                                        // 					}
-                                        // 				});
-                                        // 			});
-                                        // 		}
-                                        // 	}
-                                        // );
                                     });
                                 }
                             });
@@ -193,7 +151,6 @@ YearOFFee.createYearOFFeeModel = (YearOFFeeReqData, result) => {
 };
 
 YearOFFee.deleteYearOFFeeModel = (YearOFFeeReqData, result) => {
-    // console.log(`SELECT * FROM year_of_fees WHERE academic_year ="${YearOFFeeReqData.academic_year}" and  fee_master_id=${YearOFFeeReqData.fee_master_id}`);
     dbConn.query(
         `SELECT *
     FROM student_payment_infos  WHERE year_of_fees_id=${YearOFFeeReqData.year_of_fees_id}`,
@@ -229,8 +186,6 @@ YearOFFee.deleteYearOFFeeModel = (YearOFFeeReqData, result) => {
                                         }
                                     });
                                 });
-
-                                // result(null, { isDeletable: true, data: { res } });
                             }
                         }
                     );

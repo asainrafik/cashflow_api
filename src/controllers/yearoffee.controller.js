@@ -72,22 +72,17 @@ exports.deleteYearOFFee = (req, res) => {
 };
 
 exports.UpdateYearOFFee = (req, res) => {
-    // console.log("Update feemaster");
-    // console.log(req.body);
-    // console.log(req.params.id);
     YearOFFeeModel.updateYearOFFeeModel(req.params.id, req.body, (err, yearOfFee) => {
-        // console.log("controller feemaster");
-        // console.log(yearOfFee);
         if (yearOfFee) {
             res.status(200).send({
                 status: true,
                 message:
-                yearOfFee.IsExsist == "error"
-                    ? "Cannot Create Year of fee"
-                    : yearOfFee.IsExsist
-                    ? `Year of Fee already Insert Data`
-                    : `Year of Fee updated`,
-            data: yearOfFee,
+                    yearOfFee.IsExsist == "error"
+                        ? "Cannot Create Year of fee"
+                        : yearOfFee.IsExsist
+                        ? `Year of Fee already Insert Data`
+                        : `Year of Fee updated`,
+                data: yearOfFee,
             });
         } else {
             res.status(500).send(err);

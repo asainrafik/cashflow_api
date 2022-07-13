@@ -12,13 +12,23 @@ exports.getAllFeeMaster = (req, res) => {
     });
 };
 
+exports.getAlltransport = (req, res) => {
+    FeeMasterModel.getAlltransportModel((err, transport) => {
+        if (transport) {
+            res.status(200).send({ status: true, message: "data fetched successfully \u{1F389} \u{1F389}", data: transport });
+        } else {
+            res.status(500).send({ status: false, message: err });
+        }
+    });
+};
+
 exports.createNewGradeSection = (req, res) => {
     const v = new Validator(req.body, {
         fee_type_name: "required",
         order_id: "required",
         transport_fee: "required",
         hostal_fee: "required",
-        optional_fee:"required",
+        optional_fee: "required",
     });
     v.check().then((matched) => {
         if (!matched) {
