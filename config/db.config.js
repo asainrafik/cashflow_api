@@ -1,13 +1,13 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 const dbConn = mysql.createPool({
-    connectionLimit : 20,
-    host:5000,
-    port:3306,
-    user: "cashflow",
-    password: "root",
-    database: "cashflow_client",
-    debug    :  false
+    connectionLimit: 20,
+    host: 5000,
+    port: 3306,
+    user: "root",
+    password: "password",
+    database: "cashflow_test",
+    debug: false,
 });
 
 // dbConn.connect(function (error) {

@@ -54,7 +54,6 @@ GradeSection.createGradeSectionModel = (gradeSectionReqData, result) => {
 };
 
 GradeSection.deleteGradeSectionModel = (gradeSectionReqData, result) => {
-
     dbConn.query(`SELECT * FROM year_of_fees WHERE  grade_id=${gradeSectionReqData.grade_section_id}`, (err, res) => {
         if (res) {
             console.log("year fetched successfully");
@@ -74,13 +73,28 @@ GradeSection.deleteGradeSectionModel = (gradeSectionReqData, result) => {
                     }
                 });
             }
-            
         } else {
             console.log("error fetching data year");
             result(null, err);
         }
     });
     //result(null,"data is up")
+};
+
+GradeSection.settingapicollectionModel = (result) => {
+    dbConn.query(
+        "SELECT gs.section,g.grade_master,y.academic_year FROM grade_section gs INNER JOIN grade_master g ON g.grade_master_id = gs.grade_section_id inner join  years y on y.year_id = gs.academic_year_id ",
+
+        (err, res) => {
+            if (res) {
+                console.log("Grade Section fetched successfully 1");
+                result(null, res);
+            } else {
+                console.log("error fetching data year");
+                result(null, err);
+            }
+        }
+    );
 };
 
 module.exports = GradeSection;

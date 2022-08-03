@@ -22,6 +22,7 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "mysql2": "^2.3.3"
   }
 }
