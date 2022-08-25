@@ -83,7 +83,7 @@ GradeSection.deleteGradeSectionModel = (gradeSectionReqData, result) => {
 
 GradeSection.settingapicollectionModel = (result) => {
     dbConn.query(
-        "SELECT gs.section,g.grade_master,y.academic_year FROM grade_section gs INNER JOIN grade_master g ON g.grade_master_id = gs.grade_id inner join  years y on y.year_id = gs.academic_year_id ",
+        "SELECT gs.grade_section_id, gs.section,g.grade_master,y.academic_year FROM grade_section gs INNER JOIN grade_master g ON g.grade_master_id = gs.grade_id inner join  years y on y.year_id = gs.academic_year_id ",
 
         (err, res) => {
             if (res) {
